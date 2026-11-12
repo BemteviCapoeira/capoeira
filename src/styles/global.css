@@ -61,11 +61,10 @@ p {
   margin-inline: auto;
 }
 
-/* Portuguese text inside the Hebrew page: correct punctuation order, aligned with the page */
+/* Portuguese text next to Hebrew: keep its punctuation in left-to-right order */
 .pt-text {
   direction: ltr;
   unicode-bidi: isolate;
-  text-align: right;
 }
 
 .sr-only {
@@ -109,7 +108,7 @@ p {
   display: inline-block;
   margin-bottom: 16px;
   font-size: clamp(1.8rem, 4.5vw, 2.6rem);
-  text-shadow: -3px 3px 0 var(--yellow);
+  text-shadow: 3px 3px 0 var(--yellow);
 }
 
 /* ---- buttons & chips ---- */
@@ -146,13 +145,13 @@ p {
 
 .btn:hover,
 .chip:hover {
-  translate: 1px -1px;
-  box-shadow: -4px 4px 0 var(--ink);
+  translate: -1px -1px;
+  box-shadow: 4px 4px 0 var(--ink);
 }
 
 .btn:active,
 .chip:active {
-  translate: -3px 3px;
+  translate: 3px 3px;
   box-shadow: 0 0 0 var(--ink);
 }
 

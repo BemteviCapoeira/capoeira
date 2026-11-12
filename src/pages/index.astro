@@ -13,19 +13,19 @@ const NAME_COLORS = ['coral', 'turquoise', 'yellow', 'pink', 'lime', 'sky'];
 ---
 
 <Base>
-  <section class="hero">
+  <section class="hero" dir="rtl">
     <h1>{SITE.title}</h1>
     <p class="hero-sub">{SITE.club}</p>
     <p class="hero-sub">{SITE.group}</p>
   </section>
 
   <section class="intro">
-    <div class="card letter">
+    <div class="card letter" dir="rtl">
       <Welcome />
       <p class="cheer" lang="pt-BR" dir="ltr">{SITE.cheer}</p>
       <p class="credit">{SITE.credit}</p>
     </div>
-    <div class="card thanks">
+    <div class="card thanks" dir="rtl">
       <h2>תודה!</h2>
       <p>{SITE.thanksIntro}</p>
       <ul class="names">
@@ -35,11 +35,11 @@ const NAME_COLORS = ['coral', 'turquoise', 'yellow', 'pink', 'lime', 'sky'];
   </section>
 
   <section id="songs" class="songs" aria-labelledby="songs-title">
-    <h2 id="songs-title" class="section-title">השירים</h2>
+    <h2 id="songs-title" class="section-title">Songs</h2>
 
     <form class="search" role="search" data-search onsubmit="return false">
-      <label for="q" class="sr-only">חיפוש שיר</label>
-      <input id="q" name="q" type="search" placeholder="חפשו שיר לפי שם או מילים…" autocomplete="off" />
+      <label for="q" class="sr-only">Search songs</label>
+      <input id="q" name="q" type="search" placeholder="Search by song name or lyrics…" autocomplete="off" />
       <div class="chip-list" role="group" aria-label="סינון לפי תגית">
         {
           TAG_IDS.map((tag) => (
@@ -58,7 +58,7 @@ const NAME_COLORS = ['coral', 'turquoise', 'yellow', 'pink', 'lime', 'sky'];
       </div>
     </form>
 
-    <p class="count" aria-live="polite" data-count></p>
+    <p class="count" dir="rtl" aria-live="polite" data-count></p>
 
     <ul class="song-grid" data-songs>
       {
@@ -73,7 +73,7 @@ const NAME_COLORS = ['coral', 'turquoise', 'yellow', 'pink', 'lime', 'sky'];
         ))
       }
     </ul>
-    <p class="empty card" data-empty hidden>לא מצאנו שיר כזה. נסו מילה אחרת או בטלו את הסינון.</p>
+    <p class="empty card" dir="rtl" data-empty hidden>לא מצאנו שיר כזה. נסו מילה אחרת או בטלו את הסינון.</p>
   </section>
 </Base>
 
@@ -91,8 +91,8 @@ const NAME_COLORS = ['coral', 'turquoise', 'yellow', 'pink', 'lime', 'sky'];
   .hero h1 {
     font-size: clamp(2.2rem, 7vw, 4.2rem);
     text-shadow:
-      -3px 3px 0 var(--yellow),
-      -6px 6px 0 var(--coral);
+      3px 3px 0 var(--yellow),
+      6px 6px 0 var(--coral);
   }
 
   .hero-sub {
@@ -131,7 +131,7 @@ const NAME_COLORS = ['coral', 'turquoise', 'yellow', 'pink', 'lime', 'sky'];
     font-weight: 700;
     font-size: clamp(1.4rem, 4vw, 1.9rem);
     color: var(--coral);
-    text-shadow: -2px 2px 0 var(--ink);
+    text-shadow: 2px 2px 0 var(--ink);
   }
 
   .credit {
@@ -141,7 +141,7 @@ const NAME_COLORS = ['coral', 'turquoise', 'yellow', 'pink', 'lime', 'sky'];
 
   .thanks {
     background: var(--turquoise);
-    rotate: -1deg;
+    rotate: 1deg;
   }
 
   .thanks h2 {
@@ -185,7 +185,7 @@ const NAME_COLORS = ['coral', 'turquoise', 'yellow', 'pink', 'lime', 'sky'];
     color: var(--ink);
     background:
       url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232a1a10' stroke-width='2.5' stroke-linecap='round'%3E%3Ccircle cx='10.5' cy='10.5' r='6.5'/%3E%3Cpath d='m20 20-4.5-4.5'/%3E%3C/svg%3E")
-        no-repeat right 18px center / 22px,
+        no-repeat left 18px center / 22px,
       var(--paper);
     border: var(--border);
     border-radius: 999px;
@@ -198,6 +198,7 @@ const NAME_COLORS = ['coral', 'turquoise', 'yellow', 'pink', 'lime', 'sky'];
   }
 
   .count {
+    text-align: left;
     margin: 0 0 16px;
     color: var(--ink-soft);
     font-size: 0.95rem;

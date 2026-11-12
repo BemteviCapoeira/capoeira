@@ -23,7 +23,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
 ---
 
 <!doctype html>
-<html lang="he" dir="rtl">
+<html lang="he" dir="ltr">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -60,7 +60,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
       <footer class="site-footer">
         <div class="wrap">
           <p class="cheer" lang="pt-BR" dir="ltr">{SITE.cheer}</p>
-          <p>{SITE.club} · {SITE.credit}</p>
+          <p dir="rtl">{SITE.club} · {SITE.credit}</p>
         </div>
       </footer>
     </div>

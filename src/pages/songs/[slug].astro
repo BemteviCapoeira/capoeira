@@ -41,11 +41,8 @@ const socialImage = image ? await getImage({ src: image, width: 1200, format: 'j
         <h1 class="pt-text" lang="pt-BR">{titles[0]}</h1>
         {
           titles.length > 1 && (
-            <p class="aka">
-              ידוע גם בשם:{' '}
-              <span class="pt-text" lang="pt-BR">
-                {titles.slice(1).join(' · ')}
-              </span>
+            <p class="aka pt-text" lang="pt-BR" title="ידוע גם בשם">
+              {titles.slice(1).join(' · ')}
             </p>
           )
         }
@@ -113,7 +110,7 @@ const socialImage = image ? await getImage({ src: image, width: 1200, format: 'j
         </div>
         {
           translated && (
-            <p class="hint">
+            <p class="hint" dir="rtl">
               <span class="hint-mouse">העבירו את העכבר מעל שורה כדי לראות את התרגום, או לחצו עליה כדי להשאיר אותו פתוח.</span>
               <span class="hint-touch">הקישו על שורה כדי לראות את התרגום שלה.</span>
             </p>
@@ -127,7 +124,7 @@ const socialImage = image ? await getImage({ src: image, width: 1200, format: 'j
           <aside class="song-aside">
             {youtube && <YouTube id={youtube} start={youtubeStart} title={titles[0]} />}
             {hasNotes && (
-              <section class="card notes">
+              <section class="card notes" dir="rtl">
                 <h2>הערות</h2>
                 <Content />
               </section>
@@ -141,7 +138,8 @@ const socialImage = image ? await getImage({ src: image, width: 1200, format: 'j
       {
         prev ? (
           <a class="chip" href={songUrl(prev)} rel="prev">
-            <span aria-hidden="true">→</span> <span class="pt-text" lang="pt-BR">{prev.data.titles[0]}</span>
+            <span aria-hidden="true">←</span>
+            <span class="pt-text" lang="pt-BR">{prev.data.titles[0]}</span>
           </a>
         ) : (
           <span />
@@ -151,7 +149,8 @@ const socialImage = image ? await getImage({ src: image, width: 1200, format: 'j
       {
         next ? (
           <a class="chip" href={songUrl(next)} rel="next">
-            <span class="pt-text" lang="pt-BR">{next.data.titles[0]}</span> <span aria-hidden="true">←</span>
+            <span class="pt-text" lang="pt-BR">{next.data.titles[0]}</span>
+            <span aria-hidden="true">→</span>
           </a>
         ) : (
           <span />
@@ -178,12 +177,13 @@ const socialImage = image ? await getImage({ src: image, width: 1200, format: 'j
 
   h1 {
     font-size: clamp(2.1rem, 6vw, 3.6rem);
-    text-shadow: -3px 3px 0 color-mix(in srgb, var(--paper) 70%, transparent);
+    text-shadow: 3px 3px 0 color-mix(in srgb, var(--paper) 70%, transparent);
   }
 
   .aka {
     margin: 8px 0 0;
-    font-size: 1.05rem;
+    font-size: 1.15rem;
+    font-style: italic;
   }
 
   .head-text .chip-list {
@@ -272,14 +272,14 @@ const socialImage = image ? await getImage({ src: image, width: 1200, format: 'j
     content: '';
     position: absolute;
     top: 50%;
-    right: 2px;
+    left: 2px;
     width: 0.9em;
     height: 0.9em;
     translate: 0 -50%;
     background: var(--paper);
     border: 2px solid var(--ink);
     border-radius: 50%;
-    transition: right 0.15s ease;
+    transition: left 0.15s ease;
   }
 
   .switch[aria-checked='true'] .knob {
@@ -287,10 +287,11 @@ const socialImage = image ? await getImage({ src: image, width: 1200, format: 'j
   }
 
   .switch[aria-checked='true'] .knob::after {
-    right: calc(100% - 0.9em - 6px);
+    left: calc(100% - 0.9em - 6px);
   }
 
   .hint {
+    text-align: left;
     margin: -6px 0 16px;
     font-size: 0.9rem;
     color: var(--ink-soft);

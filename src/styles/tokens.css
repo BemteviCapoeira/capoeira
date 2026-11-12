@@ -29,8 +29,8 @@
   --border: var(--border-w) solid var(--ink);
   --radius: 20px;
   --radius-sm: 12px;
-  --shadow: -6px 6px 0 var(--ink);
-  --shadow-sm: -3px 3px 0 var(--ink);
+  --shadow: 6px 6px 0 var(--ink);
+  --shadow-sm: 3px 3px 0 var(--ink);
 
   --gutter: clamp(16px, 4vw, 32px);
   --max: 1140px;

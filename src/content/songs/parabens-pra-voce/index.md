@@ -8,4 +8,9 @@ lyrics: |
   Nesta data querida
   Muitas felicidades
   Muitos anos de vida
+translation: |
+  מזל טוב לך
+  ביום היקר הזה
+  הרבה אושר
+  והרבה שנות חיים
 ---
