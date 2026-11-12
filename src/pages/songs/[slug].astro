@@ -80,6 +80,15 @@ const socialImage = image ? await getImage({ src: image, width: 1200, format: 'j
 
     <div class="song-layout">
       <section class="card lyrics-card" aria-label="מילות השיר">
+        {
+          translated && (
+            <p class="hint" dir="rtl">
+              <span class="hint-mouse">העבירו את העכבר מעל שורה כדי לראות את התרגום, או לחצו עליה כדי להשאיר אותו פתוח.</span>
+              <span class="hint-touch">הקישו על שורה כדי לראות את התרגום שלה.</span>
+            </p>
+          )
+        }
+        <Lyrics stanzas={stanzas} />
         <div class="toolbar">
           {
             translated && (
@@ -108,15 +117,6 @@ const socialImage = image ? await getImage({ src: image, width: 1200, format: 'j
             הדפסה
           </button>
         </div>
-        {
-          translated && (
-            <p class="hint" dir="rtl">
-              <span class="hint-mouse">העבירו את העכבר מעל שורה כדי לראות את התרגום, או לחצו עליה כדי להשאיר אותו פתוח.</span>
-              <span class="hint-touch">הקישו על שורה כדי לראות את התרגום שלה.</span>
-            </p>
-          )
-        }
-        <Lyrics stanzas={stanzas} />
       </section>
 
       {
@@ -245,9 +245,9 @@ const socialImage = image ? await getImage({ src: image, width: 1200, format: 'j
     flex-wrap: wrap;
     gap: 12px;
     align-items: center;
-    padding-bottom: 16px;
-    margin-bottom: 18px;
-    border-bottom: 2px dashed var(--line);
+    padding-top: 16px;
+    margin-top: 22px;
+    border-top: 2px dashed var(--line);
   }
 
   .print-btn {
@@ -292,7 +292,7 @@ const socialImage = image ? await getImage({ src: image, width: 1200, format: 'j
 
   .hint {
     text-align: left;
-    margin: -6px 0 16px;
+    margin: 0 0 16px;
     font-size: 0.9rem;
     color: var(--ink-soft);
   }

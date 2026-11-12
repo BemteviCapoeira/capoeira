@@ -1,16 +1,54 @@
 ---
-// Stand-in illustration for songs without a photo.
+// Stand-in illustration for songs without a photo. `broken` is for "nothing here" moments
+// (no search results, page not found, a rejected token): the bow snapped, wire loose, gourd cracked.
+interface Props {
+  broken?: boolean;
+}
+
+const { broken = false } = Astro.props;
 ---
 
-<div class="berimbau-art" aria-hidden="true">
-  <svg viewBox="0 0 80 120">
-    <path d="M52 6Q24 60 52 114" fill="none" stroke="var(--ink)" stroke-width="5" stroke-linecap="round"></path>
-    <path d="M52 6V114" stroke="var(--ink)" stroke-width="1.6"></path>
-    <path d="M41 84H52" stroke="var(--ink)" stroke-width="2.4"></path>
-    <circle cx="29" cy="86" r="14" fill="var(--orange)" stroke="var(--ink)" stroke-width="3"></circle>
-    <path d="M21 80a9 9 0 0 1 9-5" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" opacity=".7"
-    ></path>
-  </svg>
+<div class:list={['berimbau-art', { broken }]} aria-hidden="true">
+  {
+    broken ? (
+      <svg viewBox="0 0 110 120">
+        <g transform="rotate(14 50 8)">
+          <path d="M50 8Q36 35 36 62" fill="none" stroke="var(--ink)" stroke-width="5" stroke-linecap="round" />
+          <path d="M35 62l-2.5 6M36.5 63l.5 6.5M38 62l3 5" stroke="var(--ink)" stroke-width="1.5" stroke-linecap="round" />
+        </g>
+        <path
+          class="wire"
+          d="M50 8c9 6-1 12 7 18s-6 12 3 18s9 10 1 17s5 7 7 3"
+          fill="none"
+          stroke="var(--ink)"
+          stroke-width="1.6"
+          stroke-linecap="round"
+        />
+        <path d="M46 112Q68 112 86 102" fill="none" stroke="var(--ink)" stroke-width="5" stroke-linecap="round" />
+        <path d="M86 100l6-4M87 102l7-1M86 104l6 2" stroke="var(--ink)" stroke-width="1.5" stroke-linecap="round" />
+        <path d="M66 86l-2-6M73 84l3-5M80 90l6-3" stroke="var(--ink)" stroke-width="2" stroke-linecap="round" />
+        <g transform="rotate(28 22 100)">
+          <circle cx="22" cy="100" r="14" fill="var(--orange)" stroke="var(--ink)" stroke-width="3" />
+          <path
+            d="M12 95l6 3-4 5 7 3"
+            fill="none"
+            stroke="var(--ink)"
+            stroke-width="2"
+            stroke-linejoin="round"
+            stroke-linecap="round"
+          />
+        </g>
+      </svg>
+    ) : (
+      <svg viewBox="0 0 80 120">
+        <path d="M52 6Q24 60 52 114" fill="none" stroke="var(--ink)" stroke-width="5" stroke-linecap="round" />
+        <path d="M52 6V114" stroke="var(--ink)" stroke-width="1.6" />
+        <path d="M41 84H52" stroke="var(--ink)" stroke-width="2.4" />
+        <circle cx="29" cy="86" r="14" fill="var(--orange)" stroke="var(--ink)" stroke-width="3" />
+        <path d="M21 80a9 9 0 0 1 9-5" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" opacity=".7" />
+      </svg>
+    )
+  }
 </div>
 
 <style>
@@ -33,5 +71,26 @@
     height: 72%;
     width: auto;
     rotate: -18deg;
+  }
+
+  .broken svg {
+    height: 78%;
+    rotate: 0deg;
+  }
+
+  /* the loose wire swings a little */
+  .wire {
+    transform-box: fill-box;
+    transform-origin: 0 0;
+    animation: dangle 2.6s ease-in-out infinite alternate;
+  }
+
+  @keyframes dangle {
+    from {
+      rotate: -4deg;
+    }
+    to {
+      rotate: 5deg;
+    }
   }
 </style>

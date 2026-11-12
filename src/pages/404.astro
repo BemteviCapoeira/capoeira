@@ -5,7 +5,7 @@ import BerimbauArt from '../components/BerimbauArt.astro';
 
 <Base title="הדף לא נמצא">
   <section class="card lost" dir="rtl">
-    <div class="art"><BerimbauArt /></div>
+    <div class="art"><BerimbauArt broken /></div>
     <h1>אופס! הדף הזה לא נמצא</h1>
     <p>אולי השיר עבר למקום אחר. בואו נחזור לרודה:</p>
     <a class="btn" href={`${import.meta.env.BASE_URL}#songs`}>לכל השירים</a>
@@ -25,6 +25,10 @@ import BerimbauArt from '../components/BerimbauArt.astro';
     border: var(--border);
     border-radius: 50%;
     overflow: hidden;
+  }
+
+  .art :global(.berimbau-art) {
+    aspect-ratio: 1;
   }
 
   h1 {

@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
+import BerimbauArt from '../components/BerimbauArt.astro';
 import SongCard from '../components/SongCard.astro';
 import { Content as Welcome } from '../content/home.md';
 import { SITE } from '../data/site';
@@ -73,7 +74,10 @@ const NAME_COLORS = ['coral', 'turquoise', 'yellow', 'pink', 'lime', 'sky'];
         ))
       }
     </ul>
-    <p class="empty card" dir="rtl" data-empty hidden>לא מצאנו שיר כזה. נסו מילה אחרת או בטלו את הסינון.</p>
+    <div class="empty card" dir="rtl" data-empty hidden>
+      <div class="empty-art"><BerimbauArt broken /></div>
+      <p>לא מצאנו שיר כזה. נסו מילה אחרת או בטלו את הסינון.</p>
+    </div>
   </section>
 </Base>
 
@@ -214,6 +218,28 @@ const NAME_COLORS = ['coral', 'turquoise', 'yellow', 'pink', 'lime', 'sky'];
   }
 
   .empty {
+    display: grid;
+    justify-items: center;
+    gap: 14px;
     text-align: center;
+  }
+
+  .empty[hidden] {
+    display: none;
+  }
+
+  .empty p {
+    margin: 0;
+  }
+
+  .empty-art {
+    width: 150px;
+    border: var(--border);
+    border-radius: 50%;
+    overflow: hidden;
+  }
+
+  .empty-art :global(.berimbau-art) {
+    aspect-ratio: 1;
   }
 </style>
