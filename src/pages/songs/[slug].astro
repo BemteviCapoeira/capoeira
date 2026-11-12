@@ -80,14 +80,6 @@ const socialImage = image ? await getImage({ src: image, width: 1200, format: 'j
 
     <div class="song-layout">
       <section class="card lyrics-card" aria-label="מילות השיר">
-        {
-          translated && (
-            <p class="hint" dir="rtl">
-              <span class="hint-mouse">העבירו את העכבר מעל שורה כדי לראות את התרגום, או לחצו עליה כדי להשאיר אותו פתוח.</span>
-              <span class="hint-touch">הקישו על שורה כדי לראות את התרגום שלה.</span>
-            </p>
-          )
-        }
         <Lyrics stanzas={stanzas} />
         <div class="toolbar">
           {
@@ -295,27 +287,6 @@ const socialImage = image ? await getImage({ src: image, width: 1200, format: 'j
 
   .switch[aria-checked='true'] .knob::after {
     left: calc(100% - 0.9em - 6px);
-  }
-
-  .hint {
-    text-align: left;
-    margin: 0 0 16px;
-    font-size: 0.9rem;
-    color: var(--ink-soft);
-  }
-
-  .hint-touch {
-    display: none;
-  }
-
-  @media (hover: none) {
-    .hint-mouse {
-      display: none;
-    }
-
-    .hint-touch {
-      display: inline;
-    }
   }
 
   .notes h2 {
