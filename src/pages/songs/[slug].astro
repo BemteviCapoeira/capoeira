@@ -203,12 +203,19 @@ const socialImage = image ? await getImage({ src: image, width: 1200, format: 'j
     width: 100%;
   }
 
-  .photo :global(img),
+  /* the whole picture is shown at its own shape; tall pictures are capped and centred */
+  .photo :global(img) {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 440px;
+    object-fit: contain;
+    border-radius: 3px;
+  }
+
   .photo :global(.berimbau-art) {
     width: 100%;
     aspect-ratio: 4 / 3;
-    object-fit: cover;
-    object-position: 50% 30%;
     border-radius: 3px;
   }
 

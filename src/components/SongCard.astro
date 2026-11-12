@@ -76,15 +76,15 @@ const showOpening = opening && !titles.some((t) => fold(t) === fold(opening));
   .media {
     aspect-ratio: 4 / 3;
     border-bottom: var(--border);
-    background: var(--paper);
+    background: color-mix(in srgb, var(--accent) 30%, var(--paper));
     overflow: hidden;
   }
 
+  /* the whole picture is shown (no cropping); the tinted background fills any space around it */
   .media img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    object-position: 50% 30%;
+    object-fit: contain;
   }
 
   .body {
