@@ -2,7 +2,8 @@ import { fold } from '../lib/text';
 
 /**
  * Home-page song search. The full list is rendered as HTML; this only hides/reorders cards.
- * Text matches all of a song's names (best) or its lyrics/translation; tags must all match.
+ * Text matches all of a song's names (best) or its lyrics/translation. One tag can be selected
+ * at a time: clicking a tag selects only it, clicking it again clears it.
  * State lives in the URL (?q=…&tag=…) so searches can be shared and survive back/forward.
  */
 export function initSearch() {
@@ -43,15 +44,16 @@ export function initSearch() {
     url.searchParams.delete('q');
     url.searchParams.delete('tag');
     if (input.value.trim()) url.searchParams.set('q', input.value.trim());
-    for (const tag of selectedTags()) url.searchParams.append('tag', tag);
+    const [tag] = selectedTags();
+    if (tag) url.searchParams.set('tag', tag);
     history.replaceState(null, '', url);
   }
 
   function readUrl() {
     const params = new URL(location.href).searchParams;
     input.value = params.get('q') ?? '';
-    const tags = params.getAll('tag');
-    for (const chip of chips) chip.setAttribute('aria-pressed', String(tags.includes(chip.dataset.tag!)));
+    const tag = params.get('tag');
+    for (const chip of chips) chip.setAttribute('aria-pressed', String(chip.dataset.tag === tag));
     apply();
   }
 
@@ -61,7 +63,8 @@ export function initSearch() {
   });
   for (const chip of chips) {
     chip.addEventListener('click', () => {
-      chip.setAttribute('aria-pressed', String(chip.getAttribute('aria-pressed') !== 'true'));
+      const select = chip.getAttribute('aria-pressed') !== 'true';
+      for (const other of chips) other.setAttribute('aria-pressed', String(other === chip && select));
       apply();
       syncUrl();
     });
