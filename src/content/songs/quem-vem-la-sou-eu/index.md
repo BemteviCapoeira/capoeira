@@ -7,15 +7,18 @@ lyrics: |
   > Quem vem lá - sou eu
   > Berimbau mais eu
   > Capoeira sou eu
+  
   Eu venho de longe
   Venho da Bahia
   Jogo Capoeira
   De noite e de dia
+  
   > Quem vem lá - sou eu
   > Quem vem lá - sou eu
   > Berimbau bateu
   > Capoeira sou eu
-  Mais sou eu, sou eu
+  
+  Mas sou eu, sou eu
   > Quem vem lá
   Eu sou brevenuto
   > Quem vem lá
@@ -26,19 +29,22 @@ lyrics: |
 translation: |
   > מי בא שם? זה אני
   > מי בא שם? זה אני
-  > הברימבאו ואני
+  > מנגן על הברימבאו
   > הקפואירה זה אני
+
   אני בא מרחוק
   אני בא מבאהיה
   אני משחק קפואירה
   בלילה וביום
+  
   > מי בא שם? זה אני
   > מי בא שם? זה אני
-  > הברימבאו היכה
+  > מנגן על בירמבאו
   > הקפואירה זה אני
+
   אבל זה אני, זה אני
   > מי בא שם
-  אני ברבנוטו
+  אני מזמין את כולם
   > מי בא שם
   רוכב על סוס
   > מי בא שם
