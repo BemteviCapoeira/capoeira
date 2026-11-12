@@ -5,8 +5,8 @@ image: ./cover.jpg
 imageAlt: "רודה של קפואירה: שחקנים בבגדים לבנים מסביב למשחק נמוך על הרצפה"
 youtube: pbBDsS61riU
 lyrics: |
-  Benguela me chama pra jogar no chão
-  Benguela me chama pra jogar no chão
+  > Benguela me chama pra jogar no chão
+  > Benguela me chama pra jogar no chão
 
   Um jogo malicioso
   De cobra não quer morder
@@ -33,8 +33,8 @@ lyrics: |
   É pra ensinar um dia
   Primeiro tem que aprender
 translation: |
-  בנגלה קוראת לי לשחק נמוך, על הרצפה
-  בנגלה קוראת לי לשחק נמוך, על הרצפה
+  > בנגלה קוראת לי לשחק נמוך, על הרצפה
+  > בנגלה קוראת לי לשחק נמוך, על הרצפה
 
   משחק ערמומי
   של נחש שלא רוצה להכיש

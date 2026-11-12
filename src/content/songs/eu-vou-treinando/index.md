@@ -3,10 +3,10 @@ titles: ["Eu vou treinando", "Vício de treinar"]
 tags: [sao-bento]
 youtube: x9yOtxlTfUQ
 lyrics: |
-  Eu vou treinando querendo melhorar
-  Eu vou treinando querendo aprender
-  E não se explica esse vicio de treinar
-  Tem gente que tem e gente querendo ter
+  > Eu vou treinando querendo melhorar
+  > Eu vou treinando querendo aprender
+  > E não se explica esse vicio de treinar
+  > Tem gente que tem e gente querendo ter
 
   Quem quer seguir firme nesta caminhada
   Não deve nunca esmorecer
@@ -28,10 +28,10 @@ lyrics: |
   escute amigo o que eu lhe digo ver se acorda
   É na cabeça que fica a graduação
 translation: |
-  אני ממשיך להתאמן, רוצה להשתפר
-  אני ממשיך להתאמן, רוצה ללמוד
-  ואי אפשר להסביר את ההתמכרות הזאת לאימונים
-  יש מי שיש לו אותה, ויש מי שרוצה שתהיה לו
+  > אני ממשיך להתאמן, רוצה להשתפר
+  > אני ממשיך להתאמן, רוצה ללמוד
+  > ואי אפשר להסביר את ההתמכרות הזאת לאימונים
+  > יש מי שיש לו אותה, ויש מי שרוצה שתהיה לו
 
   מי שרוצה להתמיד בדרך הזאת
   לעולם אל לו להתייאש

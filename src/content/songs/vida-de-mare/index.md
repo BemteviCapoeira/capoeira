@@ -5,10 +5,10 @@ image: ./cover.jpg
 imageAlt: "חוף בשקיעה: גלים מתנפצים במפרץ בין הרים"
 youtube: opYwg37Zkgk
 lyrics: |
-  A maré subiu
-  A maré desceu
-  Sobe maré
-  Maré desceu
+  > A maré subiu
+  > A maré desceu
+  > Sobe maré
+  > Maré desceu
 
   Nada dura para sempre
   Na vida tudo passa, é natural
@@ -35,10 +35,10 @@ lyrics: |
   Num mundo de certeza e ilusão
   Seguir em frente cada um a sua maneira
 translation: |
-  הים עלה
-  הים ירד
-  עולה הים
-  הים ירד
+  > הים עלה
+  > הים ירד
+  > עולה הים
+  > הים ירד
 
   שום דבר לא נמשך לנצח
   בחיים הכול חולף, זה טבעי

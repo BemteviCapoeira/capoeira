@@ -94,10 +94,11 @@ const { stanzas } = Astro.props;
     border-radius: 8px;
   }
 
+  /* coro (chorus/response) lines are bold, as in the group's original songbook */
   .line.coro {
     margin-inline-start: calc(2em - 8px);
     color: var(--coro);
-    font-style: italic;
+    font-weight: 650;
   }
 
   .repeat {
@@ -137,6 +138,7 @@ const { stanzas } = Astro.props;
   .tr {
     display: none;
     font-style: normal;
+    font-weight: 400;
     text-align: right;
   }
 

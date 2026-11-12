@@ -5,10 +5,10 @@ image: ./cover.jpg
 imageAlt: "צילום היסטורי בשחור-לבן: משחק קפואירה על החוף ולצדו נגני ברימבאו"
 youtube: rOAriZH-Ot8
 lyrics: |
-  Eu sou madeira de beriba boa
-  Eu sou beriba de bom berimbau
-  Eu sou cana de cana caiana
-  Eu sou cana de canavial
+  > Eu sou madeira de beriba boa
+  > Eu sou beriba de bom berimbau
+  > Eu sou cana de cana caiana
+  > Eu sou cana de canavial
 
   Eu sou madeira envergo E não me quebro
   Já colocaram fogo para me queimar
@@ -25,10 +25,10 @@ lyrics: |
   Mandigueiro, eu sou jogador
   Sou refinado Capoeira pura
 translation: |
-  אני עץ ביריבה טוב
-  אני ביריבה של ברימבאו טוב
-  אני קנה סוכר מזן קאיאנה
-  אני קנה סוכר משדה הקנים
+  > אני עץ ביריבה טוב
+  > אני ביריבה של ברימבאו טוב
+  > אני קנה סוכר מזן קאיאנה
+  > אני קנה סוכר משדה הקנים
 
   אני עץ, מתכופף ולא נשבר
   כבר הציתו אש כדי לשרוף אותי

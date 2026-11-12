@@ -3,18 +3,18 @@ titles: ["Quem vem lá, sou eu"]
 tags: [sao-bento]
 youtube: 08hh4h1zrKg
 lyrics: |
-  Quem vem lá - sou eu
-  Quem vem lá - sou eu
-  Berimbau mais eu
-  Capoeira sou eu
+  > Quem vem lá - sou eu
+  > Quem vem lá - sou eu
+  > Berimbau mais eu
+  > Capoeira sou eu
   Eu venho de longe
   Venho da Bahia
   Jogo Capoeira
   De noite e de dia
-  Quem vem lá - sou eu
-  Quem vem lá - sou eu
-  Berimbau bateu
-  Capoeira sou eu
+  > Quem vem lá - sou eu
+  > Quem vem lá - sou eu
+  > Berimbau bateu
+  > Capoeira sou eu
   Mais sou eu, sou eu
   > Quem vem lá
   Eu sou brevenuto
@@ -24,18 +24,18 @@ lyrics: |
   Fumando a charuto
   > Quem vem lá
 translation: |
-  מי בא שם? זה אני
-  מי בא שם? זה אני
-  הברימבאו ואני
-  הקפואירה זה אני
+  > מי בא שם? זה אני
+  > מי בא שם? זה אני
+  > הברימבאו ואני
+  > הקפואירה זה אני
   אני בא מרחוק
   אני בא מבאהיה
   אני משחק קפואירה
   בלילה וביום
-  מי בא שם? זה אני
-  מי בא שם? זה אני
-  הברימבאו היכה
-  הקפואירה זה אני
+  > מי בא שם? זה אני
+  > מי בא שם? זה אני
+  > הברימבאו היכה
+  > הקפואירה זה אני
   אבל זה אני, זה אני
   > מי בא שם
   אני ברבנוטו

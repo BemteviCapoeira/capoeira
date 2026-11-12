@@ -5,9 +5,9 @@ image: ./cover.jpg
 imageAlt: "שני שחקני קפואירה על החוף בשקיעה"
 youtube: nozzYgE4ofY
 lyrics: |
-  Vou lá pra beira do mar
-  Berimbau tocou
-  Chamou pra jogar
+  > Vou lá pra beira do mar
+  > Berimbau tocou
+  > Chamou pra jogar
 
   Berimbau por que me chama x2
   Por que mandou me chamar
@@ -28,9 +28,9 @@ lyrics: |
   Eu guardava pra ser minha
   Mais eu vou eu vo
 translation: |
-  אני הולך לשם, לחוף הים
-  הברימבאו ניגן
-  קרא לשחק
+  > אני הולך לשם, לחוף הים
+  > הברימבאו ניגן
+  > קרא לשחק
 
   ברימבאו, למה אתה קורא לי
   למה שלחת לקרוא לי

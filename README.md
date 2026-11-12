@@ -303,7 +303,7 @@ The token stays in your browser and is only sent to GitHub. Delete it any time o
 | ------------------------- | ---------------------------------------------------- |
 | one line of text          | one sung line                                        |
 | an empty line             | a new stanza                                         |
-| `> ` at the start         | a coro (response) line — shown indented and coloured |
+| `> ` at the start         | a coro (chorus/response) line — shown **bold**, indented and coloured (in the original Google Doc, coro lines were bold) |
 | ` x2` at the end          | a repeat badge (any number: `x3`, `x4`…)             |
 | `~` as a translation line | that line has no translation                         |
 

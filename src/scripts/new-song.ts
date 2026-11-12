@@ -3,6 +3,7 @@ import { normalizeLyrics, parseYouTube, SLUG, songMarkdown } from '../lib/song-f
 import { slugify } from '../lib/text';
 import { CONNECT_URL, isTokenProblem, tokenStore, verifyToken, type Session } from './auth';
 import { explain, type NewFile } from './github';
+import { handleLyricsPaste } from './paste-lyrics';
 
 const DRAFT_KEY = 'newSongDraft';
 const MAX_IMAGE_SIDE = 1600;
@@ -247,6 +248,7 @@ function setUpForm(form: HTMLFormElement, session: Session, data: PageData) {
   for (const textarea of [el.lyrics, el.translation]) {
     textarea.addEventListener('scroll', () => updateGutter(textarea));
   }
+  handleLyricsPaste(el.lyrics);
 
   // ---- draft: keep typed text if the page is reloaded ----
   const DRAFT_FIELDS = ['title', 'aka', 'slug', 'youtube', 'imageAlt', 'lyrics', 'translation', 'notes'] as const;

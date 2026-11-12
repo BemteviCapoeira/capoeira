@@ -1,26 +1,27 @@
 /**
  * One-time migration of the original Google Doc songbook into src/content/songs/<slug>/.
  *
- *   npm run import:gdoc -- [exported.html] [--force]
+ *   npm run import:gdoc -- [exported.html] [--force] [--out=dir]
  *
  * Without a path it downloads the Doc's public HTML export. Existing song folders are
  * skipped unless --force is given (the repo is the source of truth after the import,
- * so re-running would clobber hand edits).
+ * so re-running would clobber hand edits). --out writes somewhere else, e.g. to compare.
  *
  * Doc conventions it understands:
  * - "BENGELA ..." / "SOU BENTO ..." header lines → tag for the songs that follow
  * - "____" lines separate songs; the first text line of a song is its title
- * - lines indented with spaces/nbsp are coro (response) lines → "> "
+ * - coro (chorus/response) lines are **bold**, and sometimes also indented → "> "
  * - the "קישור לשיר" line holds the YouTube link
  * - lines starting with "*" are notes; the first image after the title is the cover
  */
 import { access, mkdir, readFile, writeFile } from 'node:fs/promises';
-import { parse } from 'node-html-parser';
+import { resolve } from 'node:path';
+import { pathToFileURL } from 'node:url';
+import { HTMLElement, NodeType, parse, type Node } from 'node-html-parser';
 import { slugify } from '../src/lib/text.ts';
 
 const DOC_URL =
   'https://docs.google.com/document/d/1N99iadjxh-jgNPRitbA34F_WYBAW4BnQuAJM2_cyg4w/export?format=html';
-const OUT_DIR = new URL('../src/content/songs/', import.meta.url);
 
 const SECTIONS: [RegExp, string][] = [
   [/^BENGU?ELA\b/, 'benguela'], // upper-case only: "Benguela me chama…" is a lyric
@@ -32,6 +33,8 @@ const LINK_LINE = 'קישור לשיר';
 /** One visual line of the Doc (paragraphs are split on <br>). */
 interface Line {
   raw: string;
+  /** All of the line's visible text is bold. */
+  bold: boolean;
   note: boolean;
   images: string[];
   links: string[];
@@ -40,15 +43,52 @@ interface Line {
 const args = process.argv.slice(2);
 const force = args.includes('--force');
 const source = args.find((a) => !a.startsWith('--'));
+const outArg = args.find((a) => a.startsWith('--out='))?.slice('--out='.length);
+const OUT_DIR = outArg
+  ? pathToFileURL(`${resolve(outArg)}/`)
+  : new URL('../src/content/songs/', import.meta.url);
 
 const html = source ? await readFile(source, 'utf8') : await (await fetch(DOC_URL)).text();
 const root = parse(html.replace(/<br[^>]*>/gi, '\n'));
+
+// Google Docs exports bold as CSS classes, e.g. `.c12{font-weight:700}`.
+const BOLD_CLASSES = new Set([...html.matchAll(/\.(c\d+)\{[^}]*font-weight:\s*(?:[6-9]00|bold)/g)].map((m) => m[1]));
+
+function isBold(el: HTMLElement, inherited: boolean): boolean {
+  const inline = /font-weight:\s*(\d+|bold|normal)/.exec(el.getAttribute('style') ?? '')?.[1];
+  if (inline) return inline === 'bold' || Number(inline) >= 600;
+  if (el.tagName === 'B' || el.tagName === 'STRONG') return true;
+  if ((el.getAttribute('class') ?? '').split(/\s+/).some((c) => BOLD_CLASSES.has(c))) return true;
+  return inherited;
+}
+
+/** A block's text split into lines, each flagged bold when all of its visible text is bold. */
+function blockLines(block: HTMLElement): { raw: string; bold: boolean }[] {
+  const out = [{ raw: '', chars: 0, boldChars: 0 }];
+  const walk = (node: Node, bold: boolean) => {
+    if (node.nodeType === NodeType.TEXT_NODE) {
+      node.text.split('\n').forEach((part, i) => {
+        if (i > 0) out.push({ raw: '', chars: 0, boldChars: 0 });
+        const line = out.at(-1)!;
+        const visible = part.replace(/[\s ]/g, '').length;
+        line.raw += part;
+        line.chars += visible;
+        if (bold) line.boldChars += visible;
+      });
+    } else if (node instanceof HTMLElement) {
+      const bolder = isBold(node, bold);
+      for (const child of node.childNodes) walk(child, bolder);
+    }
+  };
+  walk(block, false);
+  return out.map((l) => ({ raw: l.raw, bold: l.chars > 0 && l.boldChars === l.chars }));
+}
 
 const lines: Line[] = root.querySelectorAll('p, h1, h2, h3, h4, h5, h6, li').flatMap((el) => {
   const images = el.querySelectorAll('img').map((img) => img.getAttribute('src') ?? '');
   const links = el.querySelectorAll('a').map((a) => unwrapGoogleLink(a.getAttribute('href') ?? ''));
   const note = el.tagName === 'LI';
-  return el.text.split('\n').map((raw, i) => ({ raw, note, images: i === 0 ? images : [], links }));
+  return blockLines(el).map(({ raw, bold }, i) => ({ raw, bold, note, images: i === 0 ? images : [], links }));
 });
 
 const songs: { tag: string; lines: Line[] }[] = [];
@@ -93,7 +133,7 @@ async function writeSong(tag: string, songLines: Line[]) {
     if (text.includes(LINK_LINE)) youtube ??= line.links.map(youtubeId).find(Boolean);
     else if (line.note || text.startsWith('*')) text && notes.push(text.replace(/^\*\s*/, ''));
     else if (!text) lyrics.push('');
-    else lyrics.push(/^[\s ]{2,}/.test(line.raw) ? `> ${text}` : text);
+    else lyrics.push(line.bold || /^[\s\u00a0]{2,}/.test(line.raw) ? `> ${text}` : text);
   }
 
   await mkdir(dir, { recursive: true });

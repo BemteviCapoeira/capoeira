@@ -87,7 +87,10 @@ const songsUrl = new URL(`${import.meta.env.BASE_URL}songs/`, Astro.site).href;
         <h2 id="step-2"><span class="num">2</span>Lyrics and translation</h2>
         <ul class="rules">
           <li>One sung line per line; an empty line between stanzas.</li>
-          <li>Start a coro (response) line with <code>&gt;</code>, or indent it. End a repeated line with <code>x2</code>.</li>
+          <li>
+            Start a coro (chorus) line with <code>&gt;</code>, or indent it. Pasting from the Google Doc keeps its
+            <strong>bold</strong> lines as coro lines. End a repeated line with <code>x2</code>.
+          </li>
           <li>
             The translation must match the lyrics <strong>line for line</strong>; use the line numbers. Write <code
               >~</code
@@ -320,8 +323,12 @@ const songsUrl = new URL(`${import.meta.env.BASE_URL}songs/`, Astro.site).href;
 
   .preview-lyrics :global(.p-line.coro) {
     margin-left: 2em;
-    font-style: italic;
+    font-weight: 650;
     color: var(--coro);
+  }
+
+  .preview-lyrics :global(.p-tr) {
+    font-weight: 400;
   }
 
   .preview-lyrics :global(.p-rep) {
