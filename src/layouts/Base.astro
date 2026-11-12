@@ -14,9 +14,11 @@ interface Props {
   description?: string;
   /** Absolute path of a social-preview image. */
   image?: string;
+  /** Keep the page out of search engines. */
+  noindex?: boolean;
 }
 
-const { title, description = SITE.description, image } = Astro.props;
+const { title, description = SITE.description, image, noindex = false } = Astro.props;
 const fullTitle = title ? `${title} · ${SITE.shortTitle}` : SITE.title;
 const base = import.meta.env.BASE_URL;
 const canonical = new URL(Astro.url.pathname, Astro.site);
@@ -40,6 +42,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     {image && <meta property="og:image" content={new URL(image, Astro.site)} />}
+    {noindex && <meta name="robots" content="noindex" />}
   </head>
   <body>
     <div class="site">
@@ -61,6 +64,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
         <div class="wrap">
           <p class="cheer" lang="pt-BR" dir="ltr">{SITE.cheer}</p>
           <p dir="rtl">{SITE.club} · {SITE.credit}</p>
+          <p class="footer-links"><a href={`${base}new-song/`}>+ Add a song</a></p>
         </div>
       </footer>
     </div>
@@ -136,6 +140,20 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
 
   .site-footer p {
     margin: 0;
+  }
+
+  .footer-links {
+    margin-top: 10px !important;
+    font-size: 0.9rem;
+  }
+
+  .footer-links a {
+    color: var(--sand);
+    opacity: 0.8;
+  }
+
+  .footer-links a:hover {
+    opacity: 1;
   }
 
   .cheer {

@@ -8,5 +8,5 @@ export default defineConfig({
   site: 'https://bemtevicapoeira.github.io',
   base: '/capoeira',
   trailingSlash: 'always',
-  integrations: [sitemap()],
+  integrations: [sitemap({ filter: (page) => !page.includes('/new-song/') })],
 });

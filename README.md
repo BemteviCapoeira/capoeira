@@ -252,6 +252,16 @@ These are listed in case the repository is ever recreated or moved. They need a 
 
 Small edits — fixing a word, adding a translation — can be done entirely on github.com.
 
+**Add a new song with the website's form** (easiest)
+
+1. Create a token (one time): on GitHub open **Settings → Developer settings → Personal access tokens → Fine-grained tokens → Generate new token**. Set **Resource owner** to `BemteviCapoeira`, **Repository access** to *Only select repositories → capoeira*, and under **Repository permissions** set **Contents** and **Pull requests** to *Read and write*. Copy the token.
+2. On the site, click **+ Add a song** at the bottom of any page (or open `…/capoeira/new-song/`).
+3. The first time, you land on the **Connect** page: paste the token and click **Connect**. Once GitHub confirms the token can write to the repository, the form opens. Tick *Remember the token on this device* to skip this step next time.
+4. Fill in the song. The form checks that the translation lines up and shows a preview; the line numbers help match the two texts.
+5. Click **Open pull request**. Follow the link, wait for the **CI** check to turn green, and click **Merge pull request**. The song is live a few minutes later.
+
+The token stays in your browser and is only sent to GitHub. Delete it any time on GitHub, or click **Forget token** on the form. If the organization requires approval for tokens, an owner has to approve it once (Organization settings → Personal access tokens → Pending requests).
+
 **Edit an existing song**
 
 1. Open the repository on GitHub and go to `src/content/songs/<slug>/index.md`.

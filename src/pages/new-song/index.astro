@@ -1,0 +1,354 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { TAG_IDS, TAGS } from '../../data/tags';
+import '../../styles/forms.css';
+
+const slugs = (await getCollection('songs')).map((song) => song.id);
+const songsUrl = new URL(`${import.meta.env.BASE_URL}songs/`, Astro.site).href;
+---
+
+<Base title="Add a song" description="Add a new song to the songbook." noindex>
+  <div class="form-page">
+    <header class="intro">
+      <h1 class="section-title">Add a song</h1>
+      <p>
+        Fill in the song below. It is sent to GitHub as a <strong>pull request</strong>; once someone merges it, the song
+        appears on the site within a few minutes.
+      </p>
+      <p class="session" data-session hidden>
+        Connected to GitHub as <strong data-login></strong>.{' '}
+        <button type="button" class="link" data-forget>Forget token</button>
+      </p>
+      <p class="status" data-session-status role="status">Checking your GitHub token…</p>
+      <noscript><p class="status" data-tone="error">This form needs JavaScript.</p></noscript>
+    </header>
+
+    <form class="song-form" data-new-song novalidate hidden>
+      <section class="card step" aria-labelledby="step-1">
+        <h2 id="step-1"><span class="num">1</span>The song</h2>
+
+        <div class="field">
+          <label for="title">Title <span class="req">*</span></label>
+          <input id="title" name="title" lang="pt-BR" placeholder="e.g. Paranauê" required />
+        </div>
+
+        <div class="field">
+          <label for="aka">Other names <small>(optional, one per line)</small></label>
+          <textarea id="aka" name="aka" rows="2" lang="pt-BR"></textarea>
+        </div>
+
+        <div class="field">
+          <label for="slug">Web address</label>
+          <div class="slug">
+            <span class="slug-prefix">…/songs/</span>
+            <input id="slug" name="slug" spellcheck="false" autocomplete="off" />
+          </div>
+          <small data-slug-status></small>
+        </div>
+
+        <fieldset class="field">
+          <legend>Tags</legend>
+          <div class="chip-list">
+            {
+              TAG_IDS.map((tag) => (
+                <label class="chip tag-check" style={`--chip:var(--${TAGS[tag].color})`} lang="pt-BR">
+                  <input type="checkbox" name="tags" value={tag} />
+                  {TAGS[tag].label}
+                </label>
+              ))
+            }
+          </div>
+        </fieldset>
+
+        <div class="field">
+          <label for="youtube">YouTube link <small>(optional)</small></label>
+          <input id="youtube" name="youtube" inputmode="url" spellcheck="false" placeholder="https://youtu.be/…" />
+          <small data-youtube-status></small>
+          <img class="yt-thumb" data-youtube-preview alt="" hidden />
+        </div>
+
+        <div class="field">
+          <label for="image">Picture <small>(optional)</small></label>
+          <input id="image" name="image" type="file" accept="image/*" />
+          <div class="picture" data-picture hidden>
+            <img data-picture-preview alt="" />
+            <button type="button" class="link" data-picture-remove>Remove picture</button>
+          </div>
+        </div>
+
+        <div class="field" data-alt hidden>
+          <label for="imageAlt">Picture description <small>(in Hebrew, for screen readers)</small></label>
+          <input id="imageAlt" name="imageAlt" dir="rtl" lang="he" />
+        </div>
+      </section>
+
+      <section class="card step" aria-labelledby="step-2">
+        <h2 id="step-2"><span class="num">2</span>Lyrics and translation</h2>
+        <ul class="rules">
+          <li>One sung line per line; an empty line between stanzas.</li>
+          <li>Start a coro (response) line with <code>&gt;</code>, or indent it. End a repeated line with <code>x2</code>.</li>
+          <li>
+            The translation must match the lyrics <strong>line for line</strong>; use the line numbers. Write <code
+              >~</code
+            > for a line that has no translation.
+          </li>
+        </ul>
+        <div class="pair">
+          <div class="field">
+            <label for="lyrics">Portuguese lyrics <span class="req">*</span></label>
+            <div class="numbered">
+              <pre class="gutter" aria-hidden="true"></pre>
+              <textarea id="lyrics" name="lyrics" rows="16" wrap="off" lang="pt-BR" dir="ltr" spellcheck="false" required
+              ></textarea>
+            </div>
+          </div>
+          <div class="field">
+            <label for="translation">Hebrew translation <small>(optional)</small></label>
+            <div class="numbered" dir="rtl">
+              <pre class="gutter" aria-hidden="true"></pre>
+              <textarea id="translation" name="translation" rows="16" wrap="off" lang="he" dir="rtl" spellcheck="false"
+              ></textarea>
+            </div>
+          </div>
+        </div>
+        <p class="status" data-align-status role="status"></p>
+        <details class="preview" open>
+          <summary>Preview</summary>
+          <div class="preview-lyrics" data-preview lang="pt-BR" dir="ltr"></div>
+        </details>
+      </section>
+
+      <section class="card step" aria-labelledby="step-3">
+        <h2 id="step-3"><span class="num">3</span>Notes <small>(optional)</small></h2>
+        <label for="notes" class="sr-only">Notes</label>
+        <textarea id="notes" name="notes" rows="4" dir="rtl" lang="he" placeholder="הערות על השיר"></textarea>
+      </section>
+
+      <section class="card step" aria-labelledby="step-4">
+        <h2 id="step-4"><span class="num">4</span>Send</h2>
+        <div data-send>
+          <ul class="problems" data-problems hidden></ul>
+          <p class="status" data-submit-status role="status"></p>
+          <button type="submit" class="btn big" data-submit>Open pull request</button>
+        </div>
+        <div class="done" data-done hidden>
+          <p><strong>Pull request opened:</strong> <a data-pr-link target="_blank" rel="noopener"></a></p>
+          <p>When the check on the pull request turns green, merge it; the song goes live a few minutes later.</p>
+          <button type="button" class="btn" data-again>Add another song</button>
+        </div>
+      </section>
+    </form>
+  </div>
+
+  <script is:inline type="application/json" id="new-song-data" set:html={JSON.stringify({ slugs, songsUrl })} />
+</Base>
+
+<script>
+  import { initNewSongForm } from '../../scripts/new-song';
+  initNewSongForm();
+</script>
+
+<style>
+  .song-form {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 28px;
+  }
+
+  .session {
+    margin: 0;
+    padding: 8px 14px;
+    width: fit-content;
+    background: var(--paper);
+    border: 2px solid var(--line);
+    border-radius: 999px;
+  }
+
+  .slug {
+    display: flex;
+    align-items: center;
+    background: var(--paper);
+    border: var(--border);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+  }
+
+  .slug-prefix {
+    padding-inline: 14px 2px;
+    color: var(--ink-soft);
+    white-space: nowrap;
+  }
+
+  .slug input {
+    border: 0 !important;
+    padding-inline-start: 0 !important;
+  }
+
+  [data-slug-status][data-tone='error'] {
+    color: #b3261e;
+  }
+
+  .tag-check input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .tag-check:has(input:checked) {
+    background: var(--chip);
+  }
+
+  .tag-check:has(input:focus-visible) {
+    outline: 3px solid var(--blue);
+    outline-offset: 2px;
+  }
+
+  .yt-thumb,
+  .picture img {
+    width: 220px;
+    max-width: 100%;
+    margin-top: 6px;
+    border: var(--border);
+    border-radius: var(--radius-sm);
+  }
+
+  .picture {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    gap: 14px;
+  }
+
+  .rules {
+    margin: 0 0 16px;
+    padding-inline-start: 1.2em;
+    color: var(--ink-soft);
+  }
+
+  code {
+    padding: 0 5px;
+    background: var(--sand);
+    border: 1px solid var(--line);
+    border-radius: 5px;
+  }
+
+  .pair {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0 20px;
+  }
+
+  @media (min-width: 900px) {
+    .pair {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  /* line-numbered textareas (wrap="off", so visual lines = real lines) */
+  .numbered {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    background: var(--paper);
+    border: var(--border);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+  }
+
+  .gutter,
+  .numbered textarea {
+    margin: 0;
+    padding-block: 10px;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  .gutter {
+    min-width: 2.6em;
+    padding-inline: 8px;
+    text-align: end;
+    color: var(--ink-soft);
+    background: var(--sand);
+    border-inline-end: 2px solid var(--line);
+    overflow: hidden;
+    user-select: none;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .numbered textarea {
+    border: 0 !important;
+    border-radius: 0 !important;
+    white-space: pre;
+    overflow-x: auto;
+  }
+
+  .problems {
+    margin: 0 0 12px;
+    padding: 10px 12px 10px 2em;
+    background: color-mix(in srgb, var(--coral) 25%, var(--paper));
+    border-radius: var(--radius-sm);
+  }
+
+  .preview {
+    margin-top: 16px;
+  }
+
+  .preview summary {
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .preview-lyrics {
+    margin-top: 10px;
+    padding: 14px 18px;
+    font-size: 1.05rem;
+    line-height: 1.45;
+    background: var(--sand);
+    border-radius: var(--radius-sm);
+  }
+
+  .preview-lyrics:empty::before {
+    content: 'The lyrics will appear here as they will look on the site.';
+    font-style: italic;
+    color: var(--ink-soft);
+  }
+
+  .preview-lyrics :global(.p-stanza + .p-stanza) {
+    margin-top: 1em;
+  }
+
+  .preview-lyrics :global(.p-line.coro) {
+    margin-left: 2em;
+    font-style: italic;
+    color: var(--coro);
+  }
+
+  .preview-lyrics :global(.p-rep) {
+    margin-left: 0.5em;
+    padding: 0 0.4em;
+    font-size: 0.75em;
+    font-weight: 700;
+    font-style: normal;
+    background: var(--yellow);
+    border: 2px solid var(--ink);
+    border-radius: 999px;
+  }
+
+  .preview-lyrics :global(.p-tr) {
+    width: fit-content;
+    font-size: 0.88em;
+    font-style: normal;
+    color: var(--ink-soft);
+  }
+
+  .done {
+    padding: 14px 18px;
+    background: color-mix(in srgb, var(--lime) 35%, var(--paper));
+    border-radius: var(--radius-sm);
+  }
+
+  .done a {
+    word-break: break-all;
+  }
+</style>

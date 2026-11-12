@@ -8,4 +8,6 @@ export const SITE = {
   thanks: ['ארפה', 'גרוזליה', 'פולנטה', 'פימנטה', 'שאמה', "מאמוצ'י"],
   cheer: 'VIVA QUARTA-FEIRA!!!',
   credit: 'עריכה: איתן Bemtevi',
+  /** The GitHub repository the "Add a song" form opens pull requests against. */
+  repo: { owner: 'BemteviCapoeira', name: 'capoeira' },
 };

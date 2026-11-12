@@ -1,0 +1,162 @@
+/* Shared by the "Add a song" pages (new-song/ and new-song/connect/). Everything is scoped to .form-page. */
+
+.form-page {
+  max-width: 980px;
+}
+
+.form-page.narrow {
+  max-width: 760px;
+}
+
+.form-page .intro {
+  max-width: 760px;
+  margin-bottom: 24px;
+}
+
+.form-page .step h2 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+  font-size: 1.5rem;
+}
+
+.form-page .step h2 small {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: var(--ink-soft);
+}
+
+.form-page .num {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 2em;
+  height: 2em;
+  font-size: 0.8em;
+  background: var(--yellow);
+  border: var(--border);
+  border-radius: 50%;
+}
+
+.form-page .field {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 6px;
+  min-width: 0;
+  margin: 0 0 18px;
+  padding: 0;
+  border: 0;
+}
+
+.form-page .field > label,
+.form-page .field > legend {
+  padding: 0;
+  font-weight: 600;
+}
+
+.form-page .field > legend {
+  margin-bottom: 6px;
+}
+
+.form-page small,
+.form-page .fine {
+  font-size: 0.88rem;
+  font-weight: 400;
+  color: var(--ink-soft);
+}
+
+.form-page .req {
+  color: var(--coral);
+}
+
+.form-page input:not([type='checkbox'], [type='file']),
+.form-page textarea {
+  width: 100%;
+  padding: 10px 14px;
+  font: inherit;
+  color: var(--ink);
+  background: var(--paper);
+  border: var(--border);
+  border-radius: var(--radius-sm);
+}
+
+.form-page textarea {
+  resize: vertical;
+}
+
+.form-page input[type='file'] {
+  max-width: 100%;
+  font: inherit;
+}
+
+.form-page .row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: end;
+}
+
+.form-page .row .field {
+  margin-bottom: 0;
+}
+
+.form-page .grow {
+  flex: 1 1 220px;
+}
+
+.form-page .check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.form-page .howto {
+  margin: 0;
+  padding-inline-start: 1.3em;
+}
+
+.form-page .howto li {
+  margin-bottom: 6px;
+}
+
+.form-page .link {
+  padding: 0;
+  font: inherit;
+  color: var(--link);
+  text-decoration: underline;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.form-page .status:empty {
+  display: none;
+}
+
+.form-page .status {
+  margin: 12px 0 0;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--sky) 25%, var(--paper));
+}
+
+.form-page .status[data-tone='ok'] {
+  background: color-mix(in srgb, var(--lime) 35%, var(--paper));
+}
+
+.form-page .status[data-tone='error'] {
+  background: color-mix(in srgb, var(--coral) 25%, var(--paper));
+}
+
+.form-page .btn.big {
+  padding: 12px 26px;
+  font-size: 1.1rem;
+}
+
+.form-page .btn:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
