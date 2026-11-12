@@ -1,0 +1,37 @@
+/* Palette: the bem-te-vi's yellow belly + the painted façades of Pelourinho + Bonfim ribbons. */
+:root {
+  color-scheme: light;
+
+  --sand: #fff6e3;
+  --paper: #ffffff;
+  --ink: #2a1a10;
+  --ink-soft: #5e4838;
+  --line: #ecd9b8;
+
+  --yellow: #ffcf33;
+  --coral: #ff6b57;
+  --turquoise: #22bfb0;
+  --pink: #ff86b0;
+  --lime: #a8d84f;
+  --orange: #ffa53d;
+  --sky: #6ccdf5;
+  --green: #00995c;
+  --blue: #2f6ee0;
+
+  /* text-safe deep tones (≥ 4.5:1 on white) */
+  --coro: #0b7368;
+  --link: #1d55c4;
+
+  --font-display: 'Fredoka Variable', 'Rubik Variable', system-ui, sans-serif;
+  --font-body: 'Rubik Variable', system-ui, sans-serif;
+
+  --border-w: 2.5px;
+  --border: var(--border-w) solid var(--ink);
+  --radius: 20px;
+  --radius-sm: 12px;
+  --shadow: -6px 6px 0 var(--ink);
+  --shadow-sm: -3px 3px 0 var(--ink);
+
+  --gutter: clamp(16px, 4vw, 32px);
+  --max: 1140px;
+}

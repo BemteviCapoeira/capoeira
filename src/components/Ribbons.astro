@@ -1,0 +1,52 @@
+---
+// Fitinhas do Senhor do Bonfim — the wish ribbons tied all over Salvador — hanging under the header.
+const COLORS = ['coral', 'yellow', 'turquoise', 'pink', 'lime', 'orange', 'sky', 'green', 'blue'];
+const WIDTH = 1600;
+const STEP = 32;
+const ribbons = Array.from({ length: WIDTH / STEP }, (_, i) => ({
+  x: i * STEP + 4,
+  w: STEP - 8,
+  len: 22 + ((i * 37) % 26),
+  color: `var(--${COLORS[(i * 4) % COLORS.length]})`,
+  delay: `${-((i * 7) % 11) * 0.37}s`,
+}));
+---
+
+<svg class="ribbons" viewBox={`0 0 ${WIDTH} 52`} preserveAspectRatio="xMidYMin slice" aria-hidden="true">
+  {
+    ribbons.map((r) => (
+      <path
+        d={`M${r.x} 0h${r.w}v${r.len}l-${r.w / 2}-7l-${r.w / 2} 7z`}
+        fill={r.color}
+        stroke="var(--ink)"
+        stroke-width="2"
+        stroke-linejoin="round"
+        style={`animation-delay:${r.delay}`}
+      />
+    ))
+  }
+</svg>
+
+<style>
+  .ribbons {
+    width: 100%;
+    height: 52px;
+    margin-top: calc(-1 * var(--border-w));
+    pointer-events: none;
+  }
+
+  path {
+    transform-box: fill-box;
+    transform-origin: 50% 0;
+    animation: sway 3.2s ease-in-out infinite alternate;
+  }
+
+  @keyframes sway {
+    from {
+      rotate: -4deg;
+    }
+    to {
+      rotate: 4deg;
+    }
+  }
+</style>

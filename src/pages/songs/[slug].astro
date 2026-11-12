@@ -1,0 +1,350 @@
+---
+import { getCollection, render } from 'astro:content';
+import { getImage, Picture } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import BerimbauArt from '../../components/BerimbauArt.astro';
+import Lyrics from '../../components/Lyrics.astro';
+import PrintSheet from '../../components/PrintSheet.astro';
+import YouTube from '../../components/YouTube.astro';
+import { TAGS } from '../../data/tags';
+import { firstLine, hasTranslation, parseLyrics } from '../../lib/lyrics';
+import { accent, songUrl, sortSongs, tagUrl, type Song } from '../../lib/songs';
+
+export async function getStaticPaths() {
+  const songs = sortSongs(await getCollection('songs'));
+  return songs.map((song, index) => ({
+    params: { slug: song.id },
+    props: { song, index, prev: songs[index - 1], next: songs[index + 1] },
+  }));
+}
+
+interface Props {
+  song: Song;
+  index: number;
+  prev?: Song;
+  next?: Song;
+}
+
+const { song, index, prev, next } = Astro.props;
+const { titles, tags, image, imageAlt, youtube, youtubeStart, lyrics, translation } = song.data;
+const stanzas = parseLyrics(lyrics, translation);
+const translated = hasTranslation(stanzas);
+const { Content } = await render(song);
+const hasNotes = Boolean(song.body?.trim());
+const socialImage = image ? await getImage({ src: image, width: 1200, format: 'jpg' }) : undefined;
+---
+
+<Base title={titles[0]} description={`${titles[0]}: ${firstLine(lyrics)}…`} image={socialImage?.src}>
+  <article class="song" style={`--accent:${accent(index)}`}>
+    <header class="song-head">
+      <div class="head-text">
+        <h1 class="pt-text" lang="pt-BR">{titles[0]}</h1>
+        {
+          titles.length > 1 && (
+            <p class="aka">
+              ידוע גם בשם:{' '}
+              <span class="pt-text" lang="pt-BR">
+                {titles.slice(1).join(' · ')}
+              </span>
+            </p>
+          )
+        }
+        {
+          tags.length > 0 && (
+            <ul class="chip-list" aria-label="תגיות">
+              {tags.map((tag) => (
+                <li>
+                  <a class="chip" href={tagUrl(tag)} style={`--chip:var(--${TAGS[tag].color})`} lang="pt-BR">
+                    {TAGS[tag].label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )
+        }
+      </div>
+      <figure class="photo">
+        {
+          image ? (
+            <Picture
+              src={image}
+              alt={imageAlt}
+              widths={[360, 720, 1080]}
+              sizes="(min-width: 860px) 380px, 92vw"
+              formats={['avif', 'webp']}
+              loading="eager"
+            />
+          ) : (
+            <BerimbauArt />
+          )
+        }
+      </figure>
+    </header>
+
+    <div class="song-layout">
+      <section class="card lyrics-card" aria-label="מילות השיר">
+        <div class="toolbar">
+          {
+            translated && (
+              <button
+                type="button"
+                class="btn switch"
+                role="switch"
+                aria-checked="false"
+                aria-label="הצגת התרגום לעברית מתחת לכל שורה"
+                data-tr-toggle
+              >
+                <span class="knob" aria-hidden="true" />
+                תרגום
+              </button>
+            )
+          }
+          <button type="button" class="btn print-btn" data-print title="המילים בלבד, בעמוד A4 אחד">
+            <svg viewBox="0 0 24 24" aria-hidden="true"
+              ><path
+                d="M7 9V3h10v6M7 17H5a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-2M7 14h10v7H7z"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linejoin="round"></path></svg
+            >
+            הדפסה
+          </button>
+        </div>
+        {
+          translated && (
+            <p class="hint">
+              <span class="hint-mouse">העבירו את העכבר מעל שורה כדי לראות את התרגום, או לחצו עליה כדי להשאיר אותו פתוח.</span>
+              <span class="hint-touch">הקישו על שורה כדי לראות את התרגום שלה.</span>
+            </p>
+          )
+        }
+        <Lyrics stanzas={stanzas} />
+      </section>
+
+      {
+        (youtube || hasNotes) && (
+          <aside class="song-aside">
+            {youtube && <YouTube id={youtube} start={youtubeStart} title={titles[0]} />}
+            {hasNotes && (
+              <section class="card notes">
+                <h2>הערות</h2>
+                <Content />
+              </section>
+            )}
+          </aside>
+        )
+      }
+    </div>
+
+    <nav class="song-nav" aria-label="שירים נוספים">
+      {
+        prev ? (
+          <a class="chip" href={songUrl(prev)} rel="prev">
+            <span aria-hidden="true">→</span> <span class="pt-text" lang="pt-BR">{prev.data.titles[0]}</span>
+          </a>
+        ) : (
+          <span />
+        )
+      }
+      <a class="chip all" href={`${import.meta.env.BASE_URL}#songs`}>כל השירים</a>
+      {
+        next ? (
+          <a class="chip" href={songUrl(next)} rel="next">
+            <span class="pt-text" lang="pt-BR">{next.data.titles[0]}</span> <span aria-hidden="true">←</span>
+          </a>
+        ) : (
+          <span />
+        )
+      }
+    </nav>
+  </article>
+
+  <PrintSheet slot="print" titles={titles} stanzas={stanzas} />
+</Base>
+
+<style>
+  .song-head {
+    display: grid;
+    gap: 20px;
+    align-items: center;
+    margin-bottom: 32px;
+    padding: clamp(18px, 4vw, 36px);
+    background: var(--accent);
+    border: var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+  }
+
+  h1 {
+    font-size: clamp(2.1rem, 6vw, 3.6rem);
+    text-shadow: -3px 3px 0 color-mix(in srgb, var(--paper) 70%, transparent);
+  }
+
+  .aka {
+    margin: 8px 0 0;
+    font-size: 1.05rem;
+  }
+
+  .head-text .chip-list {
+    margin-top: 16px;
+  }
+
+  .photo {
+    margin: 0;
+    padding: 8px 8px 26px;
+    background: var(--paper);
+    border: var(--border);
+    border-radius: 6px;
+    box-shadow: var(--shadow-sm);
+    rotate: 2deg;
+    max-width: 420px;
+    justify-self: center;
+    width: 100%;
+  }
+
+  .photo :global(img),
+  .photo :global(.berimbau-art) {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    object-position: 50% 30%;
+    border-radius: 3px;
+  }
+
+  @media (min-width: 860px) {
+    .song-head {
+      grid-template-columns: 1fr minmax(260px, 380px);
+    }
+  }
+
+  .song-layout {
+    display: grid;
+    gap: 28px;
+    align-items: start;
+  }
+
+  @media (min-width: 980px) {
+    .song-layout {
+      grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+    }
+
+    .song-aside {
+      position: sticky;
+      top: 20px;
+    }
+  }
+
+  .song-aside {
+    display: grid;
+    gap: 28px;
+  }
+
+  .toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+    padding-bottom: 16px;
+    margin-bottom: 18px;
+    border-bottom: 2px dashed var(--line);
+  }
+
+  .print-btn {
+    margin-inline-start: auto;
+  }
+
+  .switch {
+    background: var(--paper);
+  }
+
+  .knob {
+    position: relative;
+    width: 2.3em;
+    height: 1.3em;
+    background: var(--line);
+    border: 2px solid var(--ink);
+    border-radius: 999px;
+    transition: background-color 0.15s ease;
+  }
+
+  .knob::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 2px;
+    width: 0.9em;
+    height: 0.9em;
+    translate: 0 -50%;
+    background: var(--paper);
+    border: 2px solid var(--ink);
+    border-radius: 50%;
+    transition: right 0.15s ease;
+  }
+
+  .switch[aria-checked='true'] .knob {
+    background: var(--turquoise);
+  }
+
+  .switch[aria-checked='true'] .knob::after {
+    right: calc(100% - 0.9em - 6px);
+  }
+
+  .hint {
+    margin: -6px 0 16px;
+    font-size: 0.9rem;
+    color: var(--ink-soft);
+  }
+
+  .hint-touch {
+    display: none;
+  }
+
+  @media (hover: none) {
+    .hint-mouse {
+      display: none;
+    }
+
+    .hint-touch {
+      display: inline;
+    }
+  }
+
+  .notes h2 {
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+  }
+
+  .notes :global(p:last-child) {
+    margin-bottom: 0;
+  }
+
+  .song-nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-top: 40px;
+  }
+
+  .song-nav .chip::before {
+    display: none;
+  }
+
+  .song-nav .all {
+    background: var(--yellow);
+  }
+
+  @media (max-width: 600px) {
+    .song-nav {
+      justify-content: center;
+    }
+
+    .song-nav .all {
+      order: -1;
+      flex-basis: 100%;
+      justify-content: center;
+    }
+  }
+</style>

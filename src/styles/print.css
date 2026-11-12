@@ -1,0 +1,93 @@
+/* One A4 page: title + Portuguese lyrics only. Font size/columns are set by src/scripts/print.ts. */
+
+@page {
+  size: A4;
+  margin: 12mm;
+}
+
+.print-sheet {
+  display: none;
+  width: 186mm;
+  color: #000;
+  font-family: var(--font-body);
+  font-size: var(--print-size, 13pt);
+  line-height: 1.32;
+  text-align: left;
+}
+
+/* invisible copy used for measuring */
+.print-sheet.print-probe {
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  visibility: hidden;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* while measuring "does any line need to wrap?" */
+.print-nowrap .print-line {
+  white-space: nowrap;
+}
+
+.print-title {
+  margin: 0 0 0.1em;
+  font-family: var(--font-display);
+  font-weight: 650;
+  font-size: max(min(1.6em, 34pt), 16pt); /* big text shouldn't make a giant title */
+  line-height: 1.1;
+}
+
+.print-aka {
+  margin: 0;
+  font-size: max(min(0.75em, 16pt), 9pt);
+  color: #444;
+}
+
+.print-lyrics {
+  margin-top: 3mm;
+  padding-top: 4mm;
+  border-top: 1.5pt solid #000;
+  column-count: var(--print-cols, 1);
+  column-gap: 10mm;
+  column-rule: 0.5pt solid #bbb;
+}
+
+.print-stanza {
+  break-inside: avoid;
+  padding-bottom: 0.75em;
+}
+
+.print-line {
+  padding-inline-start: 1.2em;
+  text-indent: -1.2em; /* wrapped lines hang, so each sung line stays recognisable */
+}
+
+.print-line.coro {
+  padding-inline-start: 3em;
+  font-style: italic;
+}
+
+.print-repeat {
+  font-weight: 700;
+  font-style: normal;
+}
+
+@media print {
+  html,
+  body {
+    background: #fff !important;
+  }
+
+  .site {
+    display: none !important;
+  }
+
+  .print-sheet {
+    display: block;
+    width: auto;
+    max-height: 272mm;
+    overflow: hidden; /* never spill onto a second page */
+  }
+}

@@ -1,0 +1,199 @@
+---
+import type { Stanza } from '../lib/lyrics';
+
+interface Props {
+  stanzas: Stanza[];
+}
+
+const { stanzas } = Astro.props;
+---
+
+<div class="lyrics" lang="pt-BR" dir="ltr" data-lyrics>
+  {
+    stanzas.map((stanza, i) => (
+      <div class="stanza">
+        {stanza.map((line, j) => (
+          <div
+            class:list={['line', { coro: line.coro, 'has-tr': line.he }]}
+            tabindex={line.he ? 0 : undefined}
+            aria-describedby={line.he ? `tr-${i}-${j}` : undefined}
+          >
+            <span class="pt">{line.pt}</span>
+            {line.repeat && (
+              <span class="repeat" title={`${line.repeat} פעמים`}>
+                ×{line.repeat}
+              </span>
+            )}
+            {line.he && (
+              <span class="tr" id={`tr-${i}-${j}`} lang="he" dir="rtl">
+                {line.he}
+              </span>
+            )}
+          </div>
+        ))}
+      </div>
+    ))
+  }
+</div>
+
+<script>
+  const STORAGE_KEY = 'showTranslation';
+
+  for (const lyrics of document.querySelectorAll<HTMLElement>('[data-lyrics]')) {
+    // Tap / click / Enter pins a line's translation open (the only way on touch screens).
+    const toggleLine = (target: EventTarget | null) => {
+      const line = (target as Element | null)?.closest<HTMLElement>('.line.has-tr');
+      if (!line) return false;
+      line.classList.toggle('open');
+      return true;
+    };
+    lyrics.addEventListener('click', (e) => {
+      if (window.getSelection()?.isCollapsed === false) return; // selecting text, not tapping
+      toggleLine(e.target);
+    });
+    lyrics.addEventListener('keydown', (e) => {
+      if ((e.key === 'Enter' || e.key === ' ') && toggleLine(e.target)) e.preventDefault();
+    });
+  }
+
+  const toggle = document.querySelector<HTMLButtonElement>('[data-tr-toggle]');
+  const lyrics = document.querySelector<HTMLElement>('[data-lyrics]');
+  if (toggle && lyrics) {
+    const set = (on: boolean) => {
+      toggle.setAttribute('aria-checked', String(on));
+      lyrics.classList.toggle('show-all', on);
+      try {
+        localStorage.setItem(STORAGE_KEY, on ? '1' : '0');
+      } catch {}
+    };
+    let initial = false;
+    try {
+      initial = localStorage.getItem(STORAGE_KEY) === '1';
+    } catch {}
+    set(initial);
+    toggle.addEventListener('click', () => set(toggle.getAttribute('aria-checked') !== 'true'));
+  }
+</script>
+
+<style>
+  .lyrics {
+    text-align: left;
+    font-size: clamp(1.08rem, 2.4vw, 1.25rem);
+    line-height: 1.5;
+  }
+
+  .stanza + .stanza {
+    margin-top: 1.1em;
+  }
+
+  .line {
+    position: relative;
+    width: fit-content;
+    padding: 1px 8px;
+    margin-inline: -8px;
+    border-radius: 8px;
+  }
+
+  .line.coro {
+    margin-inline-start: calc(2em - 8px);
+    color: var(--coro);
+    font-style: italic;
+  }
+
+  .repeat {
+    display: inline-block;
+    margin-inline-start: 0.5em;
+    padding: 0 0.45em;
+    font-size: 0.72em;
+    font-weight: 700;
+    font-style: normal;
+    line-height: 1.5;
+    color: var(--ink);
+    background: var(--yellow);
+    border: 2px solid var(--ink);
+    border-radius: 999px;
+    vertical-align: 0.15em;
+  }
+
+  /* lines that have a translation */
+  .line.has-tr {
+    cursor: pointer;
+  }
+
+  .line.has-tr .pt {
+    text-decoration: underline dotted color-mix(in srgb, currentColor 40%, transparent);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.3em;
+  }
+
+  .line.has-tr:focus-visible {
+    outline-offset: 0;
+  }
+
+  .line.has-tr.open {
+    background: color-mix(in srgb, var(--yellow) 30%, transparent);
+  }
+
+  .tr {
+    display: none;
+    font-style: normal;
+    text-align: right;
+  }
+
+  /* pinned open / "show all": the Hebrew sits under its line */
+  .lyrics.show-all .tr,
+  .line.open .tr {
+    display: block;
+    width: fit-content;
+    padding-bottom: 3px;
+    font-size: 0.86em;
+    color: var(--ink-soft);
+  }
+
+  .lyrics.show-all .stanza + .stanza {
+    margin-top: 1.4em;
+  }
+
+  /* mouse users: a bubble on hover/keyboard focus. It ignores the pointer so it never blocks the next line. */
+  @media (hover: hover) {
+    .line.has-tr:hover {
+      background: color-mix(in srgb, var(--yellow) 40%, transparent);
+    }
+
+    .lyrics:not(.show-all) .line.has-tr:not(.open):is(:hover, :focus-visible) .tr {
+      display: block;
+      position: absolute;
+      z-index: 10;
+      top: calc(100% + 8px);
+      left: 0;
+      width: max-content;
+      max-width: min(36ch, 80vw);
+      padding: 6px 14px;
+      font-size: 0.9em;
+      line-height: 1.45;
+      color: var(--paper);
+      background: var(--ink);
+      border-radius: 12px;
+      box-shadow: 0 6px 16px rgb(42 26 16 / 0.25);
+      pointer-events: none;
+      animation: pop 0.14s ease-out;
+    }
+
+    .lyrics:not(.show-all) .line.has-tr:not(.open):is(:hover, :focus-visible) .tr::before {
+      content: '';
+      position: absolute;
+      top: -7px;
+      left: 18px;
+      border: 7px solid transparent;
+      border-top: 0;
+      border-bottom-color: var(--ink);
+    }
+  }
+
+  @keyframes pop {
+    from {
+      opacity: 0;
+      translate: 0 -4px;
+    }
+  }
+</style>

@@ -1,0 +1,35 @@
+---
+import type { Stanza } from '../lib/lyrics';
+
+interface Props {
+  titles: string[];
+  stanzas: Stanza[];
+}
+
+const { titles, stanzas } = Astro.props;
+---
+
+<!-- Hidden on screen; the only thing that prints. Sized to one A4 page by src/scripts/print.ts. -->
+<section class="print-sheet" lang="pt-BR" dir="ltr" data-print-sheet>
+  <h1 class="print-title">{titles[0]}</h1>
+  {titles.length > 1 && <p class="print-aka">{titles.slice(1).join(' · ')}</p>}
+  <div class="print-lyrics">
+    {
+      stanzas.map((stanza) => (
+        <div class="print-stanza">
+          {stanza.map((line) => (
+            <div class:list={['print-line', { coro: line.coro }]}>
+              {line.pt}
+              {line.repeat && <span class="print-repeat">{` ×${line.repeat}`}</span>}
+            </div>
+          ))}
+        </div>
+      ))
+    }
+  </div>
+</section>
+
+<script>
+  import { setupPrint } from '../scripts/print';
+  setupPrint();
+</script>

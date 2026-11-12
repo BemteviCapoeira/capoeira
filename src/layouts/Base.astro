@@ -1,0 +1,154 @@
+---
+import '@fontsource-variable/rubik';
+import '@fontsource-variable/fredoka';
+import '../styles/tokens.css';
+import '../styles/global.css';
+import '../styles/print.css';
+import { Image } from 'astro:assets';
+import bemtevi from '../assets/bemtevi.jpg';
+import Ribbons from '../components/Ribbons.astro';
+import { SITE } from '../data/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+  /** Absolute path of a social-preview image. */
+  image?: string;
+}
+
+const { title, description = SITE.description, image } = Astro.props;
+const fullTitle = title ? `${title} · ${SITE.shortTitle}` : SITE.title;
+const base = import.meta.env.BASE_URL;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang="he" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href={`${base}favicon.svg`} type="image/svg+xml" />
+    <link rel="sitemap" href={`${base}sitemap-index.xml`} />
+    <meta name="theme-color" content="#ffcf33" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="he_IL" />
+    <meta property="og:site_name" content={SITE.title} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    {image && <meta property="og:image" content={new URL(image, Astro.site)} />}
+  </head>
+  <body>
+    <div class="site">
+      <a class="skip-link" href="#main">דלגו לתוכן</a>
+      <header class="site-header">
+        <div class="wrap">
+          <a class="brand" href={base}>
+            <Image src={bemtevi} alt="" width={112} class="brand-emblem" loading="eager" />
+            <span>{SITE.shortTitle}</span>
+          </a>
+          <span class="brand-tag" lang="pt-BR">Abadá-Capoeira</span>
+        </div>
+      </header>
+      <Ribbons />
+      <main id="main" class="wrap">
+        <slot />
+      </main>
+      <footer class="site-footer">
+        <div class="wrap">
+          <p class="cheer" lang="pt-BR" dir="ltr">{SITE.cheer}</p>
+          <p>{SITE.club} · {SITE.credit}</p>
+        </div>
+      </footer>
+    </div>
+    <slot name="print" />
+  </body>
+</html>
+
+<style>
+  .site {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  .site-header {
+    background: var(--yellow);
+    border-bottom: var(--border);
+  }
+
+  .site-header .wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding-block: 10px;
+  }
+
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--ink);
+    text-decoration: none;
+    font-family: var(--font-display);
+    font-weight: 650;
+    font-size: 1.4rem;
+  }
+
+  .brand-emblem {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    border: var(--border);
+    object-fit: cover;
+    object-position: 50% 30%;
+    box-shadow: var(--shadow-sm);
+    transition: rotate 0.3s ease;
+  }
+
+  .brand:hover .brand-emblem {
+    rotate: -12deg;
+  }
+
+  .brand-tag {
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+
+  main {
+    flex: 1;
+    padding-block: 20px 72px;
+  }
+
+  .site-footer {
+    background: var(--ink);
+    color: var(--sand);
+    padding-block: 28px;
+    text-align: center;
+    border-top: 6px solid var(--coral);
+    box-shadow: 0 -6px 0 var(--turquoise);
+  }
+
+  .site-footer p {
+    margin: 0;
+  }
+
+  .cheer {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.6rem;
+    color: var(--yellow);
+    margin-bottom: 6px !important;
+  }
+
+  @media (max-width: 480px) {
+    .brand-tag {
+      display: none;
+    }
+  }
+</style>

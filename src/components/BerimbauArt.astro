@@ -1,0 +1,37 @@
+---
+// Stand-in illustration for songs without a photo.
+---
+
+<div class="berimbau-art" aria-hidden="true">
+  <svg viewBox="0 0 80 120">
+    <path d="M52 6Q24 60 52 114" fill="none" stroke="var(--ink)" stroke-width="5" stroke-linecap="round"></path>
+    <path d="M52 6V114" stroke="var(--ink)" stroke-width="1.6"></path>
+    <path d="M41 84H52" stroke="var(--ink)" stroke-width="2.4"></path>
+    <circle cx="29" cy="86" r="14" fill="var(--orange)" stroke="var(--ink)" stroke-width="3"></circle>
+    <path d="M21 80a9 9 0 0 1 9-5" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" opacity=".7"
+    ></path>
+  </svg>
+</div>
+
+<style>
+  .berimbau-art {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 4 / 3;
+    background:
+      repeating-linear-gradient(
+        -45deg,
+        color-mix(in srgb, var(--paper) 50%, transparent) 0 12px,
+        transparent 12px 24px
+      ),
+      color-mix(in srgb, var(--accent, var(--yellow)) 55%, var(--paper));
+  }
+
+  svg {
+    height: 72%;
+    width: auto;
+    rotate: -18deg;
+  }
+</style>
