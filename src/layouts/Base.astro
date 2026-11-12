@@ -7,7 +7,10 @@ import '../styles/print.css';
 import { Image } from 'astro:assets';
 import bemtevi from '../assets/bemtevi.jpg';
 import Ribbons from '../components/Ribbons.astro';
+import { Content as Welcome } from '../content/home.md';
 import { SITE } from '../data/site';
+
+const NAME_COLORS = ['coral', 'turquoise', 'yellow', 'pink', 'lime', 'sky'];
 
 interface Props {
   title?: string;
@@ -61,10 +64,27 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
         <slot />
       </main>
       <footer class="site-footer">
-        <div class="wrap">
-          <p class="cheer" lang="pt-BR" dir="ltr">{SITE.cheer}</p>
-          <p dir="rtl">{SITE.club} · {SITE.credit}</p>
-          <p class="footer-links"><a href={`${base}new-song/`}>+ Add a song</a></p>
+        <div class="wrap footer-grid" dir="rtl">
+          <section class="footer-about">
+            <h2 class="footer-title">{SITE.title}</h2>
+            <p class="footer-club">{SITE.club}</p>
+            <p>{SITE.group}</p>
+          </section>
+          <section class="footer-letter">
+            <Welcome />
+            <p class="cheer" lang="pt-BR" dir="ltr">{SITE.cheer}</p>
+            <p class="credit">{SITE.credit}</p>
+          </section>
+          <section class="footer-thanks">
+            <h2>תודה!</h2>
+            <p>{SITE.thanksIntro}</p>
+            <ul class="names">
+              {SITE.thanks.map((name, i) => <li style={`--c:var(--${NAME_COLORS[i % NAME_COLORS.length]})`}>{name}</li>)}
+            </ul>
+          </section>
+        </div>
+        <div class="wrap footer-links">
+          <a href={`${base}new-song/`}>+ Add a song</a>
         </div>
       </footer>
     </div>
@@ -130,21 +150,87 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
   }
 
   .site-footer {
-    background: var(--ink);
+    padding-block: 40px 24px;
     color: var(--sand);
-    padding-block: 28px;
-    text-align: center;
+    background: var(--ink);
     border-top: 6px solid var(--coral);
     box-shadow: 0 -6px 0 var(--turquoise);
   }
 
-  .site-footer p {
+  .footer-grid {
+    display: grid;
+    gap: 32px;
+  }
+
+  @media (min-width: 900px) {
+    .footer-grid {
+      grid-template-columns: 1fr 1.6fr 1fr;
+      align-items: start;
+    }
+  }
+
+  .site-footer h2 {
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+    color: var(--yellow);
+  }
+
+  .footer-title {
+    font-size: clamp(1.6rem, 4vw, 2.1rem) !important;
+    text-shadow: 2px 2px 0 var(--coral);
+  }
+
+  .site-footer p,
+  .footer-letter :global(p) {
+    margin: 0 0 0.7em;
+  }
+
+  .footer-club {
+    font-weight: 600;
+  }
+
+  .footer-letter {
+    line-height: 1.65;
+  }
+
+  .cheer {
+    width: fit-content;
+    margin: 4px 0 2px !important;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(1.4rem, 4vw, 1.8rem);
+    color: var(--yellow);
+    text-shadow: 2px 2px 0 var(--coral);
+  }
+
+  .credit {
+    opacity: 0.8;
+  }
+
+  .names {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
     margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .names li {
+    padding: 2px 14px;
+    font-weight: 600;
+    color: var(--ink);
+    background: var(--c);
+    border: 2px solid var(--sand);
+    border-radius: 999px;
   }
 
   .footer-links {
-    margin-top: 10px !important;
+    margin-top: 28px;
+    padding-top: 16px;
     font-size: 0.9rem;
+    text-align: center;
+    border-top: 1px solid color-mix(in srgb, var(--sand) 20%, transparent);
   }
 
   .footer-links a {
@@ -154,14 +240,6 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
 
   .footer-links a:hover {
     opacity: 1;
-  }
-
-  .cheer {
-    font-family: var(--font-display);
-    font-weight: 700;
-    font-size: 1.6rem;
-    color: var(--yellow);
-    margin-bottom: 6px !important;
   }
 
   @media (max-width: 480px) {
