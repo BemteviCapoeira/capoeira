@@ -13,6 +13,7 @@ lyrics: |
   > Marinheiro só
   De são salvador
   > Marinheiro só
+  
   Ô, marinheiro marinheiro
   > Marinheiro só
   Ô, quem te ensinou a nadar?
@@ -21,6 +22,7 @@ lyrics: |
   > Marinheiro só
   Ou foi o balanço do mar?
   > Marinheiro só
+  
   Lá vem, lá vem
   > Marinheiro só
   Ele vem faceiro
@@ -38,14 +40,16 @@ translation: |
   > מלח בודד
   מסאו סלבדור
   > מלח בודד
+  
   הו, מלח, מלח
-  > מלח בודד
+    > מלח בודד
   הו, מי לימד אותך לשחות?
   > מלח בודד
   הו, האם זה היה הטלטול של הספינה?
   > מלח בודד
   או הנדנוד של הים?
   > מלח בודד
+
   הנה הוא בא, הנה הוא בא
   > מלח בודד
   הוא בא מתגנדר
