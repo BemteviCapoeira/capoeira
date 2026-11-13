@@ -34,7 +34,7 @@ lyrics: |
   E de um caso perdido
   Fez o oprimido
   Se tornar vencedor
-  translation: |
+translation: |
   הלוואי שיכולתי לחזור אחורה בזמן
   כדי לחזות בקפואירה בזמן שלה,
   אך אין דרך חזרה
