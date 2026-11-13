@@ -19,11 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          name: github-pages-${{ github.run_attempt }}
-          path: .
+      - uses: withastro/action@v6
 
   deploy:
     needs: build
@@ -35,5 +31,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5
-        with:
-          artifact_name: github-pages-${{ github.run_attempt }} 
