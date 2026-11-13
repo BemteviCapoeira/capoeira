@@ -5,7 +5,7 @@ youtube: 08hh4h1zrKg
 lyrics: |
   > Quem vem lá - sou eu
   > Quem vem lá - sou eu
-  > Berimbau mais eu
+  > Berimbau bateu
   > Capoeira sou eu
   
   Eu venho de longe
