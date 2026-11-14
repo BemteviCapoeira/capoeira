@@ -1,5 +1,5 @@
 ---
-titles: ["Eu vou treinando", "Vício de treinar"]
+titles: ["Eu vou treinando"]
 tags: [sao-bento]
 image: ./cover.jpg
 youtube: x9yOtxlTfUQ

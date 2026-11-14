@@ -1,5 +1,5 @@
 ---
-titles: ["Eu sou de São Salvador", "Eu não sou daqui"]
+titles: ["Eu sou de São Salvador"]
 tags: [benguela]
 image: ./cover.jpg
 youtube: pUlwxf7kOL4
