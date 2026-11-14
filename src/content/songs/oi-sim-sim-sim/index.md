@@ -5,11 +5,13 @@ image: ./cover.jpg
 imageAlt: ""
 youtube: B06bR4_ZnSI
 lyrics: |
-  Oi sim sim sim, Oi não não não
+  Oi sim sim sim
+  Oi não não não
 
   > Oi sim sim sim, Oi não não não
 
-  Oi não não não, Oi sim sim sim
+  Oi não não não
+  Oi sim sim sim
 
   > Oi sim sim sim, Oi não não
 
@@ -24,4 +26,4 @@ lyrics: |
   > Oi sim sim sim, Oi não não não
 ---
 
-הערה: בפורטוגזית לא מבטאים את ה- M בסוף מילה.
+הערה: בפורטוגזית לא מבטאים את האות - M בסוף מילה.
