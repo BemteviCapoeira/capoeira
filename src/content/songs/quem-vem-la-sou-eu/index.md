@@ -1,6 +1,7 @@
 ---
 titles: ["Quem vem lá, sou eu"]
 tags: [sao-bento]
+image: ./cover.jpg
 youtube: 08hh4h1zrKg
 lyrics: |
   > Quem vem lá - sou eu

@@ -1,6 +1,7 @@
 ---
 titles: ["Dona Maria como vai você"]
 tags: [sao-bento]
+image: ./cover.jpg
 youtube: 8mNqWkuphm8
 lyrics: |
   O vai você, vai você

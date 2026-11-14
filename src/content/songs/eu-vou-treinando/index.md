@@ -1,6 +1,7 @@
 ---
 titles: ["Eu vou treinando", "Vício de treinar"]
 tags: [sao-bento]
+image: ./cover.jpg
 youtube: x9yOtxlTfUQ
 lyrics: |
   > Eu vou treinando querendo melhorar
