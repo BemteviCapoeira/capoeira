@@ -1,6 +1,6 @@
 ---
 titles: ["Bemtevi voou, voou","La Lauê"]
-tags: []
+tags: [sao-bento]
 image: ./cover.jpg
 imageAlt: "Bem-te-vi"
 youtube: fi30Ww2qODg
@@ -24,8 +24,10 @@ lyrics: |
 
   Em cada som, em cada toque, em cada ginga,
   tem um estilo de jogo
-  Em cada som, em cada toque, em cada ginga,
-  tem um estilo de jogo
+  
+  > Em cada som, em cada toque, em cada ginga,
+  > tem um estilo de jogo
+  
   Laue la la
 
   > La laue laue laue laua
@@ -53,8 +55,10 @@ translation: |
 
   בכל צליל, בכל פעימה, בכל "ג'ינגה",
   יש סגנון משחק
+
   בכל צליל, בכל פעימה, בכל "ג'ינגה",
   יש סגנון משחק
+  
   לאו-אֶה לה לה
 
   > לה לאו-אֶה לאו-אֶה לאו-אֶה לאו-אֶה
@@ -63,3 +67,5 @@ translation: |
 
   > לה לאו-אֶה לאו-אֶה לאו-אֶה לאו-אֶה
 ---
+Bemtevi
+ציפור הקיסקדי שקריאתו נשמעת כמו ביי-טיבי

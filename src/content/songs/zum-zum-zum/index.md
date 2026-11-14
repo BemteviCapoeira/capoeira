@@ -1,6 +1,6 @@
 ---
 titles: ["Zum zum zum","Capoeira mata um"]
-tags: []
+tags: [sao-bento]
 image: ./cover.jpg
 imageAlt: "Zumbi dos Palmares"
 youtube: -SufUq4M0EY
