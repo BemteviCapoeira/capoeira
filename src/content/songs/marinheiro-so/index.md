@@ -6,7 +6,7 @@ imageWide: ./wide.jpg
 imageTall: ./tall.jpg
 imageAlt: "מלח במדים לבנים עומד על רציף ליד הים"
 imageAltEn: "A sailor in a white uniform standing on a pier by the sea"
-youtube: X8lv0jApCbs
+youtube: i8acsNNgYbc
 lyrics: |
   Eu não sou daqui
   > Marinheiro só
