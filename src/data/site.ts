@@ -19,7 +19,7 @@ export const SITE_TEXT = {
     thanks: ['ארפה', 'גרוזליה', 'פולנטה', 'פימנטה', 'שאמה', "מאמוצ'י"],
     credit: 'עריכה: איתן Bemtevi',
     /** Printed at the bottom of every song sheet. */
-    createdBy: 'נוצר על ידי איתן Bemtevi',
+    createdBy: 'נוצר על ידי Bemtevi',
   },
   en: {
     title: 'Abadá Capoeira Songbook',
@@ -30,7 +30,7 @@ export const SITE_TEXT = {
     thanksIntro: 'First of all, thank you to everyone who taught us to sing and play:',
     thanks: ['Harpa', 'Groselha', 'Polenta', 'Pimenta', 'Chama', 'Mamute'],
     credit: 'Edited by Eitan Bemtevi',
-    createdBy: 'Created by Eitan Bemtevi',
+    createdBy: 'Created by Bemtevi',
   },
 } satisfies Record<Locale, Record<string, string | string[]>>;
 
