@@ -1,0 +1,19 @@
+<!--
+  Full-bleed app icon (Android maskable + iOS home screen). The berimbau sits inside the
+  central 80% safe zone so any mask shape keeps it whole. public/favicon.svg is the round "any" icon.
+  Regenerate the PNGs in public/ after editing either file:
+    rsvg-convert -w 192 public/favicon.svg -o public/icon-192.png
+    rsvg-convert -w 512 public/favicon.svg -o public/icon-512.png
+    rsvg-convert -w 512 src/assets/app-icon.svg -o public/icon-maskable-512.png
+    rsvg-convert -w 180 src/assets/app-icon.svg -o public/apple-touch-icon.png
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" fill="#ffcf33"/>
+  <g transform="translate(32 32) scale(.78) translate(-32 -32)">
+    <g transform="rotate(-18 32 32) translate(10 6) scale(.43)">
+      <path d="M52 6Q24 60 52 114" fill="none" stroke="#2a1a10" stroke-width="7" stroke-linecap="round"/>
+      <path d="M52 6V114" stroke="#2a1a10" stroke-width="3"/>
+      <circle cx="29" cy="86" r="15" fill="#ff6b57" stroke="#2a1a10" stroke-width="5"/>
+    </g>
+  </g>
+</svg>
