@@ -2,7 +2,7 @@
 
 The Abadá-Capoeira Pardes Hanna songbook website: every song has its Portuguese lyrics, a line-by-line Hebrew translation (hover or tap a line), a YouTube recording, notes, and a print button that fits the lyrics onto one A4 page.
 
-**Live site:** https://bemtevicapoeira.github.io/capoeira/
+**Live site:** https://bemtevi-roda.github.io/capoeira/
 
 The site is built with [Astro](https://astro.build). Every change that reaches the `main` branch is published automatically by GitHub Actions; there is no server to manage.
 
@@ -48,14 +48,14 @@ You need:
 
 - **Git** — check with `git --version`.
 - **Node.js 22.18 or newer** (24 recommended) — check with `node --version`. Download it from [nodejs.org](https://nodejs.org/) if needed.
-- **Write access** to the [BemteviCapoeira/capoeira](https://github.com/BemteviCapoeira/capoeira) repository on GitHub.
+- **Write access** to the [bemtevi-roda/capoeira](https://github.com/bemtevi-roda/capoeira) repository on GitHub.
 
 Then:
 
 1. Get the code:
 
    ```sh
-   git clone https://github.com/BemteviCapoeira/capoeira.git
+   git clone https://github.com/bemtevi-roda/capoeira.git
    cd capoeira
    ```
 
@@ -214,7 +214,7 @@ Publishing = getting your change onto the `main` branch. GitHub Actions then bui
 2. Open the link Git prints (or go to the repository on GitHub and click **Compare & pull request**), and create the pull request.
 3. Wait for the **CI** check on the pull request to turn green. It runs the same checks as [step 7](#7-check-your-changes-before-publishing).
 4. Click **Merge pull request**.
-5. Go to the **Actions** tab and watch the **Deploy to GitHub Pages** run. When it's green, the change is live at https://bemtevicapoeira.github.io/capoeira/.
+5. Go to the **Actions** tab and watch the **Deploy to GitHub Pages** run. When it's green, the change is live at https://bemtevi-roda.github.io/capoeira/.
 
 ### Quick: push straight to `main`
 
@@ -242,7 +242,7 @@ These are listed in case the repository is ever recreated or moved. They need a 
 
 1. Create `public/CNAME` containing just the domain, e.g. `songs.example.com`.
 2. In [`astro.config.mjs`](astro.config.mjs), set `site: 'https://songs.example.com'` and delete the `base` line.
-3. At your domain registrar, add a DNS `CNAME` record pointing the domain to `bemtevicapoeira.github.io`.
+3. At your domain registrar, add a DNS `CNAME` record pointing the domain to `bemtevi-roda.github.io`.
 4. In **Settings → Pages**, enter the domain under **Custom domain** and tick **Enforce HTTPS** once it's available.
 5. Commit and push.
 
@@ -254,7 +254,7 @@ Small edits — fixing a word, adding a translation — can be done entirely on 
 
 **Add a new song with the website's form** (easiest)
 
-1. Create a token (one time): on GitHub open **Settings → Developer settings → Personal access tokens → Fine-grained tokens → Generate new token**. Set **Resource owner** to `BemteviCapoeira`, **Repository access** to *Only select repositories → capoeira*, and under **Repository permissions** set **Contents** and **Pull requests** to *Read and write*. Copy the token.
+1. Create a token (one time): on GitHub open **Settings → Developer settings → Personal access tokens → Fine-grained tokens → Generate new token**. Set **Resource owner** to `bemtevi-roda`, **Repository access** to *Only select repositories → capoeira*, and under **Repository permissions** set **Contents** and **Pull requests** to *Read and write*. Copy the token.
 2. On the site, click **+ Add a song** at the bottom of any page (or open `…/capoeira/new-song/`).
 3. The first time, you land on the **Connect** page: paste the token and click **Connect**. Once GitHub confirms the token can write to the repository, the form opens. Tick *Remember the token on this device* to skip this step next time.
 4. Fill in the song. The form checks that the translation lines up and shows a preview; the line numbers help match the two texts.

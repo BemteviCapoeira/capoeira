@@ -139,7 +139,7 @@ export function explain(error: unknown): string {
     case 403:
       return `The token isn't allowed to do this (${error.message}). It needs "Contents" and "Pull requests" set to Read and write, and the organization may need to approve it.`;
     case 404:
-      return "The token can't see the repository. When creating it, choose BemteviCapoeira as the owner and select the capoeira repository.";
+      return "The token can't see the repository. When creating it, choose bemtevi-roda as the owner and select the capoeira repository.";
     default:
       return `GitHub error ${error.status}: ${error.message}`;
   }

@@ -34,10 +34,10 @@ function openAtBase() {
   };
 }
 
-// GitHub Pages project site: https://bemtevicapoeira.github.io/capoeira/
+// GitHub Pages project site: https://bemtevi-roda.github.io/capoeira/
 // For a custom domain: set `site` to it, drop `base`, and add public/CNAME.
 export default defineConfig({
-  site: 'https://bemtevicapoeira.github.io',
+  site: 'https://bemtevi-roda.github.io',
   base: '/capoeira',
   trailingSlash: 'always',
   integrations: [
