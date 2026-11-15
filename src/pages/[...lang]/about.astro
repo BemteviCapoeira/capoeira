@@ -41,6 +41,13 @@ const NAME_COLORS = ['coral', 'turquoise', 'yellow', 'pink', 'lime', 'sky'];
       <ul class="names">
         {site.thanks.map((name, i) => <li style={`--c:var(--${NAME_COLORS[i % NAME_COLORS.length]})`}>{name}</li>)}
       </ul>
+      <p class="site-thanks">
+        {site.siteThanksIntro}
+        <span class="names">
+          {site.siteThanks.map((name, i) => <span style={`--c:var(--${NAME_COLORS[i % NAME_COLORS.length]})`} class="name-pill">{name}</span>)}
+        </span>
+        {site.siteThanksOutro}
+      </p>
     </section>
 
     <p class="add-song">
