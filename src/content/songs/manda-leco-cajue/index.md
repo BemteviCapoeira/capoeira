@@ -66,4 +66,8 @@ english: |
   Oh, Mestre Pastinha
 
   > Cashew tree
+notesHebrew: |
+  בכל מקום שרשום Cajueiro מקצרים את המילה ל Cajue
+notesEnglish: |
+  Everywhere it says "Cajueiro", shorten the word to "Cajue"
 ---
