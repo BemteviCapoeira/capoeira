@@ -146,9 +146,9 @@ async function writeSong(tag: string, songLines: Line[]) {
   }
   if (youtube) fm.push(`youtube: ${youtube}`);
   fm.push('lyrics: |', ...tidy(lyrics).map((l) => (l ? `  ${l}` : '')));
+  if (notes.length) fm.push('notesHebrew: |', ...notes.flatMap((note, i) => [...(i ? [''] : []), `  ${note}`]));
 
-  const body = notes.length ? `\n${notes.join('\n\n')}\n` : '';
-  await writeFile(new URL('index.md', dir), `---\n${fm.join('\n')}\n---\n${body}`);
+  await writeFile(new URL('index.md', dir), `---\n${fm.join('\n')}\n---\n`);
   console.log(`wrote  ${slug}${cover ? ' +cover' : ''}${youtube ? ' +youtube' : ''}${notes.length ? ' +notes' : ''}`);
 }
 

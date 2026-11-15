@@ -13,9 +13,9 @@ export interface SongInput {
   /** Line-for-line translations of `lyrics`. */
   hebrew?: string;
   english?: string;
-  /** Notes in Hebrew (the Markdown body) and in English (a frontmatter field). */
-  notes?: string;
-  notesEn?: string;
+  /** Notes about the song, in Hebrew and in English. */
+  notesHebrew?: string;
+  notesEnglish?: string;
 }
 
 const YOUTUBE_ID = /^[\w-]{11}$/;
@@ -73,7 +73,7 @@ function block(text: string): string[] {
   return text.split('\n').map((line) => (line ? `  ${line}` : ''));
 }
 
-/** The full index.md (frontmatter + notes). Strings are JSON-quoted, which is valid YAML. */
+/** The full index.md (all frontmatter). Strings are JSON-quoted, which is valid YAML. */
 export function songMarkdown(song: SongInput): string {
   const lines = [
     '---',
@@ -93,11 +93,12 @@ export function songMarkdown(song: SongInput): string {
     const translation = song[key] ? normalizeLyrics(song[key]) : '';
     if (translation) lines.push(`${key}: |`, ...block(translation));
   }
-  const notesEn = song.notesEn?.replace(/\r\n?/g, '\n').trim();
-  if (notesEn) lines.push('notesEn: |', ...block(notesEn));
+  for (const key of ['notesHebrew', 'notesEnglish'] as const) {
+    const notes = song[key]?.replace(/\r\n?/g, '\n').trim();
+    if (notes) lines.push(`${key}: |`, ...block(notes));
+  }
   lines.push('---');
-  const notes = song.notes?.trim();
-  return `${lines.join('\n')}\n${notes ? `\n${notes}\n` : ''}`;
+  return `${lines.join('\n')}\n`;
 }
 
 export const SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;

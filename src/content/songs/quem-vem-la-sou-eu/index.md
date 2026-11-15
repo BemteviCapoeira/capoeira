@@ -77,8 +77,8 @@ english: |
   > Who's that coming
   Smoking a cigar
   > Who's that coming
-notesEn: |
+notesHebrew: |
+  בשיר הזה הוחלפה השורה שמזכירה את הכותב השיר, כי הוא עזב את מועדון אבאדה ולכן בחרתי במילים: de noite e de dia
+notesEnglish: |
   In this song, the line that mentions the songwriter was replaced, because he left Abadá, so I chose the words: de noite e de dia
 ---
-
-בשיר הזה הוחלפה השורה שמזכירה את הכותב השיר, כי הוא עזב את מועדון אבאדה ולכן בחרתי במילים: de noite e de dia

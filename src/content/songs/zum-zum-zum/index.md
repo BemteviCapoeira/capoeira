@@ -37,8 +37,8 @@ english: |
 
   > I want to see a strike
   > I want to see a fall
-notesEn: |
+notesHebrew: |
+  השיר מדבר על Zumbi dos Palmares (1655 - 1695) שהיה הדמות מרכזית בתרבות הקפואירה והוא גיבור לאומי ברזילאי
+notesEnglish: |
   The song is about Zumbi dos Palmares (1655 - 1695), a central figure in capoeira culture and a Brazilian national hero.
 ---
-
-השיר מדבר על Zumbi dos Palmares (1655 - 1695) שהיה הדמות מרכזית בתרבות הקפואירה והוא גיבור לאומי ברזילאי

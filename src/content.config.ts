@@ -38,8 +38,9 @@ const songs = defineCollection({
         hebrew: z.string().optional(),
         /** English translation, line for line with `lyrics`. */
         english: z.string().optional(),
-        /** English notes (plain text; a blank line starts a new paragraph). The Hebrew notes are the Markdown body. */
-        notesEn: z.string().optional(),
+        /** Notes about the song, shown in the Notes box (plain text; a blank line starts a new paragraph). */
+        notesHebrew: z.string().optional(),
+        notesEnglish: z.string().optional(),
       })
       .superRefine((song, ctx) => {
         for (const key of ['hebrew', 'english'] as const) {

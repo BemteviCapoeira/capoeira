@@ -132,11 +132,14 @@ Then:
      A repeated line
 
      The first line of the second stanza
-   notesEn: |
-     Optional notes about the song, in English. They appear in the "Notes" box.
+   notesHebrew: |
+     הערות על השיר (לא חובה). הן מופיעות בתיבה "הערות".
+   notesEnglish: |
+     Optional notes about the song. They appear in the "Notes" box.
    ---
-   Optional notes about the song, in Hebrew. They appear in the "הערות" box.
    ```
+
+   Everything goes between the two `---` lines; the build stops if there's text after the closing one.
 
    - **Video id:** in `https://youtu.be/AbCdEfGhIjK` or `https://www.youtube.com/watch?v=AbCdEfGhIjK`, the id is `AbCdEfGhIjK`.
    - **Indentation matters:** every lyric and translation line starts with exactly two spaces, as above.
@@ -342,8 +345,8 @@ The token stays in your browser and is only sent to GitHub. Delete it any time o
 | `lyrics`                     | yes      | Portuguese lyrics.                                              |
 | `hebrew`                     | no       | Hebrew translation, line for line with `lyrics`.                |
 | `english`                    | no       | English translation, line for line with `lyrics`.               |
-| `notesEn`                    | no       | English notes (plain text), shown in the "Notes" box.           |
-| text after the closing `---` | no       | Hebrew notes (Markdown), shown in the "הערות" box.              |
+| `notesHebrew`                | no       | Hebrew notes, shown in the "הערות" box. Plain text; a blank line starts a new paragraph. |
+| `notesEnglish`               | no       | English notes, shown in the "Notes" box. Same format.           |
 
 ### Commands
 

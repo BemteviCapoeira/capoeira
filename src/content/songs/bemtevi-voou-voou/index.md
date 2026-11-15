@@ -100,9 +100,10 @@ english: |
   ~
 
   > ~
-notesEn: |
+notesHebrew: |
+  Bemtevi
+  ציפור הקיסקדי שקריאתו נשמעת כמו ביי-טיבי
+notesEnglish: |
   Bemtevi
   The kiskadee, a bird whose call sounds like "bem-te-vi"
 ---
-Bemtevi
-ציפור הקיסקדי שקריאתו נשמעת כמו ביי-טיבי

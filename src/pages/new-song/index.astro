@@ -138,12 +138,14 @@ const songsUrl = new URL(`${import.meta.env.BASE_URL}songs/`, Astro.site).href;
         <h2 id="step-3"><span class="num">3</span>Notes <small>(optional)</small></h2>
         <div class="pair">
           <div class="field">
-            <label for="notes">In Hebrew</label>
-            <textarea id="notes" name="notes" rows="4" dir="rtl" lang="he" placeholder="הערות על השיר"></textarea>
+            <label for="notesHebrew">In Hebrew</label>
+            <textarea id="notesHebrew" name="notesHebrew" rows="4" dir="rtl" lang="he" placeholder="הערות על השיר"
+            ></textarea>
           </div>
           <div class="field">
-            <label for="notesEn">In English</label>
-            <textarea id="notesEn" name="notesEn" rows="4" lang="en" placeholder="Notes about the song"></textarea>
+            <label for="notesEnglish">In English</label>
+            <textarea id="notesEnglish" name="notesEnglish" rows="4" lang="en" placeholder="Notes about the song"
+            ></textarea>
           </div>
         </div>
       </section>

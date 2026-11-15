@@ -29,8 +29,8 @@ test('songMarkdown writes valid frontmatter in the repo format', () => {
     lyrics: 'Linha um\n  Coro\n\nLinha dois',
     hebrew: 'שורה אחת\nמקהלה\n\nשורה שתיים',
     english: 'Line one\nChorus\n\nLine two',
-    notes: '  הערה  ',
-    notesEn: ' A note\r\n\nSecond paragraph ',
+    notesHebrew: '  הערה  ',
+    notesEnglish: ' A note\r\n\nSecond paragraph ',
   });
   assert.equal(
     md,
@@ -58,13 +58,13 @@ test('songMarkdown writes valid frontmatter in the repo format', () => {
       '  Chorus',
       '',
       '  Line two',
-      'notesEn: |',
+      'notesHebrew: |',
+      '  הערה',
+      'notesEnglish: |',
       '  A note',
       '',
       '  Second paragraph',
       '---',
-      '',
-      'הערה',
       '',
     ].join('\n'),
   );

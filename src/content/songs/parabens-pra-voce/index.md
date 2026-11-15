@@ -21,7 +21,8 @@ english: |
   > On this dear day
   > Much happiness
   > Many years of life
-notesEn: |
+notesHebrew: |
+  יום הולדת שמח
+notesEnglish: |
   Happy birthday
 ---
-יום הולדת שמח

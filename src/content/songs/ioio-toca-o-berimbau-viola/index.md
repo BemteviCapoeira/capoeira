@@ -75,8 +75,8 @@ english: |
   To learn more about our history
   With the berimbau playing
   You have to get to know Angola
-notesEn: |
+notesHebrew: |
+  Autor: Pretinho
+notesEnglish: |
   Author: Pretinho
 ---
-
-Autor: Pretinho

@@ -1,5 +1,5 @@
 ---
-import { getCollection, render } from 'astro:content';
+import { getCollection } from 'astro:content';
 import { getImage, Picture } from 'astro:assets';
 import Base from '../../../layouts/Base.astro';
 import BerimbauArt from '../../../components/BerimbauArt.astro';
@@ -37,10 +37,12 @@ const image = song.data.imageWide ?? song.data.image; // the 4:3 crop, when ther
 const imageAlt = locale === 'he' ? song.data.imageAlt : song.data.imageAltEn;
 const stanzas = parseLyrics(lyrics, translationOf(song, locale));
 const translated = hasTranslation(stanzas);
-// Hebrew notes are the Markdown body; English notes are plain text in `notesEn` (a blank line = new paragraph).
-const { Content } = await render(song);
-const notesEn = song.data.notesEn?.trim().split(/\n\s*\n/) ?? [];
-const hasNotes = locale === 'he' ? Boolean(song.body?.trim()) : notesEn.length > 0;
+if (song.body?.trim()) {
+  throw new Error(`${song.id}: put notes in the notesHebrew / notesEnglish fields, not after the closing ---`);
+}
+// plain text; a blank line starts a new paragraph
+const notes = (locale === 'he' ? song.data.notesHebrew : song.data.notesEnglish)?.trim().split(/\n\s*\n/) ?? [];
+const hasNotes = notes.length > 0;
 const socialImage = image ? await getImage({ src: image, width: 1200, format: 'jpg' }) : undefined;
 ---
 
@@ -135,7 +137,7 @@ const socialImage = image ? await getImage({ src: image, width: 1200, format: 'j
             {hasNotes && (
               <section class="card notes" dir={dir}>
                 <h2>{t.notes}</h2>
-                {locale === 'he' ? <Content /> : notesEn.map((paragraph) => <p>{paragraph}</p>)}
+                {notes.map((paragraph) => <p>{paragraph}</p>)}
               </section>
             )}
           </aside>

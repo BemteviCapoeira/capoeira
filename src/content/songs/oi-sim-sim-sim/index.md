@@ -46,8 +46,8 @@ english: |
   Look at the stomp of Lampião (legendary outlaw)
 
   > Oh yes yes yes, oh no no no
-notesEn: |
+notesHebrew: |
+  הערה: בפורטוגזית לא מבטאים את האות - M בסוף מילה.
+notesEnglish: |
   Note: in Portuguese, the letter M at the end of a word is not pronounced.
 ---
-
-הערה: בפורטוגזית לא מבטאים את האות - M בסוף מילה.

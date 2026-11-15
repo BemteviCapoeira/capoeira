@@ -113,8 +113,8 @@ function setUpForm(form: HTMLFormElement, session: Session, data: PageData) {
     lyrics: field<HTMLTextAreaElement>('lyrics'),
     hebrew: field<HTMLTextAreaElement>('hebrew'),
     english: field<HTMLTextAreaElement>('english'),
-    notes: field<HTMLTextAreaElement>('notes'),
-    notesEn: field<HTMLTextAreaElement>('notesEn'),
+    notesHebrew: field<HTMLTextAreaElement>('notesHebrew'),
+    notesEnglish: field<HTMLTextAreaElement>('notesEnglish'),
     alignStatus: $('[data-align-status]'),
     preview: $('[data-preview]'),
     problems: $('[data-problems]'),
@@ -284,8 +284,8 @@ function setUpForm(form: HTMLFormElement, session: Session, data: PageData) {
     'lyrics',
     'hebrew',
     'english',
-    'notes',
-    'notesEn',
+    'notesHebrew',
+    'notesEnglish',
   ] as const;
 
   function saveDraft() {
@@ -297,7 +297,10 @@ function setUpForm(form: HTMLFormElement, session: Session, data: PageData) {
   function restoreDraft() {
     const draft = draftStore.get();
     if (!draft) return;
-    draft.hebrew ??= draft.translation; // drafts saved before the English translation field existed
+    // drafts saved under older field names
+    draft.hebrew ??= draft.translation;
+    draft.notesHebrew ??= draft.notes;
+    draft.notesEnglish ??= draft.notesEn;
     for (const name of DRAFT_FIELDS) if (typeof draft[name] === 'string') field(name).value = draft[name];
     slugTouched = Boolean(draft.slugTouched);
     for (const input of form.querySelectorAll<HTMLInputElement>('input[name=tags]')) {
@@ -365,8 +368,8 @@ function setUpForm(form: HTMLFormElement, session: Session, data: PageData) {
         lyrics: el.lyrics.value,
         hebrew: el.hebrew.value,
         english: el.english.value,
-        notes: el.notes.value,
-        notesEn: el.notesEn.value,
+        notesHebrew: el.notesHebrew.value,
+        notesEnglish: el.notesEnglish.value,
       });
       const files: NewFile[] = [{ path: `${folder}/index.md`, text: markdown }];
       if (picture) files.push({ path: `${folder}/cover.jpg`, base64: picture.base64 });
