@@ -43,9 +43,7 @@ const NAME_COLORS = ['coral', 'turquoise', 'yellow', 'pink', 'lime', 'sky'];
       </ul>
       <p class="site-thanks">
         {site.siteThanksIntro}
-        <span class="names">
-          {site.siteThanks.map((name, i) => <span style={`--c:var(--${NAME_COLORS[i % NAME_COLORS.length]})`} class="name-pill">{name}</span>)}
-        </span>
+        {site.siteThanks.map((name) => <strong class="name-pill" style="--c:var(--coral)">{name}</strong>)}
         {site.siteThanksOutro}
       </p>
     </section>
@@ -126,6 +124,20 @@ const NAME_COLORS = ['coral', 'turquoise', 'yellow', 'pink', 'lime', 'sky'];
     padding: 2px 14px;
     font-weight: 600;
     background: var(--c);
+    border: 2px solid var(--ink);
+    border-radius: 999px;
+    box-shadow: 2px 2px 0 var(--ink);
+  }
+
+  .site-thanks {
+    margin: 48px 0 0;
+    font-size: 1rem;
+  }
+
+  .site-thanks .name-pill {
+    padding: 2px 18px;
+    font-weight: 600;
+    background: var(--green);
     border: 2px solid var(--ink);
     border-radius: 999px;
     box-shadow: 2px 2px 0 var(--ink);

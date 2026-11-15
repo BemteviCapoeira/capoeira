@@ -17,12 +17,12 @@ export const SITE_TEXT = {
     group: "קבוצת יום ד' בהדרכת גרדואדה קיטוצ'י",
     thanksIntro: 'תודה לכל מי שלימד אותנו לשיר ולנגן:',
     thanks: ['ארפה', 'גרוזליה', 'פולנטה', 'פימנטה', 'שאמה', "מאמוצ'י"],
-    siteThanksIntro: 'תודה ל',
+    siteThanksIntro: 'תודה ל ',
     siteThanks: ['שחר לינסי'],
-    siteThanksOutro: 'שעזר בבניית האתר',
-    credit: 'עריכה: Bemtevi',
+    siteThanksOutro: ' שעזר בבניית האתר',
+    credit: 'נוצר על ידי: Bem-te-vi',
     /** Printed at the bottom of every song sheet. */
-    createdBy: 'נוצר על ידי Bem-te-vi',
+    createdBy: 'נוצר על ידי Bemtevi',
     
   },
   en: {
@@ -31,13 +31,13 @@ export const SITE_TEXT = {
     description: 'Capoeira songs in Portuguese, with English and Hebrew translations, YouTube performances and printable lyrics page.',
     club: 'Pardes Hanna club, Professora Harpa',
     group: 'Wednesday group, led by Graduada Quitute',
-    thanksIntro: 'Thanks everyone who taught us to sing and play:',
+    thanksIntro: 'Thanks to everyone who taught us to sing and play:',
     thanks: ['Arpa', 'Groselha', 'Polenta', 'Pimenta', 'Chama', 'Mamute'],
-    siteThanksIntro: 'Thanks to',
-    siteThanks: ['Shachar Linsky'],
-    siteThanksOutro: 'for helping build this site',
-    credit: 'Edited by Bem-te-vi',
-    createdBy: 'Created by Bemtevi',
+    siteThanksIntro: 'Thanks to ',
+    siteThanks: ['Shachar Lince'],
+    siteThanksOutro: ' for helping build this site',
+    credit: 'Created by: Bem-te-vi',
+    createdBy: 'Created by: Bemtevi',
   },
 } satisfies Record<Locale, Record<string, string | string[]>>;
 
