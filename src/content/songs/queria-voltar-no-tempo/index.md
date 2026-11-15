@@ -34,7 +34,7 @@ lyrics: |
   E de um caso perdido
   Fez o oprimido
   Se tornar vencedor
-translation: |
+hebrew: |
   הלוואי שיכולתי לחזור אחורה בזמן
   כדי לחזות בקפואירה בזמן שלה,
   אך אין דרך חזרה
@@ -64,4 +64,34 @@ translation: |
   ומתוך מצב שנראה היה כאבוד
   היא אפשרה למדוכאים
   לצאת כשידם על העליונה.
+english: |
+  > I wish I could go back in time
+  > to see capoeira in that moment,
+  > but there's no going back
+  > and since there's no going back
+  > forward is where I must go
+
+  The past is left behind
+  And what has passed won't come back
+  But life keeps moving on
+  The berimbau keeps on playing
+  Showing how it's done
+
+  Imagine Seu Bimba deciding
+  Packing his bags and leaving
+  Leaving Bahia behind
+  after that day
+  What must he have been feeling
+
+  Capoeira is history, it holds secrets
+  And proves that courage defeats fear
+  Today it's yours and mine
+  It was a tiny pebble
+  That became a great slab of rock
+
+  Our freedom has value
+  It sprouted under the overseer's whip
+  And out of a lost cause
+  It made the oppressed
+  Become the victor
 ---

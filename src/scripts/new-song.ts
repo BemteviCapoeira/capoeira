@@ -109,9 +109,12 @@ function setUpForm(form: HTMLFormElement, session: Session, data: PageData) {
     picturePreview: $<HTMLImageElement>('[data-picture-preview]'),
     altField: $('[data-alt]'),
     imageAlt: field('imageAlt'),
+    imageAltEn: field('imageAltEn'),
     lyrics: field<HTMLTextAreaElement>('lyrics'),
-    translation: field<HTMLTextAreaElement>('translation'),
+    hebrew: field<HTMLTextAreaElement>('hebrew'),
+    english: field<HTMLTextAreaElement>('english'),
     notes: field<HTMLTextAreaElement>('notes'),
+    notesEn: field<HTMLTextAreaElement>('notesEn'),
     alignStatus: $('[data-align-status]'),
     preview: $('[data-preview]'),
     problems: $('[data-problems]'),
@@ -199,28 +202,46 @@ function setUpForm(form: HTMLFormElement, session: Session, data: PageData) {
     gutter.scrollTop = textarea.scrollTop;
   }
 
+  const TRANSLATIONS = [
+    { key: 'hebrew', name: 'Hebrew', lang: 'he', dir: 'rtl' },
+    { key: 'english', name: 'English', lang: 'en', dir: 'ltr' },
+  ] as const;
+
+  /** Each translation with its alignment problems against the lyrics (empty text = no translation). */
+  function translations() {
+    const lyrics = normalizeLyrics(el.lyrics.value);
+    return TRANSLATIONS.map((tr) => {
+      const text = normalizeLyrics(el[tr.key].value);
+      return { ...tr, text, issues: lyrics && text ? alignmentIssues(lyrics, text) : [] };
+    });
+  }
+
   function lyricsProblems(): string[] {
-    if (!el.lyrics.value.trim()) return [];
-    return alignmentIssues(normalizeLyrics(el.lyrics.value), normalizeLyrics(el.translation.value));
+    return translations().flatMap((tr) => tr.issues.map((issue) => `${tr.name} translation: ${issue}.`));
   }
 
   function updateLyrics() {
-    updateGutter(el.lyrics);
-    updateGutter(el.translation);
+    for (const textarea of [el.lyrics, el.hebrew, el.english]) updateGutter(textarea);
 
     const lyrics = normalizeLyrics(el.lyrics.value);
-    const translation = normalizeLyrics(el.translation.value);
-    const issues = lyricsProblems();
+    const all = translations();
+    const given = all.filter((tr) => tr.text);
+    const broken = given.filter((tr) => tr.issues.length);
+    const names = (list: typeof all) => list.map((tr) => tr.name).join(' and ');
     if (!lyrics) setStatus(el.alignStatus, '');
-    else if (!translation) setStatus(el.alignStatus, 'No translation yet. That is fine; it can be added later.');
-    else if (issues.length) setStatus(el.alignStatus, `The translation doesn't line up: ${issues.join('; ')}.`, 'error');
-    else setStatus(el.alignStatus, 'The translation lines up with the lyrics.', 'ok');
+    else if (broken.length) {
+      const text = broken.map((tr) => `The ${tr.name} translation doesn't line up: ${tr.issues.join('; ')}.`).join(' ');
+      setStatus(el.alignStatus, text, 'error');
+    } else if (!given.length) setStatus(el.alignStatus, 'No translations yet. That is fine; they can be added later.');
+    else setStatus(el.alignStatus, `The ${names(given)} ${given.length > 1 ? 'translations line' : 'translation lines'} up with the lyrics.`, 'ok');
 
+    // the preview shows every translation that lines up, under each line
+    const shown = given.filter((tr) => !tr.issues.length).map((tr) => ({ ...tr, stanzas: parseLyrics(lyrics, tr.text) }));
     el.preview.replaceChildren(
-      ...(lyrics ? parseLyrics(lyrics, issues.length ? undefined : translation) : []).map((stanza) => {
+      ...(lyrics ? parseLyrics(lyrics) : []).map((stanza, i) => {
         const div = document.createElement('div');
         div.className = 'p-stanza';
-        for (const line of stanza) {
+        stanza.forEach((line, j) => {
           const row = document.createElement('div');
           row.className = line.coro ? 'p-line coro' : 'p-line';
           row.append(line.pt);
@@ -230,28 +251,42 @@ function setUpForm(form: HTMLFormElement, session: Session, data: PageData) {
             rep.textContent = `×${line.repeat}`;
             row.append(rep);
           }
-          if (line.he) {
-            const tr = document.createElement('div');
-            tr.className = 'p-tr';
-            tr.dir = 'rtl';
-            tr.lang = 'he';
-            tr.textContent = line.he;
-            row.append(tr);
+          for (const tr of shown) {
+            const text = tr.stanzas[i][j].tr;
+            if (!text) continue;
+            const node = document.createElement('div');
+            node.className = 'p-tr';
+            node.dir = tr.dir;
+            node.lang = tr.lang;
+            node.textContent = text;
+            row.append(node);
           }
           div.append(row);
-        }
+        });
         return div;
       }),
     );
   }
 
-  for (const textarea of [el.lyrics, el.translation]) {
+  for (const textarea of [el.lyrics, el.hebrew, el.english]) {
     textarea.addEventListener('scroll', () => updateGutter(textarea));
   }
   handleLyricsPaste(el.lyrics);
 
   // ---- draft: keep typed text if the page is reloaded ----
-  const DRAFT_FIELDS = ['title', 'aka', 'slug', 'youtube', 'imageAlt', 'lyrics', 'translation', 'notes'] as const;
+  const DRAFT_FIELDS = [
+    'title',
+    'aka',
+    'slug',
+    'youtube',
+    'imageAlt',
+    'imageAltEn',
+    'lyrics',
+    'hebrew',
+    'english',
+    'notes',
+    'notesEn',
+  ] as const;
 
   function saveDraft() {
     const draft: Record<string, unknown> = { slugTouched, tags: selectedTags() };
@@ -262,6 +297,7 @@ function setUpForm(form: HTMLFormElement, session: Session, data: PageData) {
   function restoreDraft() {
     const draft = draftStore.get();
     if (!draft) return;
+    draft.hebrew ??= draft.translation; // drafts saved before the English translation field existed
     for (const name of DRAFT_FIELDS) if (typeof draft[name] === 'string') field(name).value = draft[name];
     slugTouched = Boolean(draft.slugTouched);
     for (const input of form.querySelectorAll<HTMLInputElement>('input[name=tags]')) {
@@ -292,7 +328,7 @@ function setUpForm(form: HTMLFormElement, session: Session, data: PageData) {
     if (slugProblem) list.push(`Web address: ${slugProblem}`);
     if (el.youtube.value.trim() && !parseYouTube(el.youtube.value)) list.push('Fix the YouTube link, or clear it.');
     if (!el.lyrics.value.trim()) list.push('Enter the lyrics.');
-    for (const issue of lyricsProblems()) list.push(`Translation: ${issue}.`);
+    list.push(...lyricsProblems());
     return list;
   }
 
@@ -324,10 +360,13 @@ function setUpForm(form: HTMLFormElement, session: Session, data: PageData) {
         tags: selectedTags(),
         image: picture ? 'cover.jpg' : undefined,
         imageAlt: el.imageAlt.value.trim(),
+        imageAltEn: el.imageAltEn.value.trim(),
         youtube: parseYouTube(el.youtube.value),
         lyrics: el.lyrics.value,
-        translation: el.translation.value,
+        hebrew: el.hebrew.value,
+        english: el.english.value,
         notes: el.notes.value,
+        notesEn: el.notesEn.value,
       });
       const files: NewFile[] = [{ path: `${folder}/index.md`, text: markdown }];
       if (picture) files.push({ path: `${folder}/cover.jpg`, base64: picture.base64 });
@@ -343,7 +382,8 @@ function setUpForm(form: HTMLFormElement, session: Session, data: PageData) {
           '',
           `- Page after merging: ${data.songsUrl}${slug}/`,
           `- Tags: ${selectedTags().join(', ') || 'none'}`,
-          `- Translation: ${el.translation.value.trim() ? 'yes' : 'not yet'}`,
+          `- Hebrew translation: ${el.hebrew.value.trim() ? 'yes' : 'not yet'}`,
+          `- English translation: ${el.english.value.trim() ? 'yes' : 'not yet'}`,
           `- Picture: ${picture ? 'yes' : 'no'}`,
           '',
           'The CI check validates the song. Merge to publish it.',

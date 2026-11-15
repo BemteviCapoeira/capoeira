@@ -5,11 +5,17 @@ export interface SongInput {
   tags: string[];
   /** File name of the cover next to index.md, e.g. "cover.jpg". */
   image?: string;
+  /** Picture descriptions, in Hebrew and in English. */
   imageAlt?: string;
+  imageAltEn?: string;
   youtube?: { id: string; start?: number };
   lyrics: string;
-  translation?: string;
+  /** Line-for-line translations of `lyrics`. */
+  hebrew?: string;
+  english?: string;
+  /** Notes in Hebrew (the Markdown body) and in English (a frontmatter field). */
   notes?: string;
+  notesEn?: string;
 }
 
 const YOUTUBE_ID = /^[\w-]{11}$/;
@@ -76,14 +82,19 @@ export function songMarkdown(song: SongInput): string {
   ];
   if (song.image) {
     lines.push(`image: ./${song.image}`, `imageAlt: ${JSON.stringify(song.imageAlt ?? '')}`);
+    if (song.imageAltEn) lines.push(`imageAltEn: ${JSON.stringify(song.imageAltEn)}`);
   }
   if (song.youtube) {
     lines.push(`youtube: ${song.youtube.id}`);
     if (song.youtube.start) lines.push(`youtubeStart: ${song.youtube.start}`);
   }
   lines.push('lyrics: |', ...block(normalizeLyrics(song.lyrics)));
-  const translation = song.translation ? normalizeLyrics(song.translation) : '';
-  if (translation) lines.push('translation: |', ...block(translation));
+  for (const key of ['hebrew', 'english'] as const) {
+    const translation = song[key] ? normalizeLyrics(song[key]) : '';
+    if (translation) lines.push(`${key}: |`, ...block(translation));
+  }
+  const notesEn = song.notesEn?.replace(/\r\n?/g, '\n').trim();
+  if (notesEn) lines.push('notesEn: |', ...block(notesEn));
   lines.push('---');
   const notes = song.notes?.trim();
   return `${lines.join('\n')}\n${notes ? `\n${notes}\n` : ''}`;

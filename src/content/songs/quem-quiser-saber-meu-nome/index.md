@@ -27,7 +27,7 @@ lyrics: |
   Meia lua e rasteira
   Na ginga do iniciante
   No mestre de capoeira
-translation: |
+hebrew: |
   אם תרצו לדעת את שמי
   חפשו אותו על גדת הנהר
   כבר אמרתי ששמי
@@ -52,4 +52,29 @@ translation: |
   ב"מייה-לואה" (בעיטת חצי-ירח) ובחסטיירה (הפלה)
   ב"ג'ינגה" של המתחיל
   וב"מסטרה" של הקפוארה
+english: |
+  > Whoever wants to know my name
+  > Go look for it by the riverbank
+  > I've already said that my name
+  > Is sparse scrub: capoeira
+
+  I am low, green brush
+  My mother is African
+  I lived in the cane fields
+  Sister of the sugarcane
+
+  I was born to set free
+  Disguising brute force
+  I didn't let myself be imprisoned
+  From a dance I became a fight
+
+  I am not a religion
+  I became a folk art
+  World heritage
+  I sprout everywhere
+
+  I'm in a cabeçada (head-butt)
+  A meia lua (half-moon kick) and a rasteira (sweep)
+  In the beginner's ginga
+  In the capoeira mestre
 ---

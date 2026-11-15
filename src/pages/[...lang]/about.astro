@@ -1,0 +1,130 @@
+---
+import Base from '../../layouts/Base.astro';
+import { Content as WelcomeHe } from '../../content/welcome/he.md';
+import { Content as WelcomeEn } from '../../content/welcome/en.md';
+import { LANGUAGES, localeParams, UI, type Locale } from '../../data/i18n';
+import { SITE, SITE_TEXT } from '../../data/site';
+
+export function getStaticPaths() {
+  return localeParams().map(({ params, locale }) => ({ params, props: { locale } }));
+}
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = UI[locale].about;
+const site = SITE_TEXT[locale];
+const dir = LANGUAGES[locale].dir;
+const Welcome = locale === 'he' ? WelcomeHe : WelcomeEn;
+const NAME_COLORS = ['coral', 'turquoise', 'yellow', 'pink', 'lime', 'sky'];
+---
+
+<Base locale={locale} path="about/" section="about" title={t.title}>
+  <div class="about" dir={dir}>
+    <header class="card hero">
+      <h1>{site.title}</h1>
+      <p class="club">{site.club}</p>
+      <p>{site.group}</p>
+    </header>
+
+    <section class="card letter">
+      <Welcome />
+      <p class="cheer" lang="pt-BR" dir="ltr">{SITE.cheer}</p>
+      <p class="credit">{site.credit}</p>
+    </section>
+
+    <section class="card thanks" aria-labelledby="thanks">
+      <h2 id="thanks">{t.thanks}</h2>
+      <p>{site.thanksIntro}</p>
+      <ul class="names">
+        {site.thanks.map((name, i) => <li style={`--c:var(--${NAME_COLORS[i % NAME_COLORS.length]})`}>{name}</li>)}
+      </ul>
+    </section>
+
+    <p class="add-song">
+      <a class="btn" href={`${import.meta.env.BASE_URL}new-song/`}>{t.addSong}</a>
+    </p>
+  </div>
+</Base>
+
+<style>
+  .about {
+    display: grid;
+    gap: 28px;
+    max-width: 820px;
+    margin-inline: auto;
+  }
+
+  .hero {
+    color: var(--sand);
+    background: var(--ink);
+    box-shadow: 6px 6px 0 var(--coral);
+  }
+
+  h1 {
+    margin-bottom: 12px;
+    font-size: clamp(1.8rem, 5vw, 2.6rem);
+    color: var(--yellow);
+    text-shadow: 3px 3px 0 var(--coral);
+  }
+
+  .hero p {
+    margin: 0;
+  }
+
+  .club {
+    font-weight: 600;
+  }
+
+  .letter {
+    line-height: 1.7;
+  }
+
+  .letter :global(p) {
+    margin: 0 0 0.8em;
+  }
+
+  .cheer {
+    width: fit-content;
+    margin: 8px 0 4px !important;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(1.4rem, 4vw, 1.9rem);
+    color: var(--ink);
+    text-shadow: 2px 2px 0 var(--yellow);
+  }
+
+  .credit {
+    margin-bottom: 0 !important;
+    color: var(--ink-soft);
+  }
+
+  .thanks h2 {
+    margin-bottom: 10px;
+    font-size: 1.6rem;
+  }
+
+  .names {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .names li {
+    padding: 2px 14px;
+    font-weight: 600;
+    background: var(--c);
+    border: 2px solid var(--ink);
+    border-radius: 999px;
+    box-shadow: 2px 2px 0 var(--ink);
+  }
+
+  .add-song {
+    margin: 0;
+  }
+</style>

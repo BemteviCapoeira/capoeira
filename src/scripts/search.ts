@@ -35,7 +35,7 @@ export function initSearch() {
       if (match) shown++;
     }
 
-    if (count) count.textContent = shown === 1 ? 'שיר אחד' : `${shown} שירים`;
+    if (count) count.textContent = shown === 1 ? count.dataset.one! : count.dataset.many!.replace('{n}', String(shown));
     if (empty) empty.hidden = shown > 0;
   }
 

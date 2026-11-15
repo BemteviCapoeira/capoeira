@@ -27,7 +27,7 @@ lyrics: |
   > Quem vem lá
   Fumando a charuto
   > Quem vem lá
-translation: |
+hebrew: |
   > מי בא שם? זה אני
   > מי בא שם? זה אני
   > מנגן על הברימבאו
@@ -51,6 +51,32 @@ translation: |
   > מי בא שם
   מעשן סיגר
   > מי בא שם
+english: |
+  > Who's that coming? It's me
+  > Who's that coming? It's me
+  > The berimbau sounded
+  > Capoeira is me
+
+  I come from far away
+  I come from Bahia
+  I play capoeira
+  By night and by day
+
+  > Who's that coming? It's me
+  > Who's that coming? It's me
+  > The berimbau sounded
+  > Capoeira is me
+
+  But it's me, it's me
+  > Who's that coming
+  I am Brevenuto
+  > Who's that coming
+  Riding on a horse
+  > Who's that coming
+  Smoking a cigar
+  > Who's that coming
+notesEn: |
+  In this song, the line that mentions the songwriter was replaced, because he left Abadá, so I chose the words: de noite e de dia
 ---
 
 בשיר הזה הוחלפה השורה שמזכירה את הכותב השיר, כי הוא עזב את מועדון אבאדה ולכן בחרתי במילים: de noite e de dia

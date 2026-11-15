@@ -3,6 +3,7 @@ titles: ["Capoeira Abadá","Vou lhe dizer o que me alegra"]
 tags: []
 image: ./cover.jpg
 imageAlt: "Mestre Camisa"
+imageAltEn: "Mestre Camisa"
 youtube: cYX4lJn6E9M
 lyrics: |
   Vou lhe dizer o que me alegra
@@ -50,7 +51,7 @@ lyrics: |
   Joga em cima
   Joga embaixo
   No que o berimbau mandar
-translation: |
+hebrew: |
   אספר לכם מה מעניק לי שמחה
   בתוך מעגל קפואירה
   כשאני מתחיל לשחק
@@ -96,4 +97,50 @@ translation: |
   שחק גבוה,
   שחק נמוך –
   כל מה שהברימבאו מורה לעשות
+english: |
+  Let me tell you what makes me happy
+  In a capoeira roda
+  When I start playing music
+  Three berimbaus
+  Gunga, médio and a viola
+  Atabaque (drum) and pandeiro (tambourine)
+  And two fellows to play
+
+  > Capoeira Abadá
+
+  I keep playing capoeira
+  Until the day breaks
+  Capoeira Abadá
+
+  If you're a capoeirista
+  Never stop training
+  Capoeira Abadá
+
+  Sing a corrido (call-and-response song)
+  A chorus answered strong
+  An immense energy
+  That won't let you stand still
+  Capoeira Abadá
+
+  From Monday to Friday
+  There's a roda in Humaitá
+  Capoeira Abadá
+
+  A capoeirista who's a real ace
+  Plays anywhere at all
+  Capoeira Abadá
+
+  A hard game
+  An armada and a ponteira
+  A meia-lua and a rasteira
+  Keep on playing
+  Capoeira Abadá
+
+  If you're a capoeirista
+  Never give up training
+  Capoeira Abadá
+
+  Play high
+  Play low
+  Whatever the berimbau commands
 ---

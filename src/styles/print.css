@@ -1,4 +1,4 @@
-/* One A4 page: title + Portuguese lyrics only. Font size/columns are set by src/scripts/print.ts. */
+/* One A4 page: title + Portuguese lyrics, and a small credit footer. Font size/columns are set by src/scripts/print.ts. */
 
 @page {
   size: A4;
@@ -74,6 +74,32 @@
   font-style: normal;
 }
 
+/* fixed size: it doesn't grow with the lyrics */
+.print-footer {
+  display: flex;
+  align-items: center;
+  gap: 3mm;
+  margin-top: 4mm;
+  padding-top: 3mm;
+  font-size: 9pt;
+  line-height: 1.3;
+  border-top: 0.5pt solid #bbb;
+}
+
+.print-icon {
+  width: 10mm;
+  height: 10mm;
+  flex: none;
+}
+
+.print-credit {
+  font-weight: 600;
+}
+
+.print-url {
+  color: #444;
+}
+
 @media print {
   html,
   body {
@@ -85,9 +111,18 @@
   }
 
   .print-sheet {
-    display: block;
+    display: flex;
+    flex-direction: column;
     width: auto;
-    max-height: 272mm;
-    overflow: hidden; /* never spill onto a second page */
+    height: 270mm; /* the printable height is 273mm; never spill onto a second page */
+    overflow: hidden;
+  }
+
+  .print-lyrics {
+    flex: none;
+  }
+
+  .print-footer {
+    margin-top: auto; /* pushed to the bottom of the page */
   }
 }

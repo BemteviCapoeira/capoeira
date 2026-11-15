@@ -27,7 +27,7 @@ lyrics: |
   Saber mais de nossa história
   Com berimbau tocando
   Tem que conhecer Angola
-translation: |
+hebrew: |
   > יויּוֹ, נגן בַּבֶּרִימְבָּאוּ וִיוֹלָה,
   > יַאיָה, כי אני נוסע לאנגולה.
 
@@ -50,6 +50,31 @@ translation: |
   כדי ללמוד עוד על ההיסטוריה שלנו –
   לצלילי הברמבאו,
   עליכם להכיר את אנגולה.
+english: |
+  > Ioiô, play the berimbau viola
+  > Iaiá, for I'm traveling to Angola
+
+  I'm traveling to Angola
+  But first I'll go to the place of captivity
+  To learn about the suffering
+  That happened on the slave ship
+
+  When I leave Luanda
+  I'll pass through Catumbela
+  Going on by way of Lobito
+  To get to know Benguela
+
+  The slave market
+  Of Benguela makes you cry
+  To think that so many black people
+  Were sold there
+
+  To know our roots
+  To learn more about our history
+  With the berimbau playing
+  You have to get to know Angola
+notesEn: |
+  Author: Pretinho
 ---
 
 Autor: Pretinho

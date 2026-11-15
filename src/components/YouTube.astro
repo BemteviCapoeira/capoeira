@@ -4,9 +4,11 @@ interface Props {
   id: string;
   title: string;
   start?: number;
+  /** Screen-reader text for the play link, before the title. */
+  label: string;
 }
 
-const { id, title, start } = Astro.props;
+const { id, title, start, label } = Astro.props;
 const params = new URLSearchParams({ autoplay: '1', rel: '0', ...(start ? { start: String(start) } : {}) });
 const embed = `https://www.youtube-nocookie.com/embed/${id}?${params}`;
 const watch = `https://www.youtube.com/watch?v=${id}${start ? `&t=${start}s` : ''}`;
@@ -18,7 +20,7 @@ const watch = `https://www.youtube.com/watch?v=${id}${start ? `&t=${start}s` : '
     <span class="play" aria-hidden="true">
       <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="currentColor"></path></svg>
     </span>
-    <span class="sr-only">נגנו את הביצוע ביוטיוב: {title}</span>
+    <span class="sr-only">{label}: {title}</span>
   </a>
 </div>
 

@@ -1,15 +1,19 @@
 ---
+import type { Locale } from '../data/i18n';
+import { SITE_TEXT, siteAddress } from '../data/site';
 import type { Stanza } from '../lib/lyrics';
 
 interface Props {
   titles: string[];
   stanzas: Stanza[];
+  /** Language of the footer credit. */
+  locale: Locale;
 }
 
-const { titles, stanzas } = Astro.props;
+const { titles, stanzas, locale } = Astro.props;
 ---
 
-<!-- Hidden on screen; the only thing that prints. Sized to one A4 page by src/scripts/print.ts. -->
+<!-- Hidden on screen; the only thing that prints. Sized to one A4 page by src/scripts/print.ts; the footer sits at the bottom. -->
 <section class="print-sheet" lang="pt-BR" dir="ltr" data-print-sheet>
   <h1 class="print-title">{titles[0]}</h1>
   {titles.length > 1 && <p class="print-aka">{titles.slice(1).join(' · ')}</p>}
@@ -27,6 +31,13 @@ const { titles, stanzas } = Astro.props;
       ))
     }
   </div>
+  <footer class="print-footer">
+    <img class="print-icon" src={`${import.meta.env.BASE_URL}favicon.svg`} alt="" width="38" height="38" />
+    <div>
+      <div class="print-credit" lang={locale} dir="auto">{SITE_TEXT[locale].createdBy}</div>
+      <div class="print-url">{siteAddress()}</div>
+    </div>
+  </footer>
 </section>
 
 <script>

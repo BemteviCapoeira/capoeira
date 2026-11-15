@@ -3,6 +3,7 @@ titles: ["Bemtevi voou, voou","La Lauê"]
 tags: [sao-bento]
 image: ./cover.jpg
 imageAlt: "Bem-te-vi"
+imageAltEn: "Bem-te-vi"
 youtube: fi30Ww2qODg
 lyrics: |
   Bemtevi voou, voou
@@ -35,7 +36,7 @@ lyrics: |
   Ola lae lae
 
   > La laue laue laue laua
-translation: |
+hebrew: |
   ביי-טי-וי (ציפור הקיסקדי) עפה, היא עפה
   ביי-טי-וי עפה, היא עפה
   תנו לה לעוף
@@ -66,6 +67,40 @@ translation: |
   אולה לה-אֶה לה-אֶה
 
   > לה לאו-אֶה לאו-אֶה לאו-אֶה לאו-אֶה
+english: |
+  The bem-te-vi (kiskadee bird) flew, it flew
+  The bem-te-vi flew, it flew
+  Let it fly
+
+  > ~
+
+  ~
+
+  > ~
+
+  What a sound
+  Oh, what art is this
+  A fight that is also play
+  What a roda
+  How wonderful it is
+  It's axé (energy) capoeira
+
+  In every sound, every rhythm, every ginga,
+  there's a style of game
+
+  > In every sound, every rhythm, every ginga,
+  > there's a style of game
+
+  ~
+
+  > ~
+
+  ~
+
+  > ~
+notesEn: |
+  Bemtevi
+  The kiskadee, a bird whose call sounds like "bem-te-vi"
 ---
 Bemtevi
 ציפור הקיסקדי שקריאתו נשמעת כמו ביי-טיבי

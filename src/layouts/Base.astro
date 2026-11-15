@@ -6,13 +6,21 @@ import '../styles/global.css';
 import '../styles/print.css';
 import { Image } from 'astro:assets';
 import bemtevi from '../assets/bemtevi.jpg';
+import LanguageMenu from '../components/LanguageMenu.astro';
 import Ribbons from '../components/Ribbons.astro';
-import { Content as Welcome } from '../content/home.md';
-import { SITE } from '../data/site';
-
-const NAME_COLORS = ['coral', 'turquoise', 'yellow', 'pink', 'lime', 'sky'];
+import { DEFAULT_LOCALE, LANGUAGES, LOCALES, localePath, UI, type Locale } from '../data/i18n';
+import { SITE_TEXT } from '../data/site';
 
 interface Props {
+  locale: Locale;
+  /**
+   * This page's address relative to the site root, the same in every language ('' for home, 'about/', 'songs/x/').
+   * Pages without one (the English-only "Add a song" pages, the 404 page) aren't translated: the language menu
+   * then links to each language's home page.
+   */
+  path?: string;
+  /** Which header tab to highlight. */
+  section?: 'songs' | 'about';
   title?: string;
   description?: string;
   /** Absolute path of a social-preview image. */
@@ -21,29 +29,63 @@ interface Props {
   noindex?: boolean;
 }
 
-const { title, description = SITE.description, image, noindex = false } = Astro.props;
-const fullTitle = title ? `${title} · ${SITE.shortTitle}` : SITE.title;
+const { locale, path, section, title, image, noindex = false } = Astro.props;
+const t = UI[locale];
+const site = SITE_TEXT[locale];
+const description = Astro.props.description ?? site.description;
+const fullTitle = title ? `${title} · ${site.shortTitle}` : site.title;
 const base = import.meta.env.BASE_URL;
 const canonical = new URL(Astro.url.pathname, Astro.site);
+const translations = Object.fromEntries(LOCALES.map((l) => [l, localePath(l, path ?? '')])) as Record<Locale, string>;
+const tabs = [
+  { id: 'songs', label: t.nav.songs, href: localePath(locale), path: '' },
+  { id: 'about', label: t.nav.about, href: localePath(locale, 'about/'), path: 'about/' },
+] as const;
 ---
 
 <!doctype html>
-<html lang="he" dir="ltr">
+<html lang={locale} dir="ltr">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
+    {
+      path !== undefined && (
+        <>
+          {LOCALES.map((l) => (
+            <link rel="alternate" hreflang={l} href={new URL(translations[l], Astro.site)} />
+          ))}
+          <link rel="alternate" hreflang="x-default" href={new URL(translations[DEFAULT_LOCALE], Astro.site)} />
+          {/* Someone who picked a language in the menu lands in it when they come back from outside the site
+              (a bookmark, the home-screen app, a shared link). Browsing within the site never redirects. */}
+          <script is:inline define:vars={{ locale, translations }}>
+            try {
+              const wanted = localStorage.getItem('lang');
+              if (wanted && wanted !== locale && translations[wanted] && !document.referrer.startsWith(location.origin)) {
+                location.replace(translations[wanted] + location.search + location.hash);
+              }
+            } catch {}
+          </script>
+        </>
+      )
+    }
     <link rel="icon" href={`${base}favicon.svg`} type="image/svg+xml" />
     <link rel="apple-touch-icon" href={`${base}apple-touch-icon.png`} />
     <link rel="manifest" href={`${base}manifest.json`} />
     <link rel="sitemap" href={`${base}sitemap-index.xml`} />
     <meta name="theme-color" content="#ffcf33" />
-    <meta name="apple-mobile-web-app-title" content={SITE.shortTitle} />
+    <meta name="apple-mobile-web-app-title" content={site.shortTitle} />
     <meta property="og:type" content="website" />
-    <meta property="og:locale" content="he_IL" />
-    <meta property="og:site_name" content={SITE.title} />
+    <meta property="og:locale" content={LANGUAGES[locale].ogLocale} />
+    {
+      path !== undefined &&
+        LOCALES.filter((l) => l !== locale).map((l) => (
+          <meta property="og:locale:alternate" content={LANGUAGES[l].ogLocale} />
+        ))
+    }
+    <meta property="og:site_name" content={site.title} />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
@@ -52,44 +94,36 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
   </head>
   <body>
     <div class="site">
-      <a class="skip-link" href="#main">דלגו לתוכן</a>
+      <a class="skip-link" href="#main">{t.skipLink}</a>
       <header class="site-header">
-        <div class="wrap">
-          <a class="brand" href={base}>
+        <div class="wrap header-row">
+          <a class="brand" href={localePath(locale)}>
             <Image src={bemtevi} alt="" width={112} class="brand-emblem" loading="eager" />
-            <span>{SITE.shortTitle}</span>
+            <span class="brand-text">
+              <span class="brand-name">{site.shortTitle}</span>
+              <span class="brand-tag" lang="pt-BR">Abadá-Capoeira</span>
+            </span>
           </a>
-          <span class="brand-tag" lang="pt-BR">Abadá-Capoeira</span>
+          <nav class="tabs" aria-label={t.nav.label}>
+            {
+              tabs.map((tab) => (
+                <a
+                  class="tab"
+                  href={tab.href}
+                  aria-current={section === tab.id ? (path === tab.path ? 'page' : 'true') : undefined}
+                >
+                  {tab.label}
+                </a>
+              ))
+            }
+          </nav>
+          <LanguageMenu locale={locale} links={translations} samePage={path !== undefined} />
         </div>
       </header>
       <Ribbons />
       <main id="main" class="wrap">
         <slot />
       </main>
-      <footer class="site-footer">
-        <div class="wrap footer-grid" dir="rtl">
-          <section class="footer-about">
-            <h2 class="footer-title">{SITE.title}</h2>
-            <p class="footer-club">{SITE.club}</p>
-            <p>{SITE.group}</p>
-          </section>
-          <section class="footer-letter">
-            <Welcome />
-            <p class="cheer" lang="pt-BR" dir="ltr">{SITE.cheer}</p>
-            <p class="credit">{SITE.credit}</p>
-          </section>
-          <section class="footer-thanks">
-            <h2>תודה!</h2>
-            <p>{SITE.thanksIntro}</p>
-            <ul class="names">
-              {SITE.thanks.map((name, i) => <li style={`--c:var(--${NAME_COLORS[i % NAME_COLORS.length]})`}>{name}</li>)}
-            </ul>
-          </section>
-        </div>
-        <div class="wrap footer-links">
-          <a href={`${base}new-song/`}>+ Add a song</a>
-        </div>
-      </footer>
     </div>
     <slot name="print" />
   </body>
@@ -107,11 +141,11 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     border-bottom: var(--border);
   }
 
-  .site-header .wrap {
+  .header-row {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    justify-content: space-between;
-    gap: 12px;
+    gap: 10px 14px;
     padding-block: 10px;
   }
 
@@ -119,11 +153,9 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     display: inline-flex;
     align-items: center;
     gap: 12px;
+    margin-inline-end: auto;
     color: var(--ink);
     text-decoration: none;
-    font-family: var(--font-display);
-    font-weight: 650;
-    font-size: 1.4rem;
   }
 
   .brand-emblem {
@@ -141,10 +173,50 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     rotate: -12deg;
   }
 
+  .brand-text {
+    display: grid;
+    line-height: 1.1;
+  }
+
+  .brand-name {
+    font-family: var(--font-display);
+    font-weight: 650;
+    font-size: 1.4rem;
+  }
+
   .brand-tag {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     font-weight: 600;
     letter-spacing: 0.04em;
+  }
+
+  /* Songs | About: a segmented control */
+  .tabs {
+    display: flex;
+    gap: 4px;
+    padding: 4px;
+    background: color-mix(in srgb, var(--ink) 9%, transparent);
+    border-radius: 999px;
+  }
+
+  .tab {
+    padding: 4px 16px;
+    font-weight: 600;
+    color: var(--ink);
+    text-decoration: none;
+    border: var(--border-w) solid transparent;
+    border-radius: 999px;
+    transition: background-color 0.12s ease;
+  }
+
+  .tab:hover {
+    background: color-mix(in srgb, var(--paper) 55%, transparent);
+  }
+
+  .tab[aria-current] {
+    background: var(--paper);
+    border-color: var(--ink);
+    box-shadow: var(--shadow-sm);
   }
 
   main {
@@ -152,102 +224,25 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     padding-block: 20px 72px;
   }
 
-  .site-footer {
-    padding-block: 40px 24px;
-    color: var(--sand);
-    background: var(--ink);
-    border-top: 6px solid var(--coral);
-    box-shadow: 0 -6px 0 var(--turquoise);
-  }
-
-  .footer-grid {
-    display: grid;
-    gap: 32px;
-  }
-
-  @media (min-width: 900px) {
-    .footer-grid {
-      grid-template-columns: 1fr 1.6fr 1fr;
-      align-items: start;
+  /* phones: brand and language menu on the first row, the tabs on their own row below */
+  @media (max-width: 640px) {
+    .tabs {
+      order: 1;
+      flex: 1 0 100%;
     }
-  }
 
-  .site-footer h2 {
-    margin-bottom: 10px;
-    font-size: 1.5rem;
-    color: var(--yellow);
-  }
+    .tab {
+      flex: 1;
+      text-align: center;
+    }
 
-  .footer-title {
-    font-size: clamp(1.6rem, 4vw, 2.1rem) !important;
-    text-shadow: 2px 2px 0 var(--coral);
-  }
+    .brand-emblem {
+      width: 44px;
+      height: 44px;
+    }
 
-  .site-footer p,
-  .footer-letter :global(p) {
-    margin: 0 0 0.7em;
-  }
-
-  .footer-club {
-    font-weight: 600;
-  }
-
-  .footer-letter {
-    line-height: 1.65;
-  }
-
-  .cheer {
-    width: fit-content;
-    margin: 4px 0 2px !important;
-    font-family: var(--font-display);
-    font-weight: 700;
-    font-size: clamp(1.4rem, 4vw, 1.8rem);
-    color: var(--yellow);
-    text-shadow: 2px 2px 0 var(--coral);
-  }
-
-  .credit {
-    opacity: 0.8;
-  }
-
-  .names {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  .names li {
-    padding: 2px 14px;
-    font-weight: 600;
-    color: var(--ink);
-    background: var(--c);
-    border: 2px solid var(--sand);
-    border-radius: 999px;
-  }
-
-  .footer-links {
-    margin-top: 28px;
-    padding-top: 16px;
-    font-size: 0.9rem;
-    text-align: center;
-    border-top: 1px solid color-mix(in srgb, var(--sand) 20%, transparent);
-  }
-
-  .footer-links a {
-    color: var(--sand);
-    opacity: 0.8;
-  }
-
-  .footer-links a:hover {
-    opacity: 1;
-  }
-
-  @media (max-width: 480px) {
-    .brand-tag {
-      display: none;
+    .brand-name {
+      font-size: 1.2rem;
     }
   }
 </style>

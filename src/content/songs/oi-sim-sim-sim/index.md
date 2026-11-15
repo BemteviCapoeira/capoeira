@@ -24,6 +24,28 @@ lyrics: |
   Olha a pisada de Lampião
 
   > Oi sim sim sim, Oi não não não
+english: |
+  Oh yes yes yes
+  Oh no no no
+
+  > Oh yes yes yes, oh no no no
+
+  Oh no no no
+  Oh yes yes yes
+
+  > Oh yes yes yes, oh no no
+
+  But today there is, tomorrow there's not
+  But today there is, tomorrow there's not
+
+  > Oh yes yes yes, oh no no no
+
+  But today there is, tomorrow there's not
+  Look at the stomp of Lampião (legendary outlaw)
+
+  > Oh yes yes yes, oh no no no
+notesEn: |
+  Note: in Portuguese, the letter M at the end of a word is not pronounced.
 ---
 
 הערה: בפורטוגזית לא מבטאים את האות - M בסוף מילה.

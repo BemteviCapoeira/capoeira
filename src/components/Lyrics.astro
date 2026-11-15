@@ -1,11 +1,15 @@
 ---
+import { LANGUAGES, UI, type Locale } from '../data/i18n';
 import type { Stanza } from '../lib/lyrics';
 
 interface Props {
   stanzas: Stanza[];
+  /** The language of the translation lines (the page's language). */
+  locale: Locale;
 }
 
-const { stanzas } = Astro.props;
+const { stanzas, locale } = Astro.props;
+const dir = LANGUAGES[locale].dir;
 ---
 
 <div class="lyrics" lang="pt-BR" dir="ltr" data-lyrics>
@@ -14,19 +18,19 @@ const { stanzas } = Astro.props;
       <div class="stanza">
         {stanza.map((line, j) => (
           <div
-            class:list={['line', { coro: line.coro, 'has-tr': line.he }]}
-            tabindex={line.he ? 0 : undefined}
-            aria-describedby={line.he ? `tr-${i}-${j}` : undefined}
+            class:list={['line', { coro: line.coro, 'has-tr': line.tr }]}
+            tabindex={line.tr ? 0 : undefined}
+            aria-describedby={line.tr ? `tr-${i}-${j}` : undefined}
           >
             <span class="pt">{line.pt}</span>
             {line.repeat && (
-              <span class="repeat" title={`${line.repeat} פעמים`}>
+              <span class="repeat" title={UI[locale].song.times(line.repeat)}>
                 ×{line.repeat}
               </span>
             )}
-            {line.he && (
-              <span class="tr" id={`tr-${i}-${j}`} lang="he" dir="rtl">
-                {line.he}
+            {line.tr && (
+              <span class="tr" id={`tr-${i}-${j}`} lang={locale} dir={dir}>
+                {line.tr}
               </span>
             )}
           </div>
@@ -139,10 +143,10 @@ const { stanzas } = Astro.props;
     display: none;
     font-style: normal;
     font-weight: 400;
-    text-align: right;
+    text-align: start;
   }
 
-  /* pinned open / "show all": the Hebrew sits under its line */
+  /* pinned open / "show all": the translation sits under its line */
   .lyrics.show-all .tr,
   .line.open .tr {
     display: block;

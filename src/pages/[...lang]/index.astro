@@ -1,23 +1,35 @@
 ---
 import { getCollection } from 'astro:content';
-import Base from '../layouts/Base.astro';
-import BerimbauArt from '../components/BerimbauArt.astro';
-import SongCard from '../components/SongCard.astro';
-import { TAG_IDS, TAGS } from '../data/tags';
-import { accent, sortSongs } from '../lib/songs';
-import { fold } from '../lib/text';
+import Base from '../../layouts/Base.astro';
+import BerimbauArt from '../../components/BerimbauArt.astro';
+import SongCard from '../../components/SongCard.astro';
+import { LANGUAGES, localeParams, UI, type Locale } from '../../data/i18n';
+import { TAG_IDS, TAGS } from '../../data/tags';
+import { sortSongs, translationOf } from '../../lib/songs';
+import { fold } from '../../lib/text';
 
+export function getStaticPaths() {
+  return localeParams().map(({ params, locale }) => ({ params, props: { locale } }));
+}
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = UI[locale].home;
+const dir = LANGUAGES[locale].dir;
 const songs = sortSongs(await getCollection('songs'));
 ---
 
-<Base>
+<Base locale={locale} path="" section="songs">
   <section id="songs" class="songs" aria-labelledby="songs-title">
-    <h1 id="songs-title" class="section-title">Songs</h1>
+    <h1 id="songs-title" class="section-title">{t.title}</h1>
 
     <form class="search" role="search" data-search onsubmit="return false">
-      <label for="q" class="sr-only">Search songs</label>
-      <input id="q" name="q" type="search" placeholder="Search by song name or lyrics…" autocomplete="off" />
-      <div class="chip-list" role="group" aria-label="סינון לפי תגית">
+      <label for="q" class="sr-only">{t.searchLabel}</label>
+      <input id="q" name="q" type="search" placeholder={t.searchPlaceholder} autocomplete="off" />
+      <div class="chip-list" role="group" aria-label={t.filterByTag}>
         {
           TAG_IDS.map((tag) => (
             <button
@@ -35,30 +47,30 @@ const songs = sortSongs(await getCollection('songs'));
       </div>
     </form>
 
-    <p class="count" dir="rtl" aria-live="polite" data-count></p>
+    <p class="count" dir={dir} aria-live="polite" data-count data-one={t.countOne} data-many={t.countMany}></p>
 
     <ul class="song-grid" data-songs>
       {
-        songs.map((song, i) => (
+        songs.map((song) => (
           <li
             data-titles={fold(song.data.titles.join(' '))}
-            data-text={fold(`${song.data.lyrics} ${song.data.translation ?? ''}`)}
+            data-text={fold(`${song.data.lyrics} ${translationOf(song, locale) ?? ''}`)}
             data-tags={song.data.tags.join(' ')}
           >
-            <SongCard song={song} accent={accent(i)} />
+            <SongCard song={song} locale={locale} />
           </li>
         ))
       }
     </ul>
-    <div class="empty card" dir="rtl" data-empty hidden>
+    <div class="empty card" dir={dir} data-empty hidden>
       <div class="empty-art"><BerimbauArt broken /></div>
-      <p>לא מצאנו שיר כזה. נסו מילה אחרת או בטלו את הסינון.</p>
+      <p>{t.noResults}</p>
     </div>
   </section>
 </Base>
 
 <script>
-  import { initSearch } from '../scripts/search';
+  import { initSearch } from '../../scripts/search';
   initSearch();
 </script>
 

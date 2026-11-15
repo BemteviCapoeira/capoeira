@@ -14,7 +14,7 @@ lyrics: |
   > Dona Maria, como vai você
   Esse jogo é Capoeira, não é karate
   > Dona Maria, como vai você
-translation: |
+hebrew: |
   הו, מה שלומך, מה שלומך
   > דונה מריה, מה שלומך
   מה שלומך, מה שלומך, מה שלומך
@@ -25,4 +25,15 @@ translation: |
   > דונה מריה, מה שלומך
   המשחק הזה הוא קפואירה, לא קראטה
   > דונה מריה, מה שלומך
+english: |
+  Oh, how are you, how are you
+  > Dona Maria, how are you
+  How are you, how are you, how are you
+  > Dona Maria, how are you
+  Play beautifully, I want to see
+  > Dona Maria, how are you
+  Play calmly, I want to learn
+  > Dona Maria, how are you
+  This game is capoeira, not karate
+  > Dona Maria, how are you
 ---

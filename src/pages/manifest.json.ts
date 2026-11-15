@@ -1,14 +1,15 @@
 import type { APIRoute } from 'astro';
-import { SITE } from '../data/site';
+import { SITE_TEXT } from '../data/site';
 
 // Web app manifest, generated so every URL follows the configured `base`.
 export const GET: APIRoute = () => {
   const base = import.meta.env.BASE_URL;
+  const site = SITE_TEXT.he; // English visitors are sent to /en/ by the language preference in Base.astro
   const manifest = {
     id: base,
-    name: SITE.title,
-    short_name: SITE.shortTitle,
-    description: SITE.description,
+    name: site.title,
+    short_name: site.shortTitle,
+    description: site.description,
     lang: 'he',
     start_url: base,
     scope: base,

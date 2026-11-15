@@ -3,6 +3,7 @@ titles: ["Marinheiro só"]
 tags: [sao-bento]
 image: ./cover.jpg
 imageAlt: "מלח במדים לבנים עומד על רציף ליד הים"
+imageAltEn: "A sailor in a white uniform standing on a pier by the sea"
 youtube: X8lv0jApCbs
 lyrics: |
   Eu não sou daqui
@@ -31,7 +32,7 @@ lyrics: |
   > Marinheiro só
   Com o seu bonezinho
   > Marinheiro só
-translation: |
+hebrew: |
   אני לא מכאן
   > מלח בודד
   אין לי אהבה
@@ -58,4 +59,31 @@ translation: |
   > מלח בודד
   עם הכובע הקטן שלו
   > מלח בודד
+english: |
+  I'm not from here
+  > Lone sailor
+  I have no love
+  > Lone sailor
+  I'm from Bahia
+  > Lone sailor
+  From São Salvador
+  > Lone sailor
+
+  Oh, sailor, sailor
+  > Lone sailor
+  Oh, who taught you to swim?
+  > Lone sailor
+  Oh, was it the lurch of the ship?
+  > Lone sailor
+  Or was it the swaying of the sea?
+  > Lone sailor
+
+  Here he comes, here he comes
+  > Lone sailor
+  He comes strutting proudly
+  > Lone sailor
+  All dressed in white
+  > Lone sailor
+  With his little cap
+  > Lone sailor
 ---

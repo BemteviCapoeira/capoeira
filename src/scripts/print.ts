@@ -1,7 +1,7 @@
 /**
  * Fit the song's print sheet (title + lyrics) onto a single A4 page, as large as possible.
  *
- * Measures an invisible copy of the sheet at the printable size and binary-searches the
+ * Measures an invisible copy of the sheet (title, lyrics and credit footer) at the printable size and binary-searches the
  * largest font size at which (1) everything fits on one page and (2) no sung line has to
  * wrap — for 1, 2 and 3 columns — then applies the best one before the browser prints.
  * Only if no size avoids wrapping (an extremely long song) is wrapping allowed.

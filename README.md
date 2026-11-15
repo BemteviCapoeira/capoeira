@@ -1,6 +1,6 @@
 # Capoeira Songbook
 
-The Abadá-Capoeira Pardes Hanna songbook website: every song has its Portuguese lyrics, a line-by-line Hebrew translation (hover or tap a line), a YouTube recording, notes, and a print button that fits the lyrics onto one A4 page.
+The Abadá-Capoeira Pardes Hanna songbook website, in Hebrew and English: every song has its Portuguese lyrics, line-by-line Hebrew and English translations (hover or tap a line), a YouTube recording, notes, and a print button that fits the lyrics onto one A4 page.
 
 **Live site:** https://bemtevi-roda.github.io/capoeira/
 
@@ -30,15 +30,19 @@ The site is built with [Astro](https://astro.build). Every change that reaches t
 | ------------------------------------ | ------------------------------------------------------------ |
 | `src/content/songs/<slug>/index.md`  | One folder per song: lyrics, translation, tags, video, notes |
 | `src/content/songs/<slug>/cover.jpg` | The song's picture (optional)                                |
-| `src/content/home.md`                | The welcome letter on the home page                          |
+| `src/content/welcome/he.md`, `en.md` | The welcome letter on the About page, in each language       |
 | `src/data/site.ts`                   | Site title, club and group names, thanks list, credits       |
+| `src/data/i18n.ts`                   | The languages, and all button/label text in each language    |
+| `src/pages/[...lang]/`               | Pages built in both languages (home, About, song pages)      |
 | `src/data/tags.ts`                   | The list of allowed tags (Benguela, São Bento, …)            |
 | `src/styles/tokens.css`              | Colours and fonts                                            |
 | `.github/workflows/deploy.yml`       | Publishes the site when `main` changes                       |
 | `.github/workflows/ci.yml`           | Checks every pull request                                    |
 | `docs/typos-*.csv`                   | Suspected typos in the imported lyrics, waiting for review   |
 
-The folder name of a song (`<slug>`) is its web address: `src/content/songs/marinheiro-so/` becomes `…/capoeira/songs/marinheiro-so/`.
+The folder name of a song (`<slug>`) is its web address: `src/content/songs/marinheiro-so/` becomes `…/capoeira/songs/marinheiro-so/` in Hebrew and `…/capoeira/en/songs/marinheiro-so/` in English.
+
+**Languages:** Hebrew pages are at the site root, English pages under `/en/`. The language menu in the header switches between them and remembers the choice: opening the site later (a bookmark, the home-screen app, a shared link) lands in that language. The page layout is left-to-right in both languages; Hebrew text blocks are right-to-left inside their boxes. The "Add a song" pages are in English only.
 
 ---
 
@@ -105,6 +109,7 @@ Then:
    tags: [sao-bento] # must exist in src/data/tags.ts
    image: ./cover.jpg # optional — delete this line if there's no picture
    imageAlt: "תיאור קצר של התמונה" # describe the picture in Hebrew (or delete with `image`)
+   imageAltEn: "A short description of the picture" # …and in English
    youtube: AbCdEfGhIjK # optional — the 11-character video id
    youtubeStart: 30 # optional — start the video at second 30
    lyrics: |
@@ -113,12 +118,20 @@ Then:
      A repeated line x2
 
      First line of the second stanza
-   translation: |
+   hebrew: |
      השורה הראשונה של השיר
      > שורת מקהלה
      שורה שחוזרת
 
      השורה הראשונה של הבית השני
+   english: |
+     The first line of the song
+     > A coro line
+     A repeated line
+
+     The first line of the second stanza
+   notesEn: |
+     Optional notes about the song, in English. They appear in the "Notes" box.
    ---
    Optional notes about the song, in Hebrew. They appear in the "הערות" box.
    ```
@@ -135,23 +148,23 @@ Then:
 
 ---
 
-## 5. Add or fix a Hebrew translation
+## 5. Add or fix a translation
 
-The translation lives in the `translation:` field of the song's `index.md`, right under `lyrics:`.
+The translations live in the song's `index.md`, right under `lyrics:`: `hebrew:` for Hebrew and `english:` for English. The Hebrew pages show the Hebrew one, the English pages the English one.
 
-**The one rule:** the translation must match the lyrics **line for line** — the same number of stanzas, and the same number of lines in each stanza. Line 3 of the translation is shown when someone hovers line 3 of the lyrics.
+**The one rule:** a translation must match the lyrics **line for line** — the same number of stanzas, and the same number of lines in each stanza. Line 3 of the translation is shown when someone hovers line 3 of the lyrics.
 
 1. Open `src/content/songs/<slug>/index.md`.
-2. Write one Hebrew line for each Portuguese line, and leave an empty line wherever the lyrics have one.
+2. Write one translated line for each Portuguese line, and leave an empty line wherever the lyrics have one.
 3. For a line that shouldn't be translated (sounds like "Digue, digue, dom"), write just `~`.
 4. `>` (coro) and `x2` markers are optional in the translation; they're taken from the lyrics.
 5. Run `npm run build`. If the lines don't match, it stops and tells you which stanza is off, for example:
 
    ```
-   translation: stanza 3 ("Toque pra três berimbaus"): lyrics have 4 lines but translation has 3
+   english: stanza 3 ("Toque pra três berimbaus"): lyrics have 4 lines but translation has 3
    ```
 
-If a song has no `translation:` field, its page simply shows the lyrics without the translation switch.
+If a song has no translation in a language, its page in that language simply shows the lyrics without the translation switch.
 
 ---
 
@@ -169,7 +182,9 @@ If a song has no `translation:` field, its page simply shows the lyrics without 
 2. Add a line inside `TAGS`, e.g. `angola: { label: 'Angola', color: 'pink' },`. The key (`angola`) is what songs use in `tags:`; `label` is what visitors see; `color` is one of `coral`, `turquoise`, `yellow`, `pink`, `lime`, `orange`, `sky`, `green`, `blue`.
 3. Use it in songs: `tags: [angola]`. The home page gets a filter button for it automatically.
 
-**Edit the home page** — the welcome letter is `src/content/home.md`; the title, club, group, thanks names and credits are in `src/data/site.ts`.
+**Edit the About page** — the welcome letter is `src/content/welcome/he.md` (Hebrew) and `src/content/welcome/en.md` (English); the title, club, group, thanks names and credits are in `src/data/site.ts`, in both languages. `createdBy` there is the credit printed at the bottom of every song sheet.
+
+**Change a button or label** — all interface text is in `src/data/i18n.ts`, once per language.
 
 **Change colours or fonts** — `src/styles/tokens.css`.
 
@@ -255,7 +270,7 @@ Small edits — fixing a word, adding a translation — can be done entirely on 
 **Add a new song with the website's form** (easiest)
 
 1. Create a token (one time): on GitHub open **Settings → Developer settings → Personal access tokens → Fine-grained tokens → Generate new token**. Set **Resource owner** to `bemtevi-roda`, **Repository access** to *Only select repositories → capoeira*, and under **Repository permissions** set **Contents** and **Pull requests** to *Read and write*. Copy the token.
-2. On the site, click **+ Add a song** at the bottom of any page (or open `…/capoeira/new-song/`).
+2. On the site, open the **About** tab and click **+ Add a song** at the bottom (or open `…/capoeira/new-song/`).
 3. The first time, you land on the **Connect** page: paste the token and click **Connect**. Once GitHub confirms the token can write to the repository, the form opens. Tick *Remember the token on this device* to skip this step next time.
 4. Fill in the song. The form checks that the translation lines up and shows a preview; the line numbers help match the two texts.
 5. Click **Open pull request**. Follow the link, wait for the **CI** check to turn green, and click **Merge pull request**. The song is live a few minutes later.
@@ -305,7 +320,7 @@ The token stays in your browser and is only sent to GitHub. Delete it any time o
 | an empty line             | a new stanza                                         |
 | `> ` at the start         | a coro (chorus/response) line — shown **bold**, indented and coloured (in the original Google Doc, coro lines were bold) |
 | ` x2` at the end          | a repeat badge (any number: `x3`, `x4`…)             |
-| `~` as a translation line | that line has no translation                         |
+| `~` as a translation line | that line has no translation (`> ~` works too)       |
 
 ### Song fields
 
@@ -315,11 +330,14 @@ The token stays in your browser and is only sent to GitHub. Delete it any time o
 | `tags`                       | no       | List of tag keys from `src/data/tags.ts`.                       |
 | `image`                      | no       | Path to the picture, usually `./cover.jpg`.                     |
 | `imageAlt`                   | no       | Hebrew description of the picture, for screen readers.          |
+| `imageAltEn`                 | no       | English description of the picture.                             |
 | `youtube`                    | no       | 11-character YouTube video id.                                  |
 | `youtubeStart`               | no       | Start the video at this many seconds.                           |
 | `lyrics`                     | yes      | Portuguese lyrics.                                              |
-| `translation`                | no       | Hebrew translation, line for line with `lyrics`.                |
-| text after the closing `---` | no       | Notes, shown in the "הערות" box.                                |
+| `hebrew`                     | no       | Hebrew translation, line for line with `lyrics`.                |
+| `english`                    | no       | English translation, line for line with `lyrics`.               |
+| `notesEn`                    | no       | English notes (plain text), shown in the "Notes" box.           |
+| text after the closing `---` | no       | Hebrew notes (Markdown), shown in the "הערות" box.              |
 
 ### Commands
 
