@@ -2,6 +2,8 @@
 titles: ["Pega meu chapéu Panamá"]
 tags: [benguela]
 image: ./cover.jpg
+imageWide: ./wide.jpg
+imageTall: ./tall.jpg
 imageAlt: "כובע קש"
 imageAltEn: "Straw hat"
 youtube: itlW86BYkao

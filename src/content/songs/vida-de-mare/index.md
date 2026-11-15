@@ -2,6 +2,8 @@
 titles: ["Vida de maré", "Maré subiu, maré desceu"]
 tags: [benguela]
 image: ./cover.jpg
+imageWide: ./wide.jpg
+imageTall: ./tall.jpg
 imageAlt: "חוף בשקיעה: גלים מתנפצים במפרץ בין הרים"
 imageAltEn: "Beach at sunset: waves breaking in a bay between mountains"
 youtube: opYwg37Zkgk

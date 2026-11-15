@@ -2,6 +2,8 @@
 titles: ["Eu sou de São Salvador"]
 tags: [benguela]
 image: ./cover.jpg
+imageWide: ./wide.jpg
+imageTall: ./tall.jpg
 youtube: pUlwxf7kOL4
 lyrics: |
   Eu quero ver !

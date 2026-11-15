@@ -2,6 +2,8 @@
 titles: ["Vou lá pra beira do mar"]
 tags: [sao-bento]
 image: ./cover.jpg
+imageWide: ./wide.jpg
+imageTall: ./tall.jpg
 imageAlt: "שני שחקני קפואירה על החוף בשקיעה"
 imageAltEn: "Two capoeira players on the beach at sunset"
 youtube: nozzYgE4ofY

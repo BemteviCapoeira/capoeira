@@ -2,6 +2,8 @@
 titles: ["Dona Maria do Camboatá"]
 tags: [sao-bento]
 image: ./cover.jpg
+imageWide: ./wide.jpg
+imageTall: ./tall.jpg
 imageAlt: ""
 youtube: SOT26ftiZww
 lyrics: |

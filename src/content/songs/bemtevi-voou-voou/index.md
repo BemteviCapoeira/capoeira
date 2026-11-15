@@ -2,6 +2,8 @@
 titles: ["Bemtevi voou, voou","La Lauê"]
 tags: [sao-bento]
 image: ./cover.jpg
+imageWide: ./wide.jpg
+imageTall: ./tall.jpg
 imageAlt: "Bem-te-vi"
 imageAltEn: "Bem-te-vi"
 youtube: fi30Ww2qODg

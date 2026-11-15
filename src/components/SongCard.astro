@@ -1,5 +1,5 @@
 ---
-import { Image } from 'astro:assets';
+import { getImage } from 'astro:assets';
 import { UI, type Locale } from '../data/i18n';
 import { TAGS } from '../data/tags';
 import { firstLine } from '../lib/lyrics';
@@ -14,8 +14,11 @@ interface Props {
 
 const { song, locale } = Astro.props;
 const t = UI[locale].card;
-const { titles, tags, image, youtube, lyrics } = song.data;
+const { titles, tags, image, imageWide, imageTall, youtube, lyrics } = song.data;
 const translation = translationOf(song, locale);
+// Wide crop for the grid, tall crop for the phone layout's thumbnail (see PHONE below).
+const wide = image && (await getImage({ src: imageWide ?? image, widths: [320, 560, 840], format: 'webp' }));
+const tall = image && (await getImage({ src: imageTall ?? image, widths: [104, 208, 312], format: 'webp' }));
 const opening = firstLine(lyrics);
 const showOpening = opening && !titles.some((t) => fold(t) === fold(opening));
 ---
@@ -23,8 +26,20 @@ const showOpening = opening && !titles.some((t) => fold(t) === fold(opening));
 <a class="song-card" href={songUrl(song, locale)}>
   <div class="media">
     {
-      image ? (
-        <Image src={image} alt="" widths={[320, 560]} sizes="(min-width: 720px) 300px, 92vw" />
+      wide && tall ? (
+        <picture>
+          <source media="(max-width: 560px)" srcset={tall.srcSet.attribute} sizes="104px" type="image/webp" />
+          <img
+            src={wide.src}
+            srcset={wide.srcSet.attribute}
+            sizes="(min-width: 720px) 300px, 50vw"
+            alt=""
+            loading="lazy"
+            decoding="async"
+            width={wide.attributes.width}
+            height={wide.attributes.height}
+          />
+        </picture>
       ) : (
         <BerimbauArt />
       )
@@ -82,11 +97,16 @@ const showOpening = opening && !titles.some((t) => fold(t) === fold(opening));
     overflow: hidden;
   }
 
-  /* the whole picture is shown (no cropping); the card's background fills any space around it */
+  .media picture {
+    display: contents;
+  }
+
+  /* the crops already have the box's shape; cover handles the phone thumbnail's varying height */
   .media img {
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: cover;
+    object-position: 50% 30%;
   }
 
   .body {
@@ -133,7 +153,8 @@ const showOpening = opening && !titles.some((t) => fold(t) === fold(opening));
     border-radius: 999px;
   }
 
-  /* phones: compact rows (thumbnail beside the title) so the list stays scannable */
+  /* PHONE: compact rows (tall thumbnail beside the title) so the list stays scannable.
+     Keep the breakpoint in sync with the <source media> above. */
   @media (max-width: 560px) {
     .song-card {
       flex-direction: row;

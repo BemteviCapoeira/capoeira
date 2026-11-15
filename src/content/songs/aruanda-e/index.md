@@ -2,6 +2,8 @@
 titles: ["Aruanda Ê"]
 tags: [sao-bento]
 image: ./cover.jpg
+imageWide: ./wide.jpg
+imageTall: ./tall.jpg
 imageAlt: "קפואיריסטה מחייך מחזיק ברימבאו, ברקע כלי נגינה תלויים על הקיר"
 imageAltEn: "A smiling capoeirista holding a berimbau, with instruments hanging on the wall behind"
 youtube: feNwCxHkJV0

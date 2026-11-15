@@ -2,6 +2,8 @@
 titles: ["Benguela me chama pra jogar no chão"]
 tags: [benguela]
 image: ./cover.jpg
+imageWide: ./wide.jpg
+imageTall: ./tall.jpg
 imageAlt: "רודה של קפואירה: שחקנים בבגדים לבנים מסביב למשחק נמוך על הרצפה"
 imageAltEn: "A capoeira roda: players in white around a low game on the floor"
 youtube: pbBDsS61riU

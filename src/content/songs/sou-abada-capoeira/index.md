@@ -2,6 +2,8 @@
 titles: ["Sou Abadá Capoeira"]
 tags: [sao-bento]
 image: ./cover.jpg
+imageWide: ./wide.jpg
+imageTall: ./tall.jpg
 imageAlt: "ABADA Capoeira logo"
 imageAltEn: "ABADA Capoeira logo"
 youtube: afz5iWUPx-w

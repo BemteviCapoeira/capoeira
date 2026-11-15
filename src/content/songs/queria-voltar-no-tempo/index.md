@@ -2,6 +2,8 @@
 titles: ["Queria voltar no tempo"]
 tags: [benguela]
 image: ./cover.jpg
+imageWide: ./wide.jpg
+imageTall: ./tall.jpg
 imageAlt: ""
 youtube: dw9XYpcy7IE
 lyrics: |

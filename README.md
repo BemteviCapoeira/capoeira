@@ -29,7 +29,7 @@ The site is built with [Astro](https://astro.build). Every change that reaches t
 | Path                                 | What it is                                                   |
 | ------------------------------------ | ------------------------------------------------------------ |
 | `src/content/songs/<slug>/index.md`  | One folder per song: lyrics, translation, tags, video, notes |
-| `src/content/songs/<slug>/cover.jpg` | The song's picture (optional)                                |
+| `src/content/songs/<slug>/cover.jpg` | The song's picture (optional), with crops `wide.jpg`/`tall.jpg` |
 | `src/content/welcome/he.md`, `en.md` | The welcome letter on the About page, in each language       |
 | `src/data/site.ts`                   | Site title, club and group names, thanks list, credits       |
 | `src/data/i18n.ts`                   | The languages, and all button/label text in each language    |
@@ -108,6 +108,8 @@ Then:
    titles: ["Paranauê", "Paraná ê"] # first = main title; the others are alternative names
    tags: [sao-bento] # must exist in src/data/tags.ts
    image: ./cover.jpg # optional — delete this line if there's no picture
+   imageWide: ./wide.jpg # optional 4:3 crop of the picture (see step 4)
+   imageTall: ./tall.jpg # optional 4:5 crop of the picture
    imageAlt: "תיאור קצר של התמונה" # describe the picture in Hebrew (or delete with `image`)
    imageAltEn: "A short description of the picture" # …and in English
    youtube: AbCdEfGhIjK # optional — the 11-character video id
@@ -141,6 +143,8 @@ Then:
    - The rules for the lyrics are in [the lyrics format](#lyrics-format).
 
 4. **Add a picture (optional).** Put a JPG or PNG named `cover.jpg` (or `cover.png`, and update the `image:` line) in the same folder. Any size is fine; the site resizes it.
+
+   The song cards show the picture in two shapes: **4:3** (the card on wider screens, and the top of the song page) and **4:5** (the thumbnail beside the title on phones). For the best result, save two crops of the picture next to it, `wide.jpg` (4:3) and `tall.jpg` (4:5), each framed around what matters (faces, the players), and list them as `imageWide:` and `imageTall:`. Without them, the site crops `cover.jpg` around its centre (a little above the middle).
 
 5. **Preview it** with `npm run dev` (see [step 3](#3-run-the-site-on-your-computer)). The song appears on the home page in alphabetical order.
 
@@ -329,6 +333,8 @@ The token stays in your browser and is only sent to GitHub. Delete it any time o
 | `titles`                     | yes      | List of names; the first is the main title. All are searchable. |
 | `tags`                       | no       | List of tag keys from `src/data/tags.ts`.                       |
 | `image`                      | no       | Path to the picture, usually `./cover.jpg`.                     |
+| `imageWide`                  | no       | 4:3 crop of the picture: cards on wider screens, the song page. |
+| `imageTall`                  | no       | 4:5 crop of the picture: the card thumbnail on phones.          |
 | `imageAlt`                   | no       | Hebrew description of the picture, for screen readers.          |
 | `imageAltEn`                 | no       | English description of the picture.                             |
 | `youtube`                    | no       | 11-character YouTube video id.                                  |

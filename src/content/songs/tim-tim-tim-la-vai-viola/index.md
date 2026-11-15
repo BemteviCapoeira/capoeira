@@ -2,6 +2,8 @@
 titles: ["Tim, tim, tim lá vai viola"]
 tags: [sao-bento]
 image: ./cover.jpg
+imageWide: ./wide.jpg
+imageTall: ./tall.jpg
 youtube: qCd5pr60oMk
 lyrics: |
   O moleque chegou lá em casa

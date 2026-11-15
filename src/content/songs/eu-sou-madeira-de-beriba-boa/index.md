@@ -2,6 +2,8 @@
 titles: ["Eu sou madeira de beriba boa", "Cana de cana caiana"]
 tags: [benguela]
 image: ./cover.jpg
+imageWide: ./wide.jpg
+imageTall: ./tall.jpg
 imageAlt: "צילום היסטורי בשחור-לבן: משחק קפואירה על החוף ולצדו נגני ברימבאו"
 imageAltEn: "Historical black-and-white photo: a capoeira game on the beach with berimbau players beside it"
 youtube: rOAriZH-Ot8

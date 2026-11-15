@@ -2,6 +2,8 @@
 titles: ["Eu vou treinando"]
 tags: [sao-bento]
 image: ./cover.jpg
+imageWide: ./wide.jpg
+imageTall: ./tall.jpg
 youtube: x9yOtxlTfUQ
 lyrics: |
   > Eu vou treinando querendo melhorar

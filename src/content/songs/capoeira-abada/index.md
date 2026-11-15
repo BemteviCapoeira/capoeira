@@ -2,6 +2,8 @@
 titles: ["Capoeira Abadá","Vou lhe dizer o que me alegra"]
 tags: []
 image: ./cover.jpg
+imageWide: ./wide.jpg
+imageTall: ./tall.jpg
 imageAlt: "Mestre Camisa"
 imageAltEn: "Mestre Camisa"
 youtube: cYX4lJn6E9M

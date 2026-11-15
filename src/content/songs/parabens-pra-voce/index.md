@@ -2,6 +2,8 @@
 titles: ["Parabéns pra você"]
 tags: [sao-bento]
 image: ./cover.jpg
+imageWide: ./wide.jpg
+imageTall: ./tall.jpg
 imageAlt: "עוגת יום הולדת עם נרות, בלונים ומתנות"
 imageAltEn: "A birthday cake with candles, balloons and gifts"
 lyrics: |

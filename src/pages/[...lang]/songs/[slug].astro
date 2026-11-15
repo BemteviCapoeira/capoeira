@@ -32,7 +32,8 @@ interface Props {
 const { locale, song, index, prev, next } = Astro.props;
 const t = UI[locale].song;
 const dir = LANGUAGES[locale].dir;
-const { titles, tags, image, youtube, youtubeStart, lyrics } = song.data;
+const { titles, tags, youtube, youtubeStart, lyrics } = song.data;
+const image = song.data.imageWide ?? song.data.image; // the 4:3 crop, when there is one
 const imageAlt = locale === 'he' ? song.data.imageAlt : song.data.imageAltEn;
 const stanzas = parseLyrics(lyrics, translationOf(song, locale));
 const translated = hasTranslation(stanzas);
@@ -211,19 +212,14 @@ const socialImage = image ? await getImage({ src: image, width: 1200, format: 'j
     width: 100%;
   }
 
-  /* the whole picture is shown at its own shape; tall pictures are capped and centred */
-  .photo :global(img) {
+  .photo :global(img),
+  .photo :global(.berimbau-art) {
     display: block;
     width: 100%;
     height: auto;
-    max-height: 440px;
-    object-fit: contain;
-    border-radius: 3px;
-  }
-
-  .photo :global(.berimbau-art) {
-    width: 100%;
     aspect-ratio: 4 / 3;
+    object-fit: cover;
+    object-position: 50% 30%;
     border-radius: 3px;
   }
 

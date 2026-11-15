@@ -2,6 +2,8 @@
 titles: ["Eu tava la na Bahia"]
 tags: [sao-bento]
 image: ./cover.jpg
+imageWide: ./wide.jpg
+imageTall: ./tall.jpg
 imageAlt: "כיכר בפלורינייו שבסלבדור דה באהיה: צלב אבן מול כנסייה ובתים צבעוניים"
 imageAltEn: "A square in Pelourinho, Salvador da Bahia: a stone cross in front of a church and colorful houses"
 youtube: msmBZpgMhBk

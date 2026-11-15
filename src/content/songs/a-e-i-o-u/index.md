@@ -2,6 +2,8 @@
 titles: ["A E I O U","Vem criança vem jogar"]
 tags: [sao-bento]
 image: ./cover.jpg
+imageWide: ./wide.jpg
+imageTall: ./tall.jpg
 imageAlt: ""
 youtube: KqtTQdACii8
 lyrics: |

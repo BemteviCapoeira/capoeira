@@ -2,6 +2,8 @@
 titles: ["Manda leco, Cajue"]
 tags: [benguela]
 image: ./cover.jpg
+imageWide: ./wide.jpg
+imageTall: ./tall.jpg
 imageAlt: ""
 youtube: ScLzBl9v9go
 lyrics: |

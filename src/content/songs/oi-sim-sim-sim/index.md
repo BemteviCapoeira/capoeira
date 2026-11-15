@@ -2,6 +2,8 @@
 titles: ["Oi sim sim sim","Oi nao nao nao"]
 tags: [sao-bento]
 image: ./cover.jpg
+imageWide: ./wide.jpg
+imageTall: ./tall.jpg
 imageAlt: ""
 youtube: B06bR4_ZnSI
 lyrics: |
