@@ -19,8 +19,8 @@ const songs = defineCollection({
         tags: z.array(z.enum(TAG_IDS)).default([]),
         /** The song's picture, as uploaded. */
         image: image().optional(),
-        /** Crops of `image` for the two card layouts (each falls back to `image`, cropped from its centre). */
-        imageWide: image().optional(), // 4:3 — cards on wider screens, and the song page
+        /** Crops of `image` for the two card layouts (each falls back to `image`, cropped from its centre). The song page shows `image` itself. */
+        imageWide: image().optional(), // 4:3 — cards on wider screens (and link previews)
         imageTall: image().optional(), // 4:5 — the thumbnail beside the title on phones
         /** Picture description for screen readers, in Hebrew (and in English). */
         imageAlt: z.string().default(''),
