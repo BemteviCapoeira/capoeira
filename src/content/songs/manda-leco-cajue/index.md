@@ -2,6 +2,8 @@
 titles: ["Manda leco, Cajue"]
 tags: [benguela]
 image: ./cover.jpg
+imageWide: ./wide.jpg
+imageTall: ./tall.jpg
 imageAlt: ""
 youtube: ScLzBl9v9go
 lyrics: |
@@ -34,4 +36,34 @@ lyrics: |
   O Mestre Pastinha
 
   > Cajueiro
+english: |
+  Send lecô, cashew tree,
+  Send loiá
+
+  > Send lecô, cashew tree,
+  > Send loiá
+
+  Send lecô
+
+  > Cashew tree
+
+  Send loiá
+
+  > Cashew tree
+
+  I'm going to send lecô
+
+  > Cashew tree
+
+  I'm going to send loiá
+
+  > Cashew tree
+
+  Oh, Mestre Bimba
+
+  > Cashew tree
+
+  Oh, Mestre Pastinha
+
+  > Cashew tree
 ---

@@ -12,8 +12,8 @@ Digue, digue, dom`;
 test('parses stanzas, coro lines and repeats', () => {
   const stanzas = parseLyrics(PT);
   assert.equal(stanzas.length, 2, 'multiple blank lines are one stanza break');
-  assert.deepEqual(stanzas[0][1], { pt: 'Eh Bahia', coro: true, repeat: undefined, he: undefined });
-  assert.deepEqual(stanzas[1][0], { pt: 'Berimbau por que me chama', coro: false, repeat: 2, he: undefined });
+  assert.deepEqual(stanzas[0][1], { pt: 'Eh Bahia', coro: true, repeat: undefined, tr: undefined });
+  assert.deepEqual(stanzas[1][0], { pt: 'Berimbau por que me chama', coro: false, repeat: 2, tr: undefined });
   assert.equal(hasTranslation(stanzas), false);
 });
 
@@ -25,9 +25,9 @@ test('zips translation line for line, honouring ~ and ignoring markers', () => {
 ~`;
   assert.deepEqual(alignmentIssues(PT, he), []);
   const stanzas = parseLyrics(PT, he);
-  assert.equal(stanzas[0][1].he, 'אה באהיה');
-  assert.equal(stanzas[1][0].he, 'ברימבאו, למה אתה קורא לי');
-  assert.equal(stanzas[1][1].he, undefined, '~ means untranslated');
+  assert.equal(stanzas[0][1].tr, 'אה באהיה');
+  assert.equal(stanzas[1][0].tr, 'ברימבאו, למה אתה קורא לי');
+  assert.equal(stanzas[1][1].tr, undefined, '~ means untranslated');
   assert.equal(hasTranslation(stanzas), true);
 });
 

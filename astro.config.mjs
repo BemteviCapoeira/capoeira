@@ -41,7 +41,11 @@ export default defineConfig({
   base: '/capoeira',
   trailingSlash: 'always',
   integrations: [
-    sitemap({ filter: (page) => !page.includes('/new-song/') }),
+    sitemap({
+      filter: (page) => !page.includes('/new-song/'),
+      // Hebrew pages have no prefix, English ones are under /en/ (see src/data/i18n.ts)
+      i18n: { defaultLocale: 'he', locales: { he: 'he-IL', en: 'en-US' } },
+    }),
     openAtBase(),
   ],
 });

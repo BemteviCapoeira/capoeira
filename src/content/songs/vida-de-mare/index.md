@@ -2,7 +2,10 @@
 titles: ["Vida de maré", "Maré subiu, maré desceu"]
 tags: [benguela]
 image: ./cover.jpg
+imageWide: ./wide.jpg
+imageTall: ./tall.jpg
 imageAlt: "חוף בשקיעה: גלים מתנפצים במפרץ בין הרים"
+imageAltEn: "Beach at sunset: waves breaking in a bay between mountains"
 youtube: opYwg37Zkgk
 lyrics: |
   > A maré subiu
@@ -34,7 +37,7 @@ lyrics: |
   Do pescador com o capoeira
   Num mundo de certeza e ilusão
   Seguir em frente cada um a sua maneira
-translation: |
+hebrew: |
   > הים עלה
   > הים ירד
   > עולה הים
@@ -64,4 +67,34 @@ translation: |
   בין הדייג לקפואיריסטה
   בעולם של ודאות ואשליה
   להמשיך קדימה, כל אחד בדרכו
+english: |
+  > The tide rose
+  > The tide fell
+  > Rise, tide
+  > The tide fell
+
+  Nothing lasts forever
+  In life everything passes, it's natural
+  And if anything is made eternal
+  It's the songs to the berimbau's rhythm
+
+  Day and night, life and death, come and go
+  Lessons from the swaying of the tide
+  At high tide, make the most of the fishing
+  At low tide, show me who you are
+
+  The storm is where a good capoeirista is made
+  The calm is the time to reflect
+  And to decide, in the vastness of the sea,
+  Which path you choose to follow
+
+  My boat won't stop here
+  I've chosen to sail toward the future
+  My school is a strong wind
+  And my friends are my safe harbor
+
+  Now I understand the bond
+  Between the fisherman and the capoeirista
+  In a world of certainty and illusion
+  Moving forward, each in their own way
 ---

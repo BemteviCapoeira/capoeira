@@ -5,11 +5,17 @@ export interface SongInput {
   tags: string[];
   /** File name of the cover next to index.md, e.g. "cover.jpg". */
   image?: string;
+  /** Picture descriptions, in Hebrew and in English. */
   imageAlt?: string;
+  imageAltEn?: string;
   youtube?: { id: string; start?: number };
   lyrics: string;
-  translation?: string;
-  notes?: string;
+  /** Line-for-line translations of `lyrics`. */
+  hebrew?: string;
+  english?: string;
+  /** Notes about the song, in Hebrew and in English. */
+  notesHebrew?: string;
+  notesEnglish?: string;
 }
 
 const YOUTUBE_ID = /^[\w-]{11}$/;
@@ -67,7 +73,7 @@ function block(text: string): string[] {
   return text.split('\n').map((line) => (line ? `  ${line}` : ''));
 }
 
-/** The full index.md (frontmatter + notes). Strings are JSON-quoted, which is valid YAML. */
+/** The full index.md (all frontmatter). Strings are JSON-quoted, which is valid YAML. */
 export function songMarkdown(song: SongInput): string {
   const lines = [
     '---',
@@ -76,17 +82,23 @@ export function songMarkdown(song: SongInput): string {
   ];
   if (song.image) {
     lines.push(`image: ./${song.image}`, `imageAlt: ${JSON.stringify(song.imageAlt ?? '')}`);
+    if (song.imageAltEn) lines.push(`imageAltEn: ${JSON.stringify(song.imageAltEn)}`);
   }
   if (song.youtube) {
     lines.push(`youtube: ${song.youtube.id}`);
     if (song.youtube.start) lines.push(`youtubeStart: ${song.youtube.start}`);
   }
   lines.push('lyrics: |', ...block(normalizeLyrics(song.lyrics)));
-  const translation = song.translation ? normalizeLyrics(song.translation) : '';
-  if (translation) lines.push('translation: |', ...block(translation));
+  for (const key of ['hebrew', 'english'] as const) {
+    const translation = song[key] ? normalizeLyrics(song[key]) : '';
+    if (translation) lines.push(`${key}: |`, ...block(translation));
+  }
+  for (const key of ['notesHebrew', 'notesEnglish'] as const) {
+    const notes = song[key]?.replace(/\r\n?/g, '\n').trim();
+    if (notes) lines.push(`${key}: |`, ...block(notes));
+  }
   lines.push('---');
-  const notes = song.notes?.trim();
-  return `${lines.join('\n')}\n${notes ? `\n${notes}\n` : ''}`;
+  return `${lines.join('\n')}\n`;
 }
 
 export const SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;

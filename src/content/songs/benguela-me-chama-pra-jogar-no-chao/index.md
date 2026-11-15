@@ -2,7 +2,10 @@
 titles: ["Benguela me chama pra jogar no chão"]
 tags: [benguela]
 image: ./cover.jpg
+imageWide: ./wide.jpg
+imageTall: ./tall.jpg
 imageAlt: "רודה של קפואירה: שחקנים בבגדים לבנים מסביב למשחק נמוך על הרצפה"
+imageAltEn: "A capoeira roda: players in white around a low game on the floor"
 youtube: pbBDsS61riU
 lyrics: |
   > Benguela me chama pra jogar no chão
@@ -32,7 +35,7 @@ lyrics: |
   É preciso conhecer
   É pra ensinar um dia
   Primeiro tem que aprender
-translation: |
+hebrew: |
   > בנגלה קוראת לי לשחק נמוך, על הרצפה
   > בנגלה קוראת לי לשחק נמוך, על הרצפה
 
@@ -60,4 +63,32 @@ translation: |
   צריך להכיר
   וכדי ללמד יום אחד
   קודם צריך ללמוד
+english: |
+  > Benguela calls me to play low, on the ground
+  > Benguela calls me to play low, on the ground
+
+  A crafty game
+  Of a snake that won't bite
+  Unfolding with cunning so as to
+  Win and convince
+
+  A rhythm for three berimbaus
+  Gunga, médio and viola
+  Benguela isn't banguela (toothless)
+  Benguela isn't Angola
+
+  A game of strikes
+  Tied to the fundamentals
+  Three points of support is dance
+  Four points of support is movement
+
+  Playing with endless strikes
+  Sitting down on the heels
+  I've never seen a chameleon
+  That ever stopped changing
+
+  Comrade, to criticize
+  You need to know
+  And to teach one day
+  First you have to learn
 ---

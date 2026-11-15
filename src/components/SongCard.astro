@@ -1,27 +1,45 @@
 ---
-import { Image } from 'astro:assets';
+import { getImage } from 'astro:assets';
+import { UI, type Locale } from '../data/i18n';
 import { TAGS } from '../data/tags';
 import { firstLine } from '../lib/lyrics';
-import { songUrl, type Song } from '../lib/songs';
+import { songUrl, translationOf, type Song } from '../lib/songs';
 import { fold } from '../lib/text';
 import BerimbauArt from './BerimbauArt.astro';
 
 interface Props {
   song: Song;
-  accent: string;
+  locale: Locale;
 }
 
-const { song, accent } = Astro.props;
-const { titles, tags, image, youtube, lyrics, translation } = song.data;
+const { song, locale } = Astro.props;
+const t = UI[locale].card;
+const { titles, tags, image, imageWide, imageTall, youtube, lyrics } = song.data;
+const translation = translationOf(song, locale);
+// Wide crop for the grid, tall crop for the phone layout's thumbnail (see PHONE below).
+const wide = image && (await getImage({ src: imageWide ?? image, widths: [320, 560, 840], format: 'webp' }));
+const tall = image && (await getImage({ src: imageTall ?? image, widths: [104, 208, 312], format: 'webp' }));
 const opening = firstLine(lyrics);
 const showOpening = opening && !titles.some((t) => fold(t) === fold(opening));
 ---
 
-<a class="song-card" href={songUrl(song)} style={`--accent:${accent}`}>
+<a class="song-card" href={songUrl(song, locale)}>
   <div class="media">
     {
-      image ? (
-        <Image src={image} alt="" widths={[320, 560]} sizes="(min-width: 720px) 300px, 92vw" />
+      wide && tall ? (
+        <picture>
+          <source media="(max-width: 560px)" srcset={tall.srcSet.attribute} sizes="104px" type="image/webp" />
+          <img
+            src={wide.src}
+            srcset={wide.srcSet.attribute}
+            sizes="(min-width: 720px) 300px, 50vw"
+            alt=""
+            loading="lazy"
+            decoding="async"
+            width={wide.attributes.width}
+            height={wide.attributes.height}
+          />
+        </picture>
       ) : (
         <BerimbauArt />
       )
@@ -39,8 +57,8 @@ const showOpening = opening && !titles.some((t) => fold(t) === fold(opening));
           </span>
         ))
       }
-      {youtube && <span class="badge" title="יש ביצוע ביוטיוב">▶ וידאו</span>}
-      {translation && <span class="badge" title="יש תרגום לעברית">תרגום</span>}
+      {youtube && <span class="badge" title={t.videoHint}>{t.video}</span>}
+      {translation && <span class="badge" title={t.translationHint}>{t.translation}</span>}
     </div>
   </div>
 </a>
@@ -52,7 +70,7 @@ const showOpening = opening && !titles.some((t) => fold(t) === fold(opening));
     height: 100%;
     color: var(--ink);
     text-decoration: none;
-    background: var(--accent);
+    background: var(--paper);
     border: var(--border);
     border-radius: var(--radius);
     box-shadow: var(--shadow);
@@ -76,15 +94,19 @@ const showOpening = opening && !titles.some((t) => fold(t) === fold(opening));
   .media {
     aspect-ratio: 4 / 3;
     border-bottom: var(--border);
-    background: color-mix(in srgb, var(--accent) 30%, var(--paper));
     overflow: hidden;
   }
 
-  /* the whole picture is shown (no cropping); the tinted background fills any space around it */
+  .media picture {
+    display: contents;
+  }
+
+  /* the crops already have the box's shape; cover handles the phone thumbnail's varying height */
   .media img {
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: cover;
+    object-position: 50% 30%;
   }
 
   .body {
@@ -126,12 +148,13 @@ const showOpening = opening && !titles.some((t) => fold(t) === fold(opening));
     padding: 1px 10px;
     font-size: 0.82rem;
     font-weight: 600;
-    background: var(--paper);
+    background: var(--sand);
     border: 2px solid var(--ink);
     border-radius: 999px;
   }
 
-  /* phones: compact rows (thumbnail beside the title) so the list stays scannable */
+  /* PHONE: compact rows (tall thumbnail beside the title) so the list stays scannable.
+     Keep the breakpoint in sync with the <source media> above. */
   @media (max-width: 560px) {
     .song-card {
       flex-direction: row;

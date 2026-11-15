@@ -2,7 +2,10 @@
 titles: ["Sou Abadá Capoeira"]
 tags: [sao-bento]
 image: ./cover.jpg
+imageWide: ./wide.jpg
+imageTall: ./tall.jpg
 imageAlt: "ABADA Capoeira logo"
+imageAltEn: "ABADA Capoeira logo"
 youtube: afz5iWUPx-w
 lyrics: |
   > Sou Abadá Capoeira
@@ -39,7 +42,7 @@ lyrics: |
   Que dedicou a sua vida
   Hoje a Abadá cresceu
   Graças ao Mestre Camisa
-translation: |
+hebrew: |
   אני אבאדה קפואירה
   אני קפואירה אבאדה
   אני אבאדה קפואירה
@@ -74,4 +77,39 @@ translation: |
   במקומות שבהם אנשים הקדישו את חייהם
   "אבאדה" צמחה והתפתחה
   הודות למסטרה קמיזה
+english: |
+  > I am Abadá Capoeira
+  > I am Capoeira Abadá
+  > I am Abadá Capoeira
+  > Wherever the berimbau plays
+
+  I was born to develop
+  Capoeira around the world
+  Showing what Mestre Bimba
+  Had already foreseen long ago
+
+  In this world, so small
+  Wherever the berimbau plays
+  I go on playing capoeira
+  From Angola to Regional
+
+  Traveling the world
+  Wherever the berimbau takes me
+  I always feel at home
+  Wherever there is Abadá
+
+  Whoever wants to get to know me
+  Can come and visit me
+  My name is capoeira
+  Capoeira Abadá
+
+  Whoever wants to know my name
+  Doesn't even need to ask
+  My name is Capoeira
+  My surname, Abadá
+
+  Across most of the world
+  He dedicated his life
+  Today Abadá has grown
+  Thanks to Mestre Camisa
 ---

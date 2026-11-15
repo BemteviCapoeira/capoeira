@@ -2,6 +2,8 @@
 titles: ["Tim, tim, tim lá vai viola"]
 tags: [sao-bento]
 image: ./cover.jpg
+imageWide: ./wide.jpg
+imageTall: ./tall.jpg
 youtube: qCd5pr60oMk
 lyrics: |
   O moleque chegou lá em casa
@@ -28,7 +30,7 @@ lyrics: |
   > Tim, tim, tim lá vai viola
   Ê lá vai viola
   > Tim, tim, tim lá vai viola
-translation: |
+hebrew: |
   הילד הגיע אליי הביתה
   שאל מה אני הולך לעשות
   אני הולך לסבך, הולך להביא ביריבה
@@ -53,4 +55,29 @@ translation: |
   > טין, טין, טין, הנה הוויולה מנגנת
   אה, הנה הוויולה
   > טין, טין, טין, הנה הוויולה מנגנת
+english: |
+  The kid came over to my house
+  Asking what I was going to do
+  I'm going to the woods to get biriba (berimbau wood)
+  To make my viola (high-pitched berimbau)
+
+  > Tim, tim, tim, there goes the viola
+  ~
+  > Tim, tim, tim, there goes the viola
+  Oh, it's a viola, my dear, not a guitar
+  > Tim, tim, tim, there goes the viola
+  Oh, there goes the viola
+
+  The roda was lifeless
+  People barely wanted to sing
+  All it took was me picking up the viola
+  And the whole roda started to play
+
+  > Tim, tim, tim, there goes the viola
+  ~
+  > Tim, tim, tim, there goes the viola
+  Oh, it's a viola, my dear, not a guitar
+  > Tim, tim, tim, there goes the viola
+  Oh, there goes the viola
+  > Tim, tim, tim, there goes the viola
 ---

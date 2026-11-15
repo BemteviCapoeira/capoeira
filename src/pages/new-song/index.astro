@@ -8,7 +8,7 @@ const slugs = (await getCollection('songs')).map((song) => song.id);
 const songsUrl = new URL(`${import.meta.env.BASE_URL}songs/`, Astro.site).href;
 ---
 
-<Base title="Add a song" description="Add a new song to the songbook." noindex>
+<Base locale="en" title="Add a song" description="Add a new song to the songbook." noindex>
   <div class="form-page">
     <header class="intro">
       <h1 class="section-title">Add a song</h1>
@@ -77,14 +77,20 @@ const songsUrl = new URL(`${import.meta.env.BASE_URL}songs/`, Astro.site).href;
           </div>
         </div>
 
-        <div class="field" data-alt hidden>
-          <label for="imageAlt">Picture description <small>(in Hebrew, for screen readers)</small></label>
-          <input id="imageAlt" name="imageAlt" dir="rtl" lang="he" />
+        <div class="pair" data-alt hidden>
+          <div class="field">
+            <label for="imageAlt">Picture description in Hebrew <small>(for screen readers)</small></label>
+            <input id="imageAlt" name="imageAlt" dir="rtl" lang="he" />
+          </div>
+          <div class="field">
+            <label for="imageAltEn">Picture description in English</label>
+            <input id="imageAltEn" name="imageAltEn" lang="en" />
+          </div>
         </div>
       </section>
 
       <section class="card step" aria-labelledby="step-2">
-        <h2 id="step-2"><span class="num">2</span>Lyrics and translation</h2>
+        <h2 id="step-2"><span class="num">2</span>Lyrics and translations</h2>
         <ul class="rules">
           <li>One sung line per line; an empty line between stanzas.</li>
           <li>
@@ -92,7 +98,7 @@ const songsUrl = new URL(`${import.meta.env.BASE_URL}songs/`, Astro.site).href;
             <strong>bold</strong> lines as coro lines. End a repeated line with <code>x2</code>.
           </li>
           <li>
-            The translation must match the lyrics <strong>line for line</strong>; use the line numbers. Write <code
+            Each translation must match the lyrics <strong>line for line</strong>; use the line numbers. Write <code
               >~</code
             > for a line that has no translation.
           </li>
@@ -107,11 +113,17 @@ const songsUrl = new URL(`${import.meta.env.BASE_URL}songs/`, Astro.site).href;
             </div>
           </div>
           <div class="field">
-            <label for="translation">Hebrew translation <small>(optional)</small></label>
+            <label for="hebrew">Hebrew translation <small>(optional)</small></label>
             <div class="numbered" dir="rtl">
               <pre class="gutter" aria-hidden="true"></pre>
-              <textarea id="translation" name="translation" rows="16" wrap="off" lang="he" dir="rtl" spellcheck="false"
-              ></textarea>
+              <textarea id="hebrew" name="hebrew" rows="16" wrap="off" lang="he" dir="rtl" spellcheck="false"></textarea>
+            </div>
+          </div>
+          <div class="field">
+            <label for="english">English translation <small>(optional)</small></label>
+            <div class="numbered">
+              <pre class="gutter" aria-hidden="true"></pre>
+              <textarea id="english" name="english" rows="16" wrap="off" lang="en" spellcheck="false"></textarea>
             </div>
           </div>
         </div>
@@ -124,8 +136,18 @@ const songsUrl = new URL(`${import.meta.env.BASE_URL}songs/`, Astro.site).href;
 
       <section class="card step" aria-labelledby="step-3">
         <h2 id="step-3"><span class="num">3</span>Notes <small>(optional)</small></h2>
-        <label for="notes" class="sr-only">Notes</label>
-        <textarea id="notes" name="notes" rows="4" dir="rtl" lang="he" placeholder="הערות על השיר"></textarea>
+        <div class="pair">
+          <div class="field">
+            <label for="notesHebrew">In Hebrew</label>
+            <textarea id="notesHebrew" name="notesHebrew" rows="4" dir="rtl" lang="he" placeholder="הערות על השיר"
+            ></textarea>
+          </div>
+          <div class="field">
+            <label for="notesEnglish">In English</label>
+            <textarea id="notesEnglish" name="notesEnglish" rows="4" lang="en" placeholder="Notes about the song"
+            ></textarea>
+          </div>
+        </div>
       </section>
 
       <section class="card step" aria-labelledby="step-4">
@@ -242,10 +264,17 @@ const songsUrl = new URL(`${import.meta.env.BASE_URL}songs/`, Astro.site).href;
     gap: 0 20px;
   }
 
+  /* wide screens: the fields side by side, one equal column each */
   @media (min-width: 900px) {
     .pair {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: none;
+      grid-auto-flow: column;
+      grid-auto-columns: minmax(0, 1fr);
     }
+  }
+
+  .pair[hidden] {
+    display: none;
   }
 
   /* line-numbered textareas (wrap="off", so visual lines = real lines) */

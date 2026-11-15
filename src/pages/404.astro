@@ -1,14 +1,24 @@
 ---
 import Base from '../layouts/Base.astro';
 import BerimbauArt from '../components/BerimbauArt.astro';
+import { localePath } from '../data/i18n';
 ---
 
-<Base title="הדף לא נמצא">
-  <section class="card lost" dir="rtl">
+<!-- GitHub Pages serves this one page for every missing address, in either language, so it speaks both. -->
+<Base locale="he" title="הדף לא נמצא · Page not found" noindex>
+  <section class="card lost">
     <div class="art"><BerimbauArt broken /></div>
-    <h1>אופס! הדף הזה לא נמצא</h1>
-    <p>אולי השיר עבר למקום אחר. בואו נחזור לרודה:</p>
-    <a class="btn" href={`${import.meta.env.BASE_URL}#songs`}>לכל השירים</a>
+    <div dir="rtl" lang="he">
+      <h1>אופס! הדף הזה לא נמצא</h1>
+      <p>אולי השיר עבר למקום אחר. בואו נחזור לרודה:</p>
+      <a class="btn" href={`${localePath('he')}#songs`}>לכל השירים</a>
+    </div>
+    <hr />
+    <div lang="en">
+      <h2>Oops! This page wasn't found</h2>
+      <p>Maybe the song has moved. Let's get back to the roda:</p>
+      <a class="btn" href={`${localePath('en')}#songs`}>All songs</a>
+    </div>
   </section>
 </Base>
 
@@ -31,8 +41,15 @@ import BerimbauArt from '../components/BerimbauArt.astro';
     aspect-ratio: 1;
   }
 
-  h1 {
+  h1,
+  h2 {
     margin-bottom: 8px;
-    font-size: clamp(1.8rem, 5vw, 2.4rem);
+    font-size: clamp(1.6rem, 5vw, 2.2rem);
+  }
+
+  hr {
+    margin: 24px 0;
+    border: 0;
+    border-top: 2px dashed var(--line);
   }
 </style>

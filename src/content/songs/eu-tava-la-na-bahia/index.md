@@ -2,7 +2,10 @@
 titles: ["Eu tava la na Bahia"]
 tags: [sao-bento]
 image: ./cover.jpg
+imageWide: ./wide.jpg
+imageTall: ./tall.jpg
 imageAlt: "כיכר בפלורינייו שבסלבדור דה באהיה: צלב אבן מול כנסייה ובתים צבעוניים"
+imageAltEn: "A square in Pelourinho, Salvador da Bahia: a stone cross in front of a church and colorful houses"
 youtube: msmBZpgMhBk
 lyrics: |
   Eu tava la na Bahia
@@ -22,7 +25,7 @@ lyrics: |
   > Capoeira
   O menino vem aprender a jogar
   > Capoeira
-translation: |
+hebrew: |
   הייתי שם בבאהיה
   > אה, באהיה
   כשהברימבאו ניגן
@@ -40,4 +43,22 @@ translation: |
   > קפואירה
   הילד בא ללמוד לשחק
   > קפואירה
+english: |
+  I was there in Bahia
+  > Eh, Bahia
+  When the berimbau played
+  > Eh, Bahia
+  Up at the top of the hill
+  > Eh, Bahia
+  Capoeira called me
+  > Eh, Bahia
+
+  The boy comes to learn to play
+  > Capoeira
+  The boy comes to learn to play
+  > Capoeira
+  The boy comes to learn to play
+  > Capoeira
+  The boy comes to learn to play
+  > Capoeira
 ---

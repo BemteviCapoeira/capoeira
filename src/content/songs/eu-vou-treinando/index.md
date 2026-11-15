@@ -2,6 +2,8 @@
 titles: ["Eu vou treinando"]
 tags: [sao-bento]
 image: ./cover.jpg
+imageWide: ./wide.jpg
+imageTall: ./tall.jpg
 youtube: x9yOtxlTfUQ
 lyrics: |
   > Eu vou treinando querendo melhorar
@@ -28,7 +30,7 @@ lyrics: |
   se essa é a sua motivação
   escute amigo o que eu lhe digo ver se acorda
   É na cabeça que fica a graduação
-translation: |
+hebrew: |
   > אני ממשיך להתאמן, רוצה להשתפר
   > אני ממשיך להתאמן, רוצה ללמוד
   > ואי אפשר להסביר את ההתמכרות הזאת לאימונים
@@ -53,4 +55,29 @@ translation: |
   אם זאת המוטיבציה שלך
   תקשיב, חבר, למה שאני אומר לך, ותתעורר
   הדרגה נמצאת בראש
+english: |
+  > I keep on training, wanting to improve
+  > I keep on training, wanting to learn
+  > And there's no explaining this addiction to training
+  > Some people have it, and some want to have it
+
+  Whoever wants to stay firm on this journey
+  Must never lose heart
+  Because for sure, on this road
+  Who plants today has something to reap tomorrow
+
+  When it's cold I train to warm up
+  If it's hot I train until I boil
+  If I'm happy I train to celebrate
+  And if it's sadness, I'll train to forget
+
+  A good capoeirista is made of fundamentals
+  Not just talent, but a lot of sweat
+  No knack for it? Training makes you good
+  Got a knack for it? You get even better
+
+  And if you only train thinking about your cord (belt)
+  if that's your motivation
+  listen, friend, to what I tell you, see if you wake up
+  The real grade is in your head
 ---

@@ -17,8 +17,14 @@ const songs = defineCollection({
         /** First = main title; the rest are other names the song is known by (all searchable). */
         titles: z.array(z.string().min(1)).min(1),
         tags: z.array(z.enum(TAG_IDS)).default([]),
+        /** The song's picture, as uploaded. */
         image: image().optional(),
+        /** Crops of `image` for the two card layouts (each falls back to `image`, cropped from its centre). */
+        imageWide: image().optional(), // 4:3 — cards on wider screens, and the song page
+        imageTall: image().optional(), // 4:5 — the thumbnail beside the title on phones
+        /** Picture description for screen readers, in Hebrew (and in English). */
         imageAlt: z.string().default(''),
+        imageAltEn: z.string().default(''),
         /** YouTube video id (the 11 characters after youtu.be/ or watch?v=). */
         youtube: z
           .string()
@@ -29,11 +35,18 @@ const songs = defineCollection({
         /** Portuguese lyrics — see src/lib/lyrics.ts for the format. */
         lyrics: z.string().min(1),
         /** Hebrew translation, line for line with `lyrics`. */
-        translation: z.string().optional(),
+        hebrew: z.string().optional(),
+        /** English translation, line for line with `lyrics`. */
+        english: z.string().optional(),
+        /** Notes about the song, shown in the Notes box (plain text; a blank line starts a new paragraph). */
+        notesHebrew: z.string().optional(),
+        notesEnglish: z.string().optional(),
       })
       .superRefine((song, ctx) => {
-        for (const message of alignmentIssues(song.lyrics, song.translation)) {
-          ctx.addIssue({ code: 'custom', path: ['translation'], message });
+        for (const key of ['hebrew', 'english'] as const) {
+          for (const message of alignmentIssues(song.lyrics, song[key])) {
+            ctx.addIssue({ code: 'custom', path: [key], message });
+          }
         }
       }),
 });

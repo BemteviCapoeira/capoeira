@@ -1,16 +1,17 @@
 /**
- * Lyrics format (both `lyrics` and `translation` frontmatter fields):
+ * Lyrics format (the `lyrics` frontmatter field and its line-for-line translations, `hebrew` and `english`):
  * - one sung line per text line; a blank line starts a new stanza
  * - `> ` at the start of a line marks a coro (chorus response) line
  * - a trailing ` x2` (any number) marks a repeated line
- * - in `translation`, a line that is just `~` means "no translation for this line"
+ * - in a translation, a line that is just `~` means "no translation for this line"
  *
- * The translation must have exactly the same stanzas and line counts as the lyrics.
+ * A translation must have exactly the same stanzas and line counts as the lyrics.
  */
 
 export interface Line {
   pt: string;
-  he?: string;
+  /** The line's translation, if the song has one for this line. */
+  tr?: string;
   coro: boolean;
   repeat?: number;
 }
@@ -55,15 +56,15 @@ function splitStanzas(src: string): RawLine[][] {
 export function alignmentIssues(lyrics: string, translation?: string): string[] {
   if (!translation?.trim()) return [];
   const pt = splitStanzas(lyrics);
-  const he = splitStanzas(translation);
+  const tr = splitStanzas(translation);
   const issues: string[] = [];
-  if (pt.length !== he.length) {
-    issues.push(`translation has ${he.length} stanzas but lyrics have ${pt.length}`);
+  if (pt.length !== tr.length) {
+    issues.push(`translation has ${tr.length} stanzas but lyrics have ${pt.length}`);
   }
-  for (let i = 0; i < Math.min(pt.length, he.length); i++) {
-    if (pt[i].length !== he[i].length) {
+  for (let i = 0; i < Math.min(pt.length, tr.length); i++) {
+    if (pt[i].length !== tr[i].length) {
       issues.push(
-        `stanza ${i + 1} ("${pt[i][0].text}"): lyrics have ${pt[i].length} lines but translation has ${he[i].length}`,
+        `stanza ${i + 1} ("${pt[i][0].text}"): lyrics have ${pt[i].length} lines but translation has ${tr[i].length}`,
       );
     }
   }
@@ -72,17 +73,17 @@ export function alignmentIssues(lyrics: string, translation?: string): string[] 
 
 export function parseLyrics(lyrics: string, translation?: string): Stanza[] {
   const pt = splitStanzas(lyrics);
-  const he = translation?.trim() ? splitStanzas(translation) : [];
+  const translated = translation?.trim() ? splitStanzas(translation) : [];
   return pt.map((stanza, i) =>
     stanza.map((line, j) => {
-      const tr = he[i]?.[j]?.text;
-      return { pt: line.text, coro: line.coro, repeat: line.repeat, he: tr && tr !== NO_TRANSLATION ? tr : undefined };
+      const tr = translated[i]?.[j]?.text;
+      return { pt: line.text, coro: line.coro, repeat: line.repeat, tr: tr && tr !== NO_TRANSLATION ? tr : undefined };
     }),
   );
 }
 
 export function hasTranslation(stanzas: Stanza[]): boolean {
-  return stanzas.some((s) => s.some((l) => l.he));
+  return stanzas.some((s) => s.some((l) => l.tr));
 }
 
 export function firstLine(lyrics: string): string {
