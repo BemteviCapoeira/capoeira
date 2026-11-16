@@ -41,7 +41,7 @@ const dir = LANGUAGES[locale].dir;
 </div>
 
 <script>
-  const STORAGE_KEY = 'showTranslation';
+  // const STORAGE_KEY = 'showTranslation';
 
   for (const lyrics of document.querySelectorAll<HTMLElement>('[data-lyrics]')) {
     // Tap / click / Enter pins a line's translation open (the only way on touch screens).
@@ -66,15 +66,20 @@ const dir = LANGUAGES[locale].dir;
     const set = (on: boolean) => {
       toggle.setAttribute('aria-checked', String(on));
       lyrics.classList.toggle('show-all', on);
-      try {
-        localStorage.setItem(STORAGE_KEY, on ? '1' : '0');
-      } catch {}
+      // try {
+      //  localStorage.setItem(STORAGE_KEY, on ? '1' : '0');
+      // } catch {}
+      const set = (on: boolean) => {
+        toggle.setAttribute('aria-checked', String(on));
+        lyrics.classList.toggle('show-all', on);
+      };
     };
-    let initial = false;
+    /* let initial = false;
     try {
       initial = localStorage.getItem(STORAGE_KEY) === '1';
     } catch {}
-    set(initial);
+    set(initial);   */
+    set(false);   
     toggle.addEventListener('click', () => set(toggle.getAttribute('aria-checked') !== 'true'));
   }
 </script>
