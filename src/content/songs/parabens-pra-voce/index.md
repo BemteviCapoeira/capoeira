@@ -1,6 +1,7 @@
 ---
 titles: ["Parabéns pra você"]
 tags: [sao-bento]
+youtube: W4wr1MzMgW-Vzj-Y
 image: ./cover.jpg
 imageWide: ./wide.jpg
 imageTall: ./tall.jpg

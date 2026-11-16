@@ -1,6 +1,6 @@
 ---
 titles: ["Capoeira Abadá","Vou lhe dizer o que me alegra"]
-tags: []
+tags: [sao-bento]
 image: ./cover.jpg
 imageWide: ./wide.jpg
 imageTall: ./tall.jpg
