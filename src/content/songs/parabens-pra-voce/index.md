@@ -1,12 +1,12 @@
 ---
 titles: ["Parabéns pra você"]
 tags: [sao-bento]
-youtube: W4wr1MzMgW-Vzj-Y
 image: ./cover.jpg
 imageWide: ./wide.jpg
 imageTall: ./tall.jpg
 imageAlt: "עוגת יום הולדת עם נרות, בלונים ומתנות"
 imageAltEn: "A birthday cake with candles, balloons and gifts"
+youtube: I7NdLNNf0s4
 lyrics: |
   > Parabéns pra você
   > Nesta data querida
