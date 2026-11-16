@@ -17,10 +17,10 @@ export const SITE_TEXT = {
     group: "קבוצת יום ד' בהדרכת גרדואדה קיטוצ'י",
     thanksIntro: 'תודה לכל מי שלימד אותנו לשיר ולנגן:',
     thanks: ['ארפה', 'גרוזליה', 'פולנטה', 'פימנטה', 'שאמה', "מאמוצ'י"],
-    siteThanksIntro: 'תודה ל ',
+    siteThanksIntro: 'תודה ל',
     siteThanks: ['שחר לינסי'],
-    siteThanksOutro: ' שעזר בבניית האתר',
-    credit: 'נוצר על ידי: Bem-te-vi',
+    siteThanksOutro: 'שעזר בבניית האתר',
+    credit: 'נוצר על ידי:',
     /** Printed at the bottom of every song sheet. */
     createdBy: 'נוצר על ידי Bemtevi',
     
@@ -33,10 +33,10 @@ export const SITE_TEXT = {
     group: 'Wednesday group, led by Graduada Quitute',
     thanksIntro: 'Thanks to everyone who taught us to sing and play:',
     thanks: ['Arpa', 'Groselha', 'Polenta', 'Pimenta', 'Chama', 'Mamute'],
-    siteThanksIntro: 'Thanks to ',
+    siteThanksIntro: 'Thanks to',
     siteThanks: ['Shachar Lince'],
-    siteThanksOutro: ' for helping build this site',
-    credit: 'Created by: Bem-te-vi',
+    siteThanksOutro: 'for helping build this site',
+    credit: 'Created by:',
     createdBy: 'Created by: Bemtevi',
   },
 } satisfies Record<Locale, Record<string, string | string[]>>;

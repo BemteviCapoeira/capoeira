@@ -1,5 +1,7 @@
 ---
+import { Image } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
+import bemtevi from '../../assets/bemtevi.jpg';
 import { Content as WelcomeHe } from '../../content/welcome/he.md';
 import { Content as WelcomeEn } from '../../content/welcome/en.md';
 import { LANGUAGES, localeParams, UI, type Locale } from '../../data/i18n';
@@ -24,15 +26,23 @@ const NAME_COLORS = ['coral', 'turquoise', 'yellow', 'pink', 'lime', 'sky'];
 <Base locale={locale} path="about/" section="about" title={t.title}>
   <div class="about" dir={dir}>
     <header class="card hero">
-      <h1>{site.title}</h1>
-      <p class="club">{site.club}</p>
-      <p>{site.group}</p>
+      <div class="hero-copy">
+        <h1>{site.title}</h1>
+        <p class="club">{site.club}</p>
+        <p>{site.group}</p>
+      </div>
+      <Image
+        src={bemtevi}
+        alt={locale === 'he' ? 'ציפור בנטווי צהובה' : 'A yellow bem-te-vi bird'}
+        width={360}
+        class="hero-photo"
+        loading="eager"
+      />
     </header>
 
     <section class="card letter">
       <Welcome />
       <p class="cheer" lang="pt-BR" dir="ltr">{SITE.cheer}</p>
-      <p class="credit">{site.credit}</p>
     </section>
 
     <section class="card thanks" aria-labelledby="thanks">
@@ -45,6 +55,9 @@ const NAME_COLORS = ['coral', 'turquoise', 'yellow', 'pink', 'lime', 'sky'];
         {site.siteThanksIntro}
         {site.siteThanks.map((name) => <strong class="name-pill" style="--c:var(--coral)">{name}</strong>)}
         {site.siteThanksOutro}
+      </p>
+      <p class="site-thanks site-credit">
+        {site.credit}<strong class="name-pill">Bem-te-vi</strong>
       </p>
     </section>
 
@@ -63,9 +76,26 @@ const NAME_COLORS = ['coral', 'turquoise', 'yellow', 'pink', 'lime', 'sky'];
   }
 
   .hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: clamp(14px, 4vw, 28px);
     color: var(--sand);
     background: var(--ink);
     box-shadow: 6px 6px 0 var(--coral);
+  }
+
+  .hero-copy {
+    min-width: 0;
+  }
+
+  .hero-photo {
+    display: block;
+    width: clamp(120px, 22vw, 180px);
+    height: auto;
+    border: 2px solid var(--sand);
+    border-radius: var(--radius-sm);
+    box-shadow: 3px 3px 0 var(--yellow);
   }
 
   h1 {
@@ -93,7 +123,7 @@ const NAME_COLORS = ['coral', 'turquoise', 'yellow', 'pink', 'lime', 'sky'];
 
   .cheer {
     width: fit-content;
-    margin: 8px 0 4px !important;
+    margin: 8px auto 4px !important;
     font-family: var(--font-display);
     font-weight: 700;
     font-size: clamp(1.4rem, 4vw, 1.9rem);
@@ -101,14 +131,14 @@ const NAME_COLORS = ['coral', 'turquoise', 'yellow', 'pink', 'lime', 'sky'];
     text-shadow: 2px 2px 0 var(--yellow);
   }
 
-  .credit {
-    margin-bottom: 0 !important;
-    color: var(--ink-soft);
-  }
-
   .thanks h2 {
     margin-bottom: 10px;
     font-size: 1.6rem;
+  }
+
+  .thanks > p,
+  .site-thanks {
+    font-size: 1.125rem;
   }
 
   .names {
@@ -121,6 +151,9 @@ const NAME_COLORS = ['coral', 'turquoise', 'yellow', 'pink', 'lime', 'sky'];
   }
 
   .names li {
+    display: flex;
+    align-items: center;
+    min-height: 36px;
     padding: 2px 14px;
     font-weight: 600;
     background: var(--c);
@@ -131,16 +164,27 @@ const NAME_COLORS = ['coral', 'turquoise', 'yellow', 'pink', 'lime', 'sky'];
 
   .site-thanks {
     margin: 48px 0 0;
-    font-size: 1rem;
+  }
+
+  .site-credit {
+    margin-top: 48px;
   }
 
   .site-thanks .name-pill {
+    display: inline-flex;
+    align-items: center;
+    min-height: 36px;
+    margin-inline: 1ch;
     padding: 2px 18px;
     font-weight: 600;
     background: var(--green);
     border: 2px solid var(--ink);
     border-radius: 999px;
     box-shadow: 2px 2px 0 var(--ink);
+  }
+
+  .site-credit .name-pill {
+    background: var(--lavender);
   }
 
   .add-song {
