@@ -1,6 +1,8 @@
 ---
 import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
+import pandeiro from '../../assets/pandeiro.jpg';
 import BerimbauArt from '../../components/BerimbauArt.astro';
 import SongCard from '../../components/SongCard.astro';
 import { LANGUAGES, localeParams, UI, type Locale } from '../../data/i18n';
@@ -66,6 +68,16 @@ const songs = sortSongs(await getCollection('songs'));
       <div class="empty-art"><BerimbauArt broken /></div>
       <p>{t.noResults}</p>
     </div>
+
+    <aside class="end-card" dir={dir} aria-labelledby="end-title">
+      <div class="end-copy">
+        <h2 id="end-title">{t.keepPlaying}</h2>
+        <a class="btn" href="#songs-title">
+          {t.backToTop}<span aria-hidden="true">↑</span>
+        </a>
+      </div>
+      <Image src={pandeiro} alt="" width={430} class="end-art" loading="lazy" />
+    </aside>
   </section>
 </Base>
 
@@ -146,5 +158,52 @@ const songs = sortSongs(await getCollection('songs'));
 
   .empty-art :global(.berimbau-art) {
     aspect-ratio: 1;
+  }
+
+  .end-card {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 40%);
+    align-items: center;
+    gap: clamp(16px, 4vw, 36px);
+    margin-top: clamp(36px, 6vw, 72px);
+    padding: clamp(18px, 4vw, 32px);
+    background: var(--paper);
+    border: var(--border);
+    border-radius: var(--radius);
+    box-shadow: 6px 6px 0 var(--coral);
+  }
+
+  .end-copy {
+    display: grid;
+    justify-items: start;
+    gap: 16px;
+  }
+
+  .end-copy h2 {
+    margin: 0;
+    font-size: clamp(1.4rem, 3vw, 2rem);
+  }
+
+  .end-art {
+    display: block;
+    width: min(100%, 288px);
+    height: auto;
+    justify-self: center;
+  }
+
+  @media (max-width: 560px) {
+    .end-card {
+      grid-template-columns: 1fr;
+      gap: 18px;
+      text-align: center;
+    }
+
+    .end-copy {
+      justify-items: center;
+    }
+
+    .end-art {
+      width: min(100%, 256px);
+    }
   }
 </style>

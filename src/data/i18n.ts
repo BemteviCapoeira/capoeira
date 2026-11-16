@@ -37,6 +37,8 @@ const he = {
     /** `{n}` is replaced by the number of songs shown. */
     countMany: '{n} שירים',
     noResults: 'לא מצאנו שיר כזה. נסו מילה אחרת או בטלו את הסינון.',
+    keepPlaying: 'איזה שיר נשיר עכשיו?',
+    backToTop: 'חזרה לראש הרשימה',
   },
   card: {
     video: '▶ וידאו',
@@ -77,6 +79,8 @@ const en: typeof he = {
     countOne: '1 song',
     countMany: '{n} songs',
     noResults: "We couldn't find that song. Try another word, or clear the filter.",
+    keepPlaying: 'Which song shall we sing next?',
+    backToTop: 'Back to top',
   },
   card: {
     video: '▶ Video',
