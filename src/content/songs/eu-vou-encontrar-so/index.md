@@ -2,6 +2,7 @@
 titles: ["Eu vou encontrar só","canarinho da Alemanha"]
 tags: [benguela]
 image: ./cover.jpg
+imageTall: ./tall.jpg
 imageAlt: ""
 youtube: 5i3sDhMKnsk
 lyrics: |

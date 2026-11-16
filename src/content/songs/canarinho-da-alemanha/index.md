@@ -3,6 +3,8 @@ titles: ["Canarinho da alemanhá"]
 tags: [benguela]
 image: ./cover.jpg
 imageAlt: ""
+imageWide: ./wide.jpg
+imageTall: ./tall.jpg
 youtube: afz5iWUPx-w
 lyrics: |
   > Canarinho da alemanhá

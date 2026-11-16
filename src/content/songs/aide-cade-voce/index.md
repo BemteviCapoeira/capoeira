@@ -2,6 +2,7 @@
 titles: ["Aide cade voce","ai aide aide cade voce"]
 tags: [sao-bento]
 image: ./cover.jpg
+imageTall: ./tall.jpg
 imageAlt: ""
 youtube: SGU-YPUxags
 lyrics: |
