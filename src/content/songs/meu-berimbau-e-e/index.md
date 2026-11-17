@@ -2,6 +2,7 @@
 titles: ["Meu berimbau ê ê"]
 tags: [sao-bento]
 image: ./cover.jpg
+imageWide: ./wide.jpg
 imageAlt: "הברימבאו שלי, חברי"
 imageAltEn: "My berimbau, my comrade"
 youtube: IohVrqEetIk
