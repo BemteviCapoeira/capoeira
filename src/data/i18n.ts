@@ -66,6 +66,7 @@ const he = {
     thanks: 'תודה!',
     addSong: '+ הוספת שיר',
     installApp: 'איך להתקין את האפליקציה',
+    backToSongs: 'חזרה לשירים',
   },
   install: {
     title: 'התקנת אפליקציית ספר השירים',
@@ -136,6 +137,7 @@ const en: typeof he = {
     thanks: 'Thank you!',
     addSong: '+ Add a song',
     installApp: 'How to install the app',
+    backToSongs: 'Back to Songs',
   },
   install: {
     title: 'Install the songbook app',

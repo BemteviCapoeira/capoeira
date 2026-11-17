@@ -1,7 +1,10 @@
 ---
 import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
+import bemtevi from '../../assets/bemtevi.jpg';
 import { TAG_IDS, TAGS } from '../../data/tags';
+import { localePath } from '../../data/i18n';
 import '../../styles/forms.css';
 
 const slugs = (await getCollection('songs')).map((song) => song.id);
@@ -164,6 +167,13 @@ const songsUrl = new URL(`${import.meta.env.BASE_URL}songs/`, Astro.site).href;
         </div>
       </section>
     </form>
+
+    <p class="back-to-songs">
+      <a class="btn" href={localePath('en')}>
+        <Image src={bemtevi} alt="" width={28} class="bird-icon" loading="lazy" />
+        Back to Songs
+      </a>
+    </p>
   </div>
 
   <script is:inline type="application/json" id="new-song-data" set:html={JSON.stringify({ slugs, songsUrl })} />
@@ -179,6 +189,28 @@ const songsUrl = new URL(`${import.meta.env.BASE_URL}songs/`, Astro.site).href;
     display: grid;
     grid-template-columns: minmax(0, 1fr);
     gap: 28px;
+  }
+
+  .back-to-songs {
+    display: flex;
+    justify-content: center;
+    margin: 24px 0 0;
+  }
+
+  .back-to-songs .btn {
+    min-height: 48px;
+    gap: 8px;
+  }
+
+  .bird-icon {
+    flex: none;
+    width: 28px;
+    height: 28px;
+    border: var(--border);
+    border-radius: 50%;
+    box-shadow: var(--shadow-sm);
+    object-fit: cover;
+    object-position: 50% 30%;
   }
 
   .session {

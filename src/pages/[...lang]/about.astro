@@ -63,7 +63,10 @@ const NAME_COLORS = ['coral', 'turquoise', 'yellow', 'pink', 'lime', 'sky'];
     </section>
 
     <div class="about-actions">
-      <a class="btn" href={`${import.meta.env.BASE_URL}new-song/`}>{t.addSong}</a>
+      <a class="btn" href={localePath(locale)}>
+        <Image src={bemtevi} alt="" width={28} class="action-icon" loading="lazy" />
+        {t.backToSongs}
+      </a>
       <a class="btn" href={localePath(locale, 'install-app/')}>
         <img
           class="action-icon"
@@ -75,6 +78,7 @@ const NAME_COLORS = ['coral', 'turquoise', 'yellow', 'pink', 'lime', 'sky'];
         />
         {t.installApp}
       </a>
+      <a class="btn" href={`${import.meta.env.BASE_URL}new-song/`}>{t.addSong}</a>
     </div>
   </div>
 </Base>

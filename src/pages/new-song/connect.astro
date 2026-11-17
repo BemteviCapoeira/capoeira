@@ -2,7 +2,9 @@
 import { Image } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
 import atabaque from '../../assets/atabaque.jpg';
+import bemtevi from '../../assets/bemtevi.jpg';
 import BerimbauArt from '../../components/BerimbauArt.astro';
+import { localePath } from '../../data/i18n';
 import { SITE } from '../../data/site';
 import '../../styles/forms.css';
 
@@ -54,6 +56,14 @@ const repoUrl = `https://github.com/${SITE.repo.owner}/${SITE.repo.name}`;
           <p class="status" data-status role="status"></p>
         </div>
       </form>
+    </div>
+
+    <div class="page-actions">
+      <a class="btn" href={localePath('en')}>
+        <Image src={bemtevi} alt="" width={28} class="bird-icon" loading="lazy" />
+        Back to Songs
+      </a>
+      <a class="btn" href={localePath('en', 'about/')}>Back to About</a>
     </div>
   </div>
 </Base>
@@ -115,6 +125,30 @@ const repoUrl = `https://github.com/${SITE.repo.owner}/${SITE.repo.name}`;
   .steps {
     display: grid;
     gap: 28px;
+  }
+
+  .page-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 24px;
+  }
+
+  .page-actions .btn {
+    min-height: 48px;
+    gap: 8px;
+  }
+
+  .bird-icon {
+    flex: none;
+    width: 28px;
+    height: 28px;
+    border: var(--border);
+    border-radius: 50%;
+    box-shadow: var(--shadow-sm);
+    object-fit: cover;
+    object-position: 50% 30%;
   }
 
   .outcome {
