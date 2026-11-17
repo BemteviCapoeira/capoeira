@@ -2,10 +2,11 @@
 import { getCollection } from 'astro:content';
 import { Image } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
+import bemtevi from '../../assets/bemtevi.jpg';
 import pandeiro from '../../assets/pandeiro.jpg';
 import BerimbauArt from '../../components/BerimbauArt.astro';
 import SongCard from '../../components/SongCard.astro';
-import { LANGUAGES, localeParams, UI, type Locale } from '../../data/i18n';
+import { LANGUAGES, localeParams, localePath, UI, type Locale } from '../../data/i18n';
 import { TAG_IDS, TAGS } from '../../data/tags';
 import { sortSongs, translationOf } from '../../lib/songs';
 import { fold } from '../../lib/text';
@@ -72,9 +73,23 @@ const songs = sortSongs(await getCollection('songs'));
     <aside class="end-card" dir={dir} aria-labelledby="end-title">
       <div class="end-copy">
         <h2 id="end-title">{t.keepPlaying}</h2>
-        <a class="btn" href="#songs-title">
-          {t.backToTop}<span aria-hidden="true">↑</span>
-        </a>
+        <div class="end-actions">
+          <a class="btn" href="#songs-title">
+            <Image src={bemtevi} alt="" width={28} class="end-action-icon" loading="lazy" />
+            {t.backToTop}<span aria-hidden="true">↑</span>
+          </a>
+          <a class="btn" href={localePath(locale, 'install-app/')}>
+            <img
+              class="end-action-icon"
+              src={`${import.meta.env.BASE_URL}icon-192.png`}
+              alt=""
+              width="28"
+              height="28"
+              loading="lazy"
+            />
+            {t.installApp}
+          </a>
+        </div>
       </div>
       <Image src={pandeiro} alt="" width={430} class="end-art" loading="lazy" />
     </aside>
@@ -184,6 +199,28 @@ const songs = sortSongs(await getCollection('songs'));
     font-size: clamp(1.4rem, 3vw, 2rem);
   }
 
+  .end-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .end-actions .btn {
+    min-height: 48px;
+    gap: 8px;
+  }
+
+  .end-action-icon {
+    flex: none;
+    width: 28px;
+    height: 28px;
+    border: var(--border);
+    border-radius: 50%;
+    box-shadow: var(--shadow-sm);
+    object-fit: cover;
+    object-position: 50% 30%;
+  }
+
   .end-art {
     display: block;
     width: min(100%, 288px);
@@ -200,6 +237,10 @@ const songs = sortSongs(await getCollection('songs'));
 
     .end-copy {
       justify-items: center;
+    }
+
+    .end-actions {
+      justify-content: center;
     }
 
     .end-art {

@@ -5,7 +5,7 @@ import bemtevi from '../../assets/bemtevi.jpg';
 import pandeiro from '../../assets/pandeiro.jpg';
 import { Content as WelcomeHe } from '../../content/welcome/he.md';
 import { Content as WelcomeEn } from '../../content/welcome/en.md';
-import { LANGUAGES, localeParams, UI, type Locale } from '../../data/i18n';
+import { LANGUAGES, localeParams, localePath, UI, type Locale } from '../../data/i18n';
 import { SITE, SITE_TEXT } from '../../data/site';
 
 export function getStaticPaths() {
@@ -62,9 +62,20 @@ const NAME_COLORS = ['coral', 'turquoise', 'yellow', 'pink', 'lime', 'sky'];
       </p>
     </section>
 
-    <p class="add-song">
+    <div class="about-actions">
       <a class="btn" href={`${import.meta.env.BASE_URL}new-song/`}>{t.addSong}</a>
-    </p>
+      <a class="btn" href={localePath(locale, 'install-app/')}>
+        <img
+          class="action-icon"
+          src={`${import.meta.env.BASE_URL}icon-192.png`}
+          alt=""
+          width="28"
+          height="28"
+          loading="lazy"
+        />
+        {t.installApp}
+      </a>
+    </div>
   </div>
 </Base>
 
@@ -217,7 +228,26 @@ const NAME_COLORS = ['coral', 'turquoise', 'yellow', 'pink', 'lime', 'sky'];
     background: var(--lavender);
   }
 
-  .add-song {
-    margin: 0;
+  .about-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .about-actions .btn {
+    min-height: 48px;
+    gap: 8px;
+  }
+
+  .action-icon {
+    flex: none;
+    width: 28px;
+    height: 28px;
+    border: var(--border);
+    border-radius: 50%;
+    box-shadow: var(--shadow-sm);
+    object-fit: cover;
+    object-position: 50% 30%;
   }
 </style>

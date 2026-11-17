@@ -7,7 +7,6 @@ import { SITE } from '../../data/site';
 import '../../styles/forms.css';
 
 const repoUrl = `https://github.com/${SITE.repo.owner}/${SITE.repo.name}`;
-const tokenUrl = 'https://github.com/settings/personal-access-tokens/new';
 ---
 
 <Base locale="en" title="Connect to GitHub" description="Connect a GitHub token to add songs." noindex>
@@ -31,28 +30,8 @@ const tokenUrl = 'https://github.com/settings/personal-access-tokens/new';
     </header>
 
     <div class="steps">
-      <section class="card step" aria-labelledby="create">
-        <h2 id="create"><span class="num">1</span>Create a token</h2>
-        <ol class="howto">
-          <li>
-            Open <a href={tokenUrl} target="_blank" rel="noopener">GitHub → Generate new token (fine-grained)</a> and give
-            it a name, e.g. "Songbook".
-          </li>
-          <li><strong>Resource owner:</strong> {SITE.repo.owner}</li>
-          <li><strong>Repository access:</strong> Only select repositories → {SITE.repo.name}</li>
-          <li>
-            <strong>Permissions → Repository permissions:</strong> set <em>Contents</em> and <em>Pull requests</em> to{' '}
-            <em>Read and write</em>. Leave everything else as it is.
-          </li>
-          <li>Click <em>Generate token</em> and copy it.</li>
-        </ol>
-        <p class="fine">
-          If the organization requires approval for tokens, an owner has to approve yours once before it works.
-        </p>
-      </section>
-
       <form class="card step" aria-labelledby="paste" data-connect-form novalidate>
-        <h2 id="paste"><span class="num">2</span>Paste it here</h2>
+        <h2 id="paste">Paste your GitHub token here</h2>
         <div class="row">
           <div class="field grow">
             <label for="token">Token</label>

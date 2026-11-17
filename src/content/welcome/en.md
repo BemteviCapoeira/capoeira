@@ -10,7 +10,7 @@ Each song includes:
 - a print-friendly lyrics page
 - its style: Benguela or São Bento
 
-**Good to know:** The songbook is easiest to browse on a computer, and you can also install it on your phone as an app. This is an early version, and we’ll keep adding songs and making improvements.
+**Good to know:** The songbook is easiest to browse on a computer, and you can also [install it on your phone as an app](../install-app/). This is an early version, and we’ll keep adding songs and making improvements.
 
 Have a question, spotted a mistake, or want to suggest a song or an improvement? We’d love to hear from you.
 

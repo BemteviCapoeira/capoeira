@@ -1,0 +1,376 @@
+---
+import { LANGUAGES, UI, type Locale } from '../data/i18n';
+import { SITE_TEXT, siteAddress } from '../data/site';
+
+interface Props {
+  locale: Locale;
+  platform: 'android' | 'ios';
+}
+
+const { locale, platform } = Astro.props;
+const t = UI[locale].install;
+const site = SITE_TEXT[locale];
+const isAndroid = platform === 'android';
+const menuOption = isAndroid ? t.androidMenuOption : t.iosMenuOption;
+const dir = LANGUAGES[locale].dir;
+---
+
+<figure
+  class={`install-illustration ${platform}`}
+  dir={dir}
+  aria-label={`${isAndroid ? t.androidTitle : t.iosTitle}: ${menuOption}`}
+>
+  <div class="phone" aria-hidden="true">
+    <div class="screen">
+      <div class="status-bar" dir="ltr">
+        <span>9:41</span>
+        <span class="status-icons">● ● ▰</span>
+      </div>
+
+      {isAndroid && (
+        <div class="browser-bar" dir={dir}>
+          <span class="back-icon">‹</span>
+          <div class="address-bar" dir="ltr">
+            <span class="lock-icon">●</span>
+            <span>{siteAddress()}</span>
+          </div>
+          <span class="more-icon">⋮</span>
+        </div>
+      )}
+
+      <div class="website" dir={dir}>
+        <div class="site-name">{site.shortTitle}</div>
+        <h3>{site.title}</h3>
+        <div class="song-card">
+          <span class="song-title"></span>
+          <span class="song-line"></span>
+          <span class="song-line short"></span>
+        </div>
+        <div class="song-card second">
+          <span class="song-title"></span>
+          <span class="song-line"></span>
+          <span class="song-line short"></span>
+        </div>
+      </div>
+
+      {isAndroid ? (
+        <div class="menu-layer">
+          <div class="android-menu" dir={dir}>
+            <div class="menu-row muted"></div>
+            <div class="menu-row muted short-row"></div>
+            <div class="menu-row highlighted">
+              <span class="install-glyph">↓</span>
+              <span>{menuOption}</span>
+            </div>
+            <div class="menu-row muted"></div>
+          </div>
+        </div>
+      ) : (
+        <>
+          <div class="safari-bar" dir={dir}>
+            <span class="safari-nav">‹</span>
+            <div class="safari-address" dir="ltr">{siteAddress()}</div>
+            <span class="share-icon">↑</span>
+          </div>
+          <div class="share-layer">
+            <div class="share-sheet" dir={dir}>
+              <div class="sheet-handle"></div>
+              <div class="share-heading">{t.shareTitle}</div>
+              <div class="share-preview" dir="ltr">{siteAddress()}</div>
+              <div class="menu-row highlighted">
+                <span class="home-icon">+</span>
+                <span>{menuOption}</span>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+    </div>
+  </div>
+</figure>
+
+<style>
+  .install-illustration {
+    margin: 18px 0 0;
+  }
+
+  .phone {
+    width: min(100%, 270px);
+    height: 470px;
+    margin-inline: auto;
+    padding: 6px;
+    overflow: hidden;
+    background: #211a15;
+    border: 2px solid #211a15;
+    border-radius: 34px;
+    box-shadow: 4px 5px 0 color-mix(in srgb, var(--ink) 24%, transparent);
+  }
+
+  .screen {
+    position: relative;
+    height: 100%;
+    overflow: hidden;
+    background: var(--sand);
+    border-radius: 26px;
+    color: var(--ink);
+    font-family: var(--font-body);
+  }
+
+  .status-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 26px;
+    padding-inline: 14px;
+    background: var(--paper);
+    font-size: 0.65rem;
+    font-weight: 700;
+  }
+
+  .status-icons {
+    letter-spacing: 1px;
+  }
+
+  .browser-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 44px;
+    padding-inline: 9px;
+    background: var(--paper);
+  }
+
+  .back-icon,
+  .more-icon {
+    flex: none;
+    font-size: 1.3rem;
+    line-height: 1;
+  }
+
+  .address-bar,
+  .safari-address {
+    min-width: 0;
+    padding: 7px 10px;
+    overflow: hidden;
+    background: #f0eee9;
+    border-radius: 999px;
+    color: #40382f;
+    font-size: 0.63rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .address-bar {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .lock-icon {
+    color: #347b50;
+    font-size: 0.65rem;
+  }
+
+  .website {
+    padding: 14px 12px;
+  }
+
+  .site-name {
+    margin-bottom: 12px;
+    color: var(--coral);
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    font-weight: 700;
+  }
+
+  .website h3 {
+    margin: 0 0 12px;
+    font-size: 0.8rem;
+    line-height: 1.35;
+  }
+
+  .song-card {
+    display: grid;
+    gap: 7px;
+    margin-bottom: 10px;
+    padding: 11px;
+    background: var(--paper);
+    border: 1px solid color-mix(in srgb, var(--ink) 18%, transparent);
+    border-radius: 8px;
+  }
+
+  .song-card.second {
+    opacity: 0.65;
+  }
+
+  .song-title,
+  .song-line {
+    display: block;
+    height: 6px;
+    background: color-mix(in srgb, var(--ink) 28%, transparent);
+    border-radius: 999px;
+  }
+
+  .song-title {
+    width: 60%;
+    height: 8px;
+    background: var(--ink);
+  }
+
+  .song-line {
+    width: 90%;
+  }
+
+  .song-line.short {
+    width: 68%;
+  }
+
+  .menu-layer,
+  .share-layer {
+    position: absolute;
+    z-index: 1;
+    inset: 26px 0 0;
+    background: rgb(25 20 16 / 32%);
+  }
+
+  .menu-layer {
+    inset-block-start: 70px;
+  }
+
+  .android-menu {
+    position: absolute;
+    inset-block-start: 2px;
+    inset-inline-end: 7px;
+    display: grid;
+    gap: 3px;
+    width: min(86%, 220px);
+    padding: 9px;
+    background: var(--paper);
+    border: 1px solid color-mix(in srgb, var(--ink) 14%, transparent);
+    border-radius: 12px;
+    box-shadow: 0 5px 18px rgb(0 0 0 / 24%);
+  }
+
+  .menu-row {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    min-height: 42px;
+    padding: 7px 9px;
+    border-radius: 7px;
+    font-size: 0.7rem;
+    line-height: 1.25;
+  }
+
+  .menu-row.muted {
+    position: relative;
+    min-height: 24px;
+  }
+
+  .menu-row.muted::before {
+    content: '';
+    display: block;
+    width: 62%;
+    height: 5px;
+    background: color-mix(in srgb, var(--ink) 18%, transparent);
+    border-radius: 999px;
+  }
+
+  .menu-row.muted.short-row::before {
+    width: 43%;
+  }
+
+  .menu-row.highlighted {
+    background: #fff0a8;
+    outline: 3px solid var(--coral);
+    outline-offset: -1px;
+    font-weight: 700;
+  }
+
+  .install-glyph,
+  .home-icon {
+    display: grid;
+    flex: none;
+    place-items: center;
+    width: 22px;
+    height: 22px;
+    background: var(--yellow);
+    border: 1px solid var(--ink);
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 700;
+  }
+
+  .safari-bar {
+    position: absolute;
+    z-index: 0;
+    inset-inline: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    height: 48px;
+    padding-inline: 8px;
+    background: var(--paper);
+    border-top: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+  }
+
+  .safari-nav,
+  .share-icon {
+    flex: none;
+    color: #2867a3;
+    font-size: 1.2rem;
+    font-weight: 700;
+  }
+
+  .safari-address {
+    width: 65%;
+    text-align: center;
+  }
+
+  .share-layer {
+    inset: 26px 0 48px;
+    background: rgb(25 20 16 / 18%);
+  }
+
+  .share-sheet {
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0;
+    display: grid;
+    align-content: start;
+    gap: 12px;
+    min-height: 245px;
+    padding: 11px 12px 16px;
+    background: var(--paper);
+    border-radius: 18px 18px 0 0;
+    box-shadow: 0 -3px 14px rgb(0 0 0 / 12%);
+  }
+
+  .sheet-handle {
+    width: 36px;
+    height: 4px;
+    margin-inline: auto;
+    background: #aaa39b;
+    border-radius: 999px;
+  }
+
+  .share-heading {
+    font-size: 0.8rem;
+    font-weight: 700;
+  }
+
+  .share-preview {
+    padding: 9px;
+    background: #f0eee9;
+    border-radius: 8px;
+    color: #40382f;
+    font-size: 0.65rem;
+  }
+
+  .share-sheet .menu-row {
+    min-height: 52px;
+  }
+
+</style>

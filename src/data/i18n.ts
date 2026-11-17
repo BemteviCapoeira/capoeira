@@ -39,6 +39,7 @@ const he = {
     noResults: 'לא מצאנו שיר כזה. נסו מילה אחרת או בטלו את הסינון.',
     keepPlaying: 'איזה שיר נשיר עכשיו?',
     backToTop: 'חזרה לראש הרשימה',
+    installApp: 'איך להתקין את האפליקציה',
   },
   card: {
     video: '▶ וידאו',
@@ -64,6 +65,33 @@ const he = {
     title: 'אודות',
     thanks: 'תודה!',
     addSong: '+ הוספת שיר',
+    installApp: 'איך להתקין את האפליקציה',
+  },
+  install: {
+    title: 'התקנת אפליקציית ספר השירים',
+    intro: 'אפשר להוסיף את ספר השירים למסך הבית ולהשתמש בו כאפליקציה.',
+    androidTitle: 'Android',
+    androidSteps: [
+      'פתחו את האתר בדפדפן Chrome.',
+      'פתחו את התפריט (⋮).',
+      'גללו מטה בתפריט ובחרו "התקנה ויצירת קיצור דרך".',
+      'בחרו "אפליקציה" (ולא "יצירת קיצור דרך"), ואז לחצו על "התקנה" כדי להשלים.',
+    ],
+    androidMenuOption: 'התקנה ויצירת קיצור דרך',
+    iosTitle: 'iPhone או iPad',
+    iosSteps: [
+      'פתחו את האתר בדפדפן Safari.',
+      'לחצו על כפתור השיתוף (ריבוע עם חץ כלפי מעלה).',
+      'גללו מטה ובחרו "הוספה למסך הבית".',
+      'לחצו על "התקנה".',
+    ],
+    iosMenuOption: 'הוספה למסך הבית',
+    shareTitle: 'שיתוף',
+    tipTitle: 'לא מופיעה אפשרות התקנה?',
+    tip: 'ודאו שאתם משתמשים ב-Safari באייפון או ב-Chrome באנדרואיד. שמות האפשרויות עשויים להשתנות מעט בין מכשירים.',
+    appInstalled: 'מזל טוב! האפליקציה הותקנה. חפשו במסך הבית את האייקון הצהוב עם הברימבאו.',
+    backToAbout: 'חזרה לעמוד אודות',
+    backToSongs: 'חזרה לשירים',
   },
 };
 
@@ -81,6 +109,7 @@ const en: typeof he = {
     noResults: "We couldn't find that song. Try another word, or clear the filter.",
     keepPlaying: 'Which song shall we sing next?',
     backToTop: 'Back to top',
+    installApp: 'How to install the app',
   },
   card: {
     video: '▶ Video',
@@ -106,6 +135,33 @@ const en: typeof he = {
     title: 'About',
     thanks: 'Thank you!',
     addSong: '+ Add a song',
+    installApp: 'How to install the app',
+  },
+  install: {
+    title: 'Install the songbook app',
+    intro: 'Add the songbook to your phone’s home screen for quick, app-like access.',
+    androidTitle: 'Android',
+    androidSteps: [
+      'Open this page in Chrome.',
+      'Tap the menu (⋮).',
+      'Scroll down the menu and tap “Install and create shortcut.”',
+      'Choose “App” (not “Create shortcut”), then tap “Install” to finish.',
+    ],
+    androidMenuOption: 'Install and create shortcut',
+    iosTitle: 'iPhone or iPad',
+    iosSteps: [
+      'Open this page in Safari.',
+      'Tap the Share button (the square with an arrow pointing up).',
+      'Scroll down and tap “Add to Home Screen.”',
+      'Tap “Add.”',
+    ],
+    iosMenuOption: 'Add to Home Screen',
+    shareTitle: 'Share',
+    tipTitle: 'Don’t see an install option?',
+    tip: 'Make sure you’re using Safari on iPhone or Chrome on Android. Menu labels may vary slightly by device.',
+    appInstalled: 'Congratulations! The app is installed. Look for the yellow berimbau icon on your home screen.',
+    backToAbout: 'Back to About',
+    backToSongs: 'Back to Songs',
   },
 };
 

@@ -1,0 +1,176 @@
+---
+import Base from '../../layouts/Base.astro';
+import { Image } from 'astro:assets';
+import InstallIllustration from '../../components/InstallIllustration.astro';
+import bemtevi from '../../assets/bemtevi.jpg';
+import pandeiro from '../../assets/pandeiro.jpg';
+import { LANGUAGES, localeParams, localePath, UI, type Locale } from '../../data/i18n';
+
+export function getStaticPaths() {
+  return localeParams().map(({ params, locale }) => ({ params, props: { locale } }));
+}
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = UI[locale].install;
+const dir = LANGUAGES[locale].dir;
+---
+
+<Base locale={locale} path="install-app/" title={t.title}>
+  <article class="install" dir={dir} style={`--pandeiro-icon: url('${pandeiro.src}')`}>
+    <header class="card intro">
+      <h1 class="section-title">{t.title}</h1>
+      <p>{t.intro}</p>
+    </header>
+
+    <div class="platforms">
+      <section class="card platform">
+        <h2>{t.androidTitle}</h2>
+        <ol role="list">
+          {t.androidSteps.map((step) => <li>{step}</li>)}
+        </ol>
+        <InstallIllustration locale={locale} platform="android" />
+      </section>
+
+      <section class="card platform">
+        <h2>{t.iosTitle}</h2>
+        <ol role="list">
+          {t.iosSteps.map((step) => <li>{step}</li>)}
+        </ol>
+        <InstallIllustration locale={locale} platform="ios" />
+      </section>
+    </div>
+
+    <aside class="card tip">
+      <strong>{t.tipTitle}</strong>
+      <p>{t.tip}</p>
+    </aside>
+
+    <aside class="card success">
+      <img
+        class="app-icon"
+        src={`${import.meta.env.BASE_URL}icon-192.png`}
+        alt=""
+        width="56"
+        height="56"
+        loading="lazy"
+      />
+      <p>{t.appInstalled}</p>
+    </aside>
+
+    <div class="back-actions">
+      <a class="btn" href={localePath(locale, 'about/')}>{t.backToAbout}</a>
+      <a class="btn" href={localePath(locale)}>
+        <Image src={bemtevi} alt="" width={28} class="back-songs-icon" loading="lazy" />
+        {t.backToSongs}
+      </a>
+    </div>
+  </article>
+</Base>
+
+<style>
+  .install {
+    display: grid;
+    gap: 20px;
+    max-width: 820px;
+    margin-inline: auto;
+  }
+
+  .intro p,
+  .tip p {
+    margin: 0;
+  }
+
+  .platforms {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+  }
+
+  .platform h2 {
+    margin-bottom: 12px;
+    font-size: 1.35rem;
+  }
+
+  .platform ol {
+    display: grid;
+    gap: 0.6em;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .platform li {
+    display: flex;
+    align-items: center;
+    gap: 0.6em;
+  }
+
+  .platform li::before {
+    content: '';
+    flex: 0 0 2.3958em;
+    width: 2.3958em;
+    height: 1.331em;
+    background: var(--pandeiro-icon) center / contain no-repeat;
+  }
+
+  .tip {
+    border-inline-start: 4px solid var(--yellow);
+  }
+
+  .tip strong {
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .success {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    border-inline-start: 4px solid var(--green);
+  }
+
+  .success p {
+    margin: 0;
+    font-weight: 600;
+  }
+
+  .app-icon {
+    flex: none;
+    width: 56px;
+    height: 56px;
+    border-radius: 12px;
+  }
+
+  .back-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .back-actions .btn {
+    min-height: 48px;
+    gap: 8px;
+  }
+
+  .back-songs-icon {
+    flex: none;
+    width: 28px;
+    height: 28px;
+    border: var(--border);
+    border-radius: 50%;
+    box-shadow: var(--shadow-sm);
+    object-fit: cover;
+    object-position: 50% 30%;
+  }
+
+  @media (max-width: 640px) {
+    .platforms {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
