@@ -200,3 +200,8 @@ p {
     transition: none !important;
   }
 }
+img.image-fallback {
+  object-fit: contain;
+  background: var(--sky-soft);
+}
+

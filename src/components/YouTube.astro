@@ -16,7 +16,7 @@ const watch = `https://www.youtube.com/watch?v=${id}${start ? `&t=${start}s` : '
 
 <div class="video" data-youtube={embed} data-title={title}>
   <a href={watch} target="_blank" rel="noopener">
-    <img src={`https://i.ytimg.com/vi/${id}/hqdefault.jpg`} alt="" loading="lazy" decoding="async" width="480" height="360" />
+    <img src={`https://i.ytimg.com/vi/${id}/hqdefault.jpg`} data-image-fallback alt="" loading="lazy" decoding="async" width="480" height="360" />
     <span class="play" aria-hidden="true">
       <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="currentColor"></path></svg>
     </span>

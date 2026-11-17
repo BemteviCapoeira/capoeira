@@ -36,6 +36,7 @@ const description = Astro.props.description ?? site.description;
 const fullTitle = title ? `${title} · ${site.shortTitle}` : site.title;
 const base = import.meta.env.BASE_URL;
 const canonical = new URL(Astro.url.pathname, Astro.site);
+const socialImage = image ? new URL(image, Astro.site).toString() : new URL(`${base}icon-512.png`, Astro.site).toString();
 const translations = Object.fromEntries(LOCALES.map((l) => [l, localePath(l, path ?? '')])) as Record<Locale, string>;
 const tabs = [
   { id: 'songs', label: t.nav.songs, href: localePath(locale), path: '' },
@@ -89,10 +90,10 @@ const tabs = [
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
-    {image && <meta property="og:image" content={new URL(image, Astro.site)} />}
+    <meta property="og:image" content={socialImage} />
     {noindex && <meta name="robots" content="noindex" />}
   </head>
-  <body>
+  <body data-base={base}>
     <div class="site">
       <a class="skip-link" href="#main">{t.skipLink}</a>
       <header class="site-header">
@@ -128,6 +129,11 @@ const tabs = [
     <slot name="print" />
   </body>
 </html>
+
+<script>
+  import { initImageFallback } from '../scripts/image-fallback';
+  initImageFallback();
+</script>
 
 <style>
   .site {

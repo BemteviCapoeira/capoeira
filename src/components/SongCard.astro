@@ -5,7 +5,6 @@ import { TAGS } from '../data/tags';
 import { firstLine } from '../lib/lyrics';
 import { songUrl, translationOf, type Song } from '../lib/songs';
 import { fold } from '../lib/text';
-import BerimbauArt from './BerimbauArt.astro';
 
 interface Props {
   song: Song;
@@ -17,8 +16,17 @@ const t = UI[locale].card;
 const { titles, tags, image, imageWide, imageTall, youtube, lyrics } = song.data;
 const translation = translationOf(song, locale);
 // Wide crop for the grid, tall crop for the phone layout's thumbnail (see PHONE below).
-const wide = image && (await getImage({ src: imageWide ?? image, widths: [320, 560, 840], format: 'webp' }));
-const tall = image && (await getImage({ src: imageTall ?? image, widths: [104, 208, 312], format: 'webp' }));
+let wide;
+let tall;
+if (image) {
+  try {
+    wide = await getImage({ src: imageWide ?? image, widths: [320, 560, 840], format: 'webp' });
+    tall = await getImage({ src: imageTall ?? image, widths: [104, 208, 312], format: 'webp' });
+  } catch {
+    wide = undefined;
+    tall = undefined;
+  }
+}
 const opening = firstLine(lyrics);
 const showOpening = opening && !titles.some((t) => fold(t) === fold(opening));
 ---
@@ -32,6 +40,7 @@ const showOpening = opening && !titles.some((t) => fold(t) === fold(opening));
           <img
             src={wide.src}
             srcset={wide.srcSet.attribute}
+            data-image-fallback
             sizes="(min-width: 720px) 300px, 50vw"
             alt=""
             loading="lazy"
@@ -41,7 +50,14 @@ const showOpening = opening && !titles.some((t) => fold(t) === fold(opening));
           />
         </picture>
       ) : (
-        <BerimbauArt />
+        <img
+          src={`${import.meta.env.BASE_URL}logo-blue-bg.svg`}
+          alt=""
+          class="image-fallback"
+          width="300"
+          height="225"
+          loading="lazy"
+        />
       )
     }
   </div>
@@ -107,6 +123,10 @@ const showOpening = opening && !titles.some((t) => fold(t) === fold(opening));
     height: 100%;
     object-fit: cover;
     object-position: 50% 30%;
+  }
+
+  .media img.image-fallback {
+    object-fit: contain;
   }
 
   .body {

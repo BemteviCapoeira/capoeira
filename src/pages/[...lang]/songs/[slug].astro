@@ -2,7 +2,6 @@
 import { getCollection } from 'astro:content';
 import { getImage, Picture } from 'astro:assets';
 import Base from '../../../layouts/Base.astro';
-import BerimbauArt from '../../../components/BerimbauArt.astro';
 import Lyrics from '../../../components/Lyrics.astro';
 import PrintSheet from '../../../components/PrintSheet.astro';
 import YouTube from '../../../components/YouTube.astro';
@@ -45,7 +44,14 @@ const notes = (locale === 'he' ? song.data.notesHebrew : song.data.notesEnglish)
 const hasNotes = notes.length > 0;
 // link previews crop to landscape, so they get the 4:3 crop when there is one
 const socialSource = song.data.imageWide ?? image;
-const socialImage = socialSource ? await getImage({ src: socialSource, width: 1200, format: 'jpg' }) : undefined;
+let socialImage;
+if (socialSource) {
+  try {
+    socialImage = await getImage({ src: socialSource, width: 1200, format: 'jpg' });
+  } catch {
+    socialImage = undefined;
+  }
+}
 ---
 
 <Base
@@ -87,13 +93,21 @@ const socialImage = socialSource ? await getImage({ src: socialSource, width: 12
             <Picture
               src={image}
               alt={imageAlt}
+              data-image-fallback
               widths={[360, 720, 1080]}
               sizes="(min-width: 860px) 380px, 92vw"
               formats={['avif', 'webp']}
               loading="eager"
             />
           ) : (
-            <BerimbauArt />
+            <img
+              src={`${import.meta.env.BASE_URL}logo-blue-bg.svg`}
+              alt=""
+              class="image-fallback"
+              width="380"
+              height="285"
+              loading="eager"
+            />
           )
         }
       </figure>
