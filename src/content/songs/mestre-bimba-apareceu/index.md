@@ -1,6 +1,6 @@
 ---
 titles: ["Mestre Bimba apareceu","La lae la ela"]
-tags: []
+tags: [benguela]
 image: ./cover.jpg
 imageAlt: ""
 youtube: riaNmrVSjxw
