@@ -1,6 +1,8 @@
 ---
 titles: ["Acende O Candieiro, Iaiá"]
 tags: [benguela]
+image: ./cover.jpg
+imageWide: ./wide.jpg
 youtube: pU_jGX1fkTw
 lyrics: |
   > Iaiá, oh Iaiá
