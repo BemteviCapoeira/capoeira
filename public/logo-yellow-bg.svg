@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <filter id="soft-light" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="1.15"/>
+    </filter>
+  </defs>
+  <circle cx="32" cy="32" r="30" fill="#ffcf33" stroke="#2a1a10" stroke-width="3"/>
+  <g transform="rotate(-18 32 32) translate(10 6) scale(.43)">
+    <path d="M52 6Q24 60 52 114" fill="none" stroke="#2a1a10" stroke-width="7" stroke-linecap="round"/>
+    <path d="M52 6V114" stroke="#2a1a10" stroke-width="3"/>
+    <path d="M52 86H44" stroke="#2a1a10" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="29" cy="86" r="15" fill="#ff6b57" stroke="#2a1a10" stroke-width="5"/>
+    <ellipse cx="34" cy="80" rx="5.5" ry="2.8" fill="#fff5ed" opacity=".70" filter="url(#soft-light)" transform="rotate(30 34 80)"/>
+    <path d="M19 77 Q9 82 17 97 Q21 99 24 93 Q26 85 19 77Z" fill="#2a1a10"/>
+  </g>
+</svg>
