@@ -1,3 +1,17 @@
-Dear friends,
+**Dear friends,**
 
-This is a collection of capoeira songs, created so we can sing together and keep fuelling our training with the energy of Abadá Capoeira. Each song includes lyrics and a link to a performance on YouTube. The songs are organized into Benguela songs and São Bento songs. The site looks best on a computer; you can also install it as an app on your phone. This is an early version; from time to time we'll add more songs and improvements. We'd love your suggestions and feedback. Thanks for stopping by, and see you at the roda!
+Welcome to our capoeira songbook—a collection created so we can sing together and bring the energy of Abadá Capoeira into our training.
+
+Each song includes:
+
+- lyrics
+- translation
+- a link to a YouTube performance
+- a print-friendly lyrics page
+- its style: Benguela or São Bento
+
+**Good to know:** The songbook is easiest to browse on a computer, and you can also install it on your phone as an app. This is an early version, and we’ll keep adding songs and making improvements.
+
+Have a question, spotted a mistake, or want to suggest a song or an improvement? We’d love to hear from you.
+
+**See you at the roda!**

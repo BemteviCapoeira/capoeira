@@ -117,6 +117,28 @@ const NAME_COLORS = ['coral', 'turquoise', 'yellow', 'pink', 'lime', 'sky'];
     line-height: 1.7;
   }
 
+  .letter :global(ul) {
+    display: grid;
+    gap: 6px;
+    margin: 0 0 0.8em;
+    padding: 0;
+    list-style: none;
+  }
+
+  .letter :global(li) {
+    display: flex;
+    align-items: center;
+    gap: 0.6em;
+  }
+
+  .letter :global(li)::before {
+    content: '';
+    flex: 0 0 2.3958em;
+    width: 2.3958em;
+    height: 1.331em;
+    background: url('../../assets/pandeiro.jpg') center / contain no-repeat;
+  }
+
   .letter :global(p) {
     margin: 0 0 0.8em;
   }
@@ -139,6 +161,13 @@ const NAME_COLORS = ['coral', 'turquoise', 'yellow', 'pink', 'lime', 'sky'];
   .thanks > p,
   .site-thanks {
     font-size: 1.125rem;
+  }
+
+  @media (max-width: 640px) {
+    .thanks > p,
+    .site-thanks {
+      font-size: 1rem;
+    }
   }
 
   .names {
