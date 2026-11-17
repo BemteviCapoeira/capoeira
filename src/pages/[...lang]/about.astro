@@ -2,6 +2,7 @@
 import { Image } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
 import bemtevi from '../../assets/bemtevi.jpg';
+import pandeiro from '../../assets/pandeiro.jpg';
 import { Content as WelcomeHe } from '../../content/welcome/he.md';
 import { Content as WelcomeEn } from '../../content/welcome/en.md';
 import { LANGUAGES, localeParams, UI, type Locale } from '../../data/i18n';
@@ -40,7 +41,7 @@ const NAME_COLORS = ['coral', 'turquoise', 'yellow', 'pink', 'lime', 'sky'];
       />
     </header>
 
-    <section class="card letter">
+    <section class="card letter" style={`--pandeiro-icon: url('${pandeiro.src}')`}>
       <Welcome />
       <p class="cheer" lang="pt-BR" dir="ltr">{SITE.cheer}</p>
     </section>
@@ -136,7 +137,7 @@ const NAME_COLORS = ['coral', 'turquoise', 'yellow', 'pink', 'lime', 'sky'];
     flex: 0 0 2.3958em;
     width: 2.3958em;
     height: 1.331em;
-    background: url('../../assets/pandeiro.jpg') center / contain no-repeat;
+    background: var(--pandeiro-icon) center / contain no-repeat;
   }
 
   .letter :global(p) {
