@@ -133,27 +133,27 @@ export function updateSongMarkdown(original: string, before: SongInput, after: S
     updated = lines.join('\n');
   };
 
-  const scalar = (key: string, value: string | undefined) => {
+  const replaceScalar = (key: string, value: string | undefined) => {
     replaceTopLevel(key, value === undefined ? undefined : `${key}: ${value}`);
   };
-  const block = (key: string, value: string | undefined) => {
+  const replaceBlock = (key: string, value: string | undefined) => {
     if (!value?.trim()) return replaceTopLevel(key);
-    const lines = block(normalizeLyrics(value));
-    replaceTopLevel(key, `${key}: |\n${lines.join('\n')}`);
+    const indented = block(normalizeLyrics(value));
+    replaceTopLevel(key, `${key}: |\n${indented.join('\n')}`);
   };
 
-  if (JSON.stringify(before.titles) !== JSON.stringify(after.titles)) scalar('titles', JSON.stringify(after.titles));
-  if (JSON.stringify(before.tags) !== JSON.stringify(after.tags)) scalar('tags', `[${after.tags.join(', ')}]`);
-  if (before.image !== after.image) scalar('image', after.image ? `./${after.image}` : undefined);
-  if (before.imageAlt !== after.imageAlt) scalar('imageAlt', JSON.stringify(after.imageAlt ?? ''));
-  if (before.imageAltEn !== after.imageAltEn) scalar('imageAltEn', after.imageAltEn ? JSON.stringify(after.imageAltEn) : undefined);
-  if (before.youtube?.id !== after.youtube?.id) scalar('youtube', after.youtube?.id);
-  if (before.youtube?.start !== after.youtube?.start) scalar('youtubeStart', after.youtube?.start ? String(after.youtube.start) : undefined);
-  if (normalizeLyrics(before.lyrics) !== normalizeLyrics(after.lyrics)) block('lyrics', after.lyrics);
-  if (normalizeLyrics(before.hebrew ?? '') !== normalizeLyrics(after.hebrew ?? '')) block('hebrew', after.hebrew);
-  if (normalizeLyrics(before.english ?? '') !== normalizeLyrics(after.english ?? '')) block('english', after.english);
-  if ((before.notesHebrew ?? '').trim() !== (after.notesHebrew ?? '').trim()) block('notesHebrew', after.notesHebrew);
-  if ((before.notesEnglish ?? '').trim() !== (after.notesEnglish ?? '').trim()) block('notesEnglish', after.notesEnglish);
+  if (JSON.stringify(before.titles) !== JSON.stringify(after.titles)) replaceScalar('titles', JSON.stringify(after.titles));
+  if (JSON.stringify(before.tags) !== JSON.stringify(after.tags)) replaceScalar('tags', `[${after.tags.join(', ')}]`);
+  if (before.image !== after.image) replaceScalar('image', after.image ? `./${after.image}` : undefined);
+  if (before.imageAlt !== after.imageAlt) replaceScalar('imageAlt', JSON.stringify(after.imageAlt ?? ''));
+  if (before.imageAltEn !== after.imageAltEn) replaceScalar('imageAltEn', after.imageAltEn ? JSON.stringify(after.imageAltEn) : undefined);
+  if (before.youtube?.id !== after.youtube?.id) replaceScalar('youtube', after.youtube?.id);
+  if (before.youtube?.start !== after.youtube?.start) replaceScalar('youtubeStart', after.youtube?.start ? String(after.youtube.start) : undefined);
+  if (normalizeLyrics(before.lyrics) !== normalizeLyrics(after.lyrics)) replaceBlock('lyrics', after.lyrics);
+  if (normalizeLyrics(before.hebrew ?? '') !== normalizeLyrics(after.hebrew ?? '')) replaceBlock('hebrew', after.hebrew);
+  if (normalizeLyrics(before.english ?? '') !== normalizeLyrics(after.english ?? '')) replaceBlock('english', after.english);
+  if ((before.notesHebrew ?? '').trim() !== (after.notesHebrew ?? '').trim()) replaceBlock('notesHebrew', after.notesHebrew);
+  if ((before.notesEnglish ?? '').trim() !== (after.notesEnglish ?? '').trim()) replaceBlock('notesEnglish', after.notesEnglish);
 
   return `---\n${updated.trimEnd()}\n---${suffix}`;
 }
