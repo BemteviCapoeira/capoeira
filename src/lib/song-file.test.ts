@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { normalizeLyrics, parseYouTube, songMarkdown } from './song-file.ts';
+import { normalizeLyrics, parseYouTube, songMarkdown, updateSongMarkdown } from './song-file.ts';
 
 test('parseYouTube accepts ids and common URLs', () => {
   assert.deepEqual(parseYouTube('msmBZpgMhBk'), { id: 'msmBZpgMhBk' });
@@ -77,4 +77,36 @@ test('songMarkdown writes valid frontmatter in the repo format', () => {
     simple.replace(/^---\ncreation-time: "[^"]+"\n/, '---\n'),
     '---\ntitles: ["X"]\ntags: []\nlyrics: |\n  a\n---\n',
   );
+});
+
+test('updateSongMarkdown changes only fields that differ', () => {
+  const original = [
+    '---',
+    'creation-time: "2026-11-16T02:57:31+02:00"',
+    'titles: ["Old title"]',
+    'tags: [benguela]',
+    'imageWide: ./wide.jpg',
+    'imageTall: ./tall.jpg',
+    'lyrics: |',
+    '  Old line',
+    'notesHebrew: |',
+    '  Old note',
+    '---',
+    '',
+  ].join('\n');
+  const before = {
+    titles: ['Old title'],
+    tags: ['benguela'],
+    lyrics: 'Old line',
+    notesHebrew: 'Old note',
+  };
+  const after = { ...before, titles: ['New title'] };
+
+  const updated = updateSongMarkdown(original, before, after);
+  assert.match(updated, /titles: \["New title"\]/);
+  assert.match(updated, /creation-time: "2026-11-16T02:57:31\+02:00"/);
+  assert.match(updated, /imageWide: \.\/wide\.jpg/);
+  assert.match(updated, /imageTall: \.\/tall\.jpg/);
+  assert.match(updated, /notesHebrew: \|/);
+  assert.match(updated, /  Old note/);
 });

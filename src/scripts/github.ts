@@ -55,6 +55,14 @@ export function gitHub(token: string, repo: RepoRef) {
 
     repo: () => request<{ default_branch: string; permissions?: { push?: boolean } }>('GET', repoPath),
 
+    async getText(path: string, ref: string): Promise<string> {
+      const file = await request<{ content?: string }>('GET', `${repoPath}/contents/${path}?ref=${encodeURIComponent(ref)}`);
+      if (!file.content) throw new Error('GitHub returned no file content.');
+      const binary = atob(file.content.replace(/\s/g, ''));
+      const bytes = Uint8Array.from(binary, (char) => char.charCodeAt(0));
+      return new TextDecoder().decode(bytes);
+    },
+
     async exists(path: string, ref: string): Promise<boolean> {
       try {
         await request('GET', `${repoPath}/contents/${path}?ref=${encodeURIComponent(ref)}`);

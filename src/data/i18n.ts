@@ -70,7 +70,8 @@ const he = {
   about: {
     title: 'אודות',
     thanks: 'תודה!',
-    addSong: '+ הוספת שיר',
+    adminTitle: 'לדף ניהול',
+    adminDescription: 'הוספת שירים ועריכת תוכן האתר',
     installApp: 'איך להתקין את האפליקציה',
     backToSongs: 'חזרה לשירים',
   },
@@ -147,7 +148,8 @@ const en: typeof he = {
   about: {
     title: 'About',
     thanks: 'Thank you!',
-    addSong: '+ Add a song',
+    adminTitle: 'Administration',
+    adminDescription: 'Add songs and edit site content',
     installApp: 'How to install the app',
     backToSongs: 'Back to Songs',
   },

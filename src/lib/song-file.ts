@@ -103,3 +103,54 @@ export function songMarkdown(song: SongInput): string {
 }
 
 export const SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+
+export function updateSongMarkdown(original: string, before: SongInput, after: SongInput): string {
+  const match = /^---\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)/.exec(original);
+  if (!match) return songMarkdown(after);
+
+  const fm = match[1];
+  const suffix = original.slice(match[0].length);
+  let updated = fm;
+
+  const replaceTopLevel = (key: string, replacement?: string) => {
+    const escaped = key.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const keyStart = new RegExp(`^${escaped}:.*(?:\\n|$)`, 'm');
+    const start = updated.match(keyStart);
+    if (!start) {
+      if (replacement) updated = updated.trimEnd() + `\n${replacement}`;
+      return;
+    }
+    const index = start.index ?? 0;
+    const fromStart = updated.slice(index);
+    const next = /^[A-Za-z][\w-]*:/gm;
+    next.lastIndex = start[0].length;
+    const nextMatch = next.exec(fromStart.slice(start[0].length));
+    const end = nextMatch ? index + start[0].length + (nextMatch.index ?? 0) : updated.length;
+    if (replacement) updated = updated.slice(0, index) + replacement + updated.slice(end);
+    else updated = updated.slice(0, index).trimEnd() + updated.slice(end);
+  };
+
+  const scalar = (key: string, value: string | undefined) => {
+    replaceTopLevel(key, value === undefined ? undefined : `${key}: ${value}`);
+  };
+  const block = (key: string, value: string | undefined) => {
+    if (!value?.trim()) return replaceTopLevel(key);
+    const lines = block(normalizeLyrics(value));
+    replaceTopLevel(key, `${key}: |\n${lines.join('\n')}`);
+  };
+
+  if (JSON.stringify(before.titles) !== JSON.stringify(after.titles)) scalar('titles', JSON.stringify(after.titles));
+  if (JSON.stringify(before.tags) !== JSON.stringify(after.tags)) scalar('tags', `[${after.tags.join(', ')}]`);
+  if (before.image !== after.image) scalar('image', after.image ? `./${after.image}` : undefined);
+  if (before.imageAlt !== after.imageAlt) scalar('imageAlt', JSON.stringify(after.imageAlt ?? ''));
+  if (before.imageAltEn !== after.imageAltEn) scalar('imageAltEn', after.imageAltEn ? JSON.stringify(after.imageAltEn) : undefined);
+  if (before.youtube?.id !== after.youtube?.id) scalar('youtube', after.youtube?.id);
+  if (before.youtube?.start !== after.youtube?.start) scalar('youtubeStart', after.youtube?.start ? String(after.youtube.start) : undefined);
+  if (normalizeLyrics(before.lyrics) !== normalizeLyrics(after.lyrics)) block('lyrics', after.lyrics);
+  if (normalizeLyrics(before.hebrew ?? '') !== normalizeLyrics(after.hebrew ?? '')) block('hebrew', after.hebrew);
+  if (normalizeLyrics(before.english ?? '') !== normalizeLyrics(after.english ?? '')) block('english', after.english);
+  if ((before.notesHebrew ?? '').trim() !== (after.notesHebrew ?? '').trim()) block('notesHebrew', after.notesHebrew);
+  if ((before.notesEnglish ?? '').trim() !== (after.notesEnglish ?? '').trim()) block('notesEnglish', after.notesEnglish);
+
+  return `---\n${updated.trimEnd()}\n---${suffix}`;
+}

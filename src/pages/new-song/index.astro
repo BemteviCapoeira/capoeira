@@ -7,7 +7,23 @@ import { TAG_IDS, TAGS } from '../../data/tags';
 import { localePath } from '../../data/i18n';
 import '../../styles/forms.css';
 
-const slugs = (await getCollection('songs')).map((song) => song.id);
+const collection = await getCollection('songs');
+const slugs = collection.map((song) => song.id);
+const songs = collection.map((song) => ({
+  slug: song.id,
+  titles: song.data.titles,
+  tags: song.data.tags,
+  image: song.data.image?.src,
+  imageAlt: song.data.imageAlt,
+  imageAltEn: song.data.imageAltEn,
+  youtube: song.data.youtube,
+  youtubeStart: song.data.youtubeStart,
+  lyrics: song.data.lyrics,
+  hebrew: song.data.hebrew,
+  english: song.data.english,
+  notesHebrew: song.data.notesHebrew,
+  notesEnglish: song.data.notesEnglish,
+}));
 const songsUrl = new URL(`${import.meta.env.BASE_URL}songs/`, Astro.site).href;
 ---
 
@@ -26,6 +42,21 @@ const songsUrl = new URL(`${import.meta.env.BASE_URL}songs/`, Astro.site).href;
       <p class="status" data-session-status role="status">Checking your GitHub token…</p>
       <noscript><p class="status" data-tone="error">This form needs JavaScript.</p></noscript>
     </header>
+
+    <div class="admin-tabs" role="tablist" aria-label="Song administration">
+      <button type="button" role="tab" aria-selected="true" data-admin-mode="add">Add a song</button>
+      <button type="button" role="tab" aria-selected="false" data-admin-mode="edit">Edit an existing song</button>
+    </div>
+
+    <div class="card edit-picker" data-edit-picker hidden>
+      <label for="edit-song">Choose a song</label>
+      <select id="edit-song" data-edit-song>
+        <option value="">Choose…</option>
+        {songs.map((song) => (
+          <option value={song.slug}>{song.titles[0]}</option>
+        ))}
+      </select>
+    </div>
 
     <form class="song-form" data-new-song novalidate hidden>
       <section class="card step" aria-labelledby="step-1">
@@ -176,7 +207,7 @@ const songsUrl = new URL(`${import.meta.env.BASE_URL}songs/`, Astro.site).href;
     </p>
   </div>
 
-  <script is:inline type="application/json" id="new-song-data" set:html={JSON.stringify({ slugs, songsUrl })} />
+  <script is:inline type="application/json" id="new-song-data" set:html={JSON.stringify({ slugs, songs, songsUrl })} />
 </Base>
 
 <script>
@@ -185,6 +216,48 @@ const songsUrl = new URL(`${import.meta.env.BASE_URL}songs/`, Astro.site).href;
 </script>
 
 <style>
+  .admin-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+
+  .admin-tabs button {
+    flex: 1;
+    min-height: 44px;
+    padding: 8px 14px;
+    font: inherit;
+    font-weight: 700;
+    background: var(--paper);
+    border: var(--border);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+  }
+
+  .admin-tabs button[aria-selected='true'] {
+    background: var(--sky);
+  }
+
+  .edit-picker {
+    display: grid;
+    gap: 8px;
+    margin-bottom: 18px;
+  }
+
+  .edit-picker label {
+    font-weight: 700;
+  }
+
+  .edit-picker select {
+    width: 100%;
+    min-height: 44px;
+    padding: 8px 12px;
+    font: inherit;
+    background: var(--paper);
+    border: var(--border);
+    border-radius: var(--radius-sm);
+  }
+
   .song-form {
     display: grid;
     grid-template-columns: minmax(0, 1fr);

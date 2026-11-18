@@ -1,5 +1,5 @@
 import { alignmentIssues, parseLyrics } from '../lib/lyrics';
-import { normalizeLyrics, parseYouTube, SLUG, songMarkdown } from '../lib/song-file';
+import { normalizeLyrics, parseYouTube, SLUG, songMarkdown, updateSongMarkdown, type SongInput } from '../lib/song-file';
 import { slugify } from '../lib/text';
 import { CONNECT_URL, isTokenProblem, tokenStore, verifyToken, type Session } from './auth';
 import { explain, type NewFile } from './github';
@@ -10,6 +10,21 @@ const MAX_IMAGE_SIDE = 1600;
 
 interface PageData {
   slugs: string[];
+  songs: Array<{
+    slug: string;
+    titles: string[];
+    tags: string[];
+    image?: string;
+    imageAlt?: string;
+    imageAltEn?: string;
+    youtube?: string;
+    youtubeStart?: number;
+    lyrics: string;
+    hebrew?: string;
+    english?: string;
+    notesHebrew?: string;
+    notesEnglish?: string;
+  }>;
   songsUrl: string;
 }
 
@@ -96,6 +111,9 @@ function setUpForm(form: HTMLFormElement, session: Session, data: PageData) {
   const field = <T extends HTMLInputElement | HTMLTextAreaElement = HTMLInputElement>(name: string) =>
     form.elements.namedItem(name) as T;
 
+  let mode: 'add' | 'edit' = 'add';
+  let editingSlug: string | undefined;
+
   const el = {
     title: field('title'),
     aka: field<HTMLTextAreaElement>('aka'),
@@ -127,6 +145,7 @@ function setUpForm(form: HTMLFormElement, session: Session, data: PageData) {
 
   let slugTouched = false;
   let picture: { base64: string; url: string } | undefined;
+  let originalSong: SongInput | undefined;
 
   const setStatus = (node: HTMLElement, text: string, tone: 'info' | 'ok' | 'error' = 'info') => {
     node.textContent = text;
@@ -135,6 +154,84 @@ function setUpForm(form: HTMLFormElement, session: Session, data: PageData) {
 
   const selectedTags = () =>
     [...form.querySelectorAll<HTMLInputElement>('input[name=tags]:checked')].map((input) => input.value);
+
+  const tabs = [...document.querySelectorAll<HTMLButtonElement>('[data-admin-mode]')];
+  const editPicker = document.querySelector<HTMLElement>('[data-edit-picker]')!;
+  const editSong = document.querySelector<HTMLSelectElement>('[data-edit-song]')!;
+
+  function setMode(nextMode: 'add' | 'edit') {
+    mode = nextMode;
+    for (const tab of tabs) tab.setAttribute('aria-selected', String(tab.dataset.adminMode === mode));
+    editPicker.hidden = mode !== 'edit';
+    if (mode === 'edit') {
+      el.slug.readOnly = true;
+      el.slug.style.background = 'var(--sand)';
+      el.submit.textContent = 'Open edit pull request';
+      el.submit.disabled = editSong.value === '';
+    } else {
+      editingSlug = undefined;
+      el.slug.readOnly = false;
+      el.slug.style.background = '';
+      el.submit.textContent = 'Open pull request';
+      el.submit.disabled = false;
+      form.reset();
+      picture = undefined;
+      slugTouched = false;
+      el.picture.hidden = true;
+      el.altField.hidden = true;
+      refresh();
+    }
+  }
+
+  function loadEditSong(slug: string) {
+    const song = data.songs.find((item) => item.slug === slug);
+    if (!song) return;
+    editingSlug = song.slug;
+    originalSong = {
+      titles: song.titles,
+      tags: song.tags,
+      image: song.image ? 'cover.jpg' : undefined,
+      imageAlt: song.imageAlt,
+      imageAltEn: song.imageAltEn,
+      youtube: song.youtube ? { id: song.youtube, start: song.youtubeStart } : undefined,
+      lyrics: song.lyrics,
+      hebrew: song.hebrew,
+      english: song.english,
+      notesHebrew: song.notesHebrew,
+      notesEnglish: song.notesEnglish,
+    };
+    slugTouched = true;
+    el.title.value = song.titles[0];
+    el.aka.value = song.titles.slice(1).join('\n');
+    el.slug.value = song.slug;
+    el.youtube.value = song.youtube
+      ? `https://youtu.be/${song.youtube}${song.youtubeStart ? `?t=${song.youtubeStart}` : ''}`
+      : '';
+    el.imageAlt.value = song.imageAlt ?? '';
+    el.imageAltEn.value = song.imageAltEn ?? '';
+    el.lyrics.value = song.lyrics;
+    el.hebrew.value = song.hebrew ?? '';
+    el.english.value = song.english ?? '';
+    el.notesHebrew.value = song.notesHebrew ?? '';
+    el.notesEnglish.value = song.notesEnglish ?? '';
+    for (const input of form.querySelectorAll<HTMLInputElement>('input[name=tags]')) {
+      input.checked = song.tags.includes(input.value);
+    }
+    picture = undefined;
+    el.picture.hidden = true;
+    el.altField.hidden = !song.image;
+    if (song.image) {
+      el.picturePreview.src = song.image;
+      el.picture.hidden = false;
+    }
+    el.submit.disabled = false;
+    refresh();
+  }
+
+  for (const tab of tabs) {
+    tab.addEventListener('click', () => setMode(tab.dataset.adminMode === 'edit' ? 'edit' : 'add'));
+  }
+  editSong.addEventListener('change', () => loadEditSong(editSong.value));
 
   const titles = () => [
     el.title.value.trim(),
@@ -149,7 +246,7 @@ function setUpForm(form: HTMLFormElement, session: Session, data: PageData) {
     const slug = el.slug.value.trim();
     if (!slug) return 'Add a title to get a web address.';
     if (!SLUG.test(slug)) return 'Use only lowercase letters, numbers and dashes (e.g. "eu-tava-la-na-bahia").';
-    if (data.slugs.includes(slug)) return 'A song with this web address already exists.';
+    if (mode === 'add' && data.slugs.includes(slug)) return 'A song with this web address already exists.';
     return undefined;
   }
 
@@ -353,15 +450,15 @@ function setUpForm(form: HTMLFormElement, session: Session, data: PageData) {
     const folder = `src/content/songs/${slug}`;
     el.submit.disabled = true;
     try {
-      setStatus(el.submitStatus, 'Checking the web address…');
-      if (await session.client.exists(folder, session.defaultBranch)) {
+      setStatus(el.submitStatus, mode === 'edit' ? 'Reading the current song…' : 'Checking the web address…');
+      if (mode === 'add' && await session.client.exists(folder, session.defaultBranch)) {
         setStatus(el.submitStatus, 'A song with this web address was just added by someone else. Choose another one.', 'error');
         return;
       }
-      const markdown = songMarkdown({
+      const updatedSong: SongInput = {
         titles: titles(),
         tags: selectedTags(),
-        image: picture ? 'cover.jpg' : undefined,
+        image: picture ? 'cover.jpg' : originalSong?.image,
         imageAlt: el.imageAlt.value.trim(),
         imageAltEn: el.imageAltEn.value.trim(),
         youtube: parseYouTube(el.youtube.value),
@@ -370,17 +467,33 @@ function setUpForm(form: HTMLFormElement, session: Session, data: PageData) {
         english: el.english.value,
         notesHebrew: el.notesHebrew.value,
         notesEnglish: el.notesEnglish.value,
-      });
-      const files: NewFile[] = [{ path: `${folder}/index.md`, text: markdown }];
-      if (picture) files.push({ path: `${folder}/cover.jpg`, base64: picture.base64 });
-
-      const url = await session.client.openPullRequest({
-        base: session.defaultBranch,
-        branch: `add-song/${slug}`,
-        files,
-        message: `Add song: ${title}`,
-        title: `Add song: ${title}`,
-        body: [
+      };
+      let markdown: string;
+      let branch: string;
+      let prTitle: string;
+      let prBody: string;
+      if (mode === 'edit') {
+        if (!editingSlug || !originalSong) {
+          setStatus(el.submitStatus, 'Choose a song to edit.', 'error');
+          return;
+        }
+        const original = await session.client.getText(`${folder}/index.md`, session.defaultBranch);
+        markdown = updateSongMarkdown(original, originalSong, updatedSong);
+        branch = `edit-song/${editingSlug}`;
+        prTitle = `Edit song: ${title}`;
+        prBody = [
+          `Edits **${title}** using the website's edit form.`,
+          '',
+          `- Page: ${data.songsUrl}${editingSlug}/`,
+          '- Only the changed fields should be included in this pull request.',
+          '',
+          'The CI check validates the song. Merge to publish the changes.',
+        ].join('\n');
+      } else {
+        markdown = songMarkdown(updatedSong);
+        branch = `add-song/${slug}`;
+        prTitle = `Add song: ${title}`;
+        prBody = [
           `Adds **${title}** using the website's "Add a song" form.`,
           '',
           `- Page after merging: ${data.songsUrl}${slug}/`,
@@ -390,7 +503,18 @@ function setUpForm(form: HTMLFormElement, session: Session, data: PageData) {
           `- Picture: ${picture ? 'yes' : 'no'}`,
           '',
           'The CI check validates the song. Merge to publish it.',
-        ].join('\n'),
+        ].join('\n');
+      }
+      const files: NewFile[] = [{ path: `${folder}/index.md`, text: markdown }];
+      if (picture) files.push({ path: `${folder}/cover.jpg`, base64: picture.base64 });
+
+      const url = await session.client.openPullRequest({
+        base: session.defaultBranch,
+        branch,
+        files,
+        message: `${mode === 'edit' ? 'Edit' : 'Add'} song: ${title}`,
+        title: prTitle,
+        body: prBody,
         onProgress: (step) => setStatus(el.submitStatus, step),
       });
 
@@ -415,6 +539,9 @@ function setUpForm(form: HTMLFormElement, session: Session, data: PageData) {
     form.reset();
     picture = undefined;
     slugTouched = false;
+    editingSlug = undefined;
+    originalSong = undefined;
+    setMode('add');
     el.picture.hidden = true;
     el.altField.hidden = true;
     el.send.hidden = false;
