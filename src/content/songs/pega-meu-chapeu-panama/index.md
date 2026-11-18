@@ -1,4 +1,5 @@
 ---
+creation-time: "2026-11-15T13:50:41+02:00"
 titles: ["Pega meu chapéu Panamá"]
 tags: [benguela]
 image: ./cover.jpg

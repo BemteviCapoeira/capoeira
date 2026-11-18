@@ -1,4 +1,5 @@
 ---
+creation-time: "2026-11-16T11:46:28+02:00"
 titles: ["Eu vou encontrar só","canarinho da Alemanha"]
 tags: [benguela]
 image: ./cover.jpg

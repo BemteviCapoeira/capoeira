@@ -1,4 +1,5 @@
 ---
+creation-time: "2026-11-16T02:57:31+02:00"
 titles: ["Canarinho da alemanhá"]
 tags: [benguela]
 image: ./cover.jpg

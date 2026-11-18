@@ -1,4 +1,5 @@
 ---
+creation-time: "2026-11-16T03:51:25+02:00"
 titles: ["iaia ioio","Quando o meu mestre se foi"]
 tags: [sao-bento]
 image: ./cover.jpg
