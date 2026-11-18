@@ -197,6 +197,34 @@ const songs = sortSongs(await getCollection('songs'));
     transform: translateY(0);
   }
 
+  @media (max-width: 560px) {
+    .filters {
+      display: grid;
+      grid-template-columns: 1fr;
+      justify-items: start;
+      gap: 12px;
+    }
+
+    .newest-chip {
+      justify-self: left;
+    }
+
+    .filters .chip-list {
+      justify-self: stretch;
+    }
+
+    .newest-chip .filter-tooltip {
+      inset-block-start: 0;
+      inset-block-end: auto;
+      inset-inline-start: auto;
+      inset-inline-end: auto;
+      left: calc(100% + 8px);
+      right: auto;
+      max-width: min(260px, calc(100vw - 150px));
+      transform: none;
+    }
+  }
+
   .search input {
     width: 100%;
     max-width: 640px;

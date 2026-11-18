@@ -2,6 +2,7 @@
 creation-time: "2026-11-18T02:16:33+02:00"
 titles: ["Ê aê aê aê aê, dendê maré"]
 tags: [sao-bento]
+image: ./cover.jpg
 youtube: CwxOxR5XyYM
 lyrics: |
   Quando a maré tá baixa
