@@ -113,21 +113,24 @@ export function updateSongMarkdown(original: string, before: SongInput, after: S
   let updated = fm;
 
   const replaceTopLevel = (key: string, replacement?: string) => {
-    const escaped = key.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    const keyStart = new RegExp(`^${escaped}:.*(?:\\n|$)`, 'm');
-    const start = updated.match(keyStart);
-    if (!start) {
-      if (replacement) updated = updated.trimEnd() + `\n${replacement}`;
+    const lines = updated.split('\n');
+    const start = lines.findIndex((line) => line === `${key}:` || line.startsWith(`${key}:`));
+    if (start === -1) {
+      if (replacement) lines.push(...replacement.split('\n'));
+      updated = lines.join('\n');
       return;
     }
-    const index = start.index ?? 0;
-    const fromStart = updated.slice(index);
-    const next = /^[A-Za-z][\w-]*:/gm;
-    next.lastIndex = start[0].length;
-    const nextMatch = next.exec(fromStart.slice(start[0].length));
-    const end = nextMatch ? index + start[0].length + (nextMatch.index ?? 0) : updated.length;
-    if (replacement) updated = updated.slice(0, index) + replacement + updated.slice(end);
-    else updated = updated.slice(0, index).trimEnd() + updated.slice(end);
+
+    let end = lines.length;
+    for (let i = start + 1; i < lines.length; i++) {
+      if (/^[A-Za-z][\w-]*:/.test(lines[i])) {
+        end = i;
+        break;
+      }
+    }
+    const replacementLines = replacement?.split('\n') ?? [];
+    lines.splice(start, end - start, ...replacementLines);
+    updated = lines.join('\n');
   };
 
   const scalar = (key: string, value: string | undefined) => {
