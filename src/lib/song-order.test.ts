@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { sortNewestFirst } from './search.ts';
+import { sortNewestFirst } from './song-order.ts';
 
 test('sortNewestFirst orders songs by creation time without changing the source list', () => {
   const oldest = { dataset: { creationTime: '2026-11-16T12:00:00Z' } };
