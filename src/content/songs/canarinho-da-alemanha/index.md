@@ -6,7 +6,7 @@ image: ./cover.jpg
 imageAlt: ""
 imageWide: ./wide.jpg
 imageTall: ./tall.jpg
-youtube: afz5iWUPx-w
+youtube: hUjd4rBXxcE
 lyrics: |
   > Canarinho da alemanhá
   > Quem matou meu curio
