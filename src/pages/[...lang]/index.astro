@@ -33,31 +33,6 @@ const songs = sortSongs(await getCollection('songs'));
       <label for="q" class="sr-only">{t.searchLabel}</label>
       <input id="q" name="q" type="search" placeholder={t.searchPlaceholder} autocomplete="off" />
       <div class="filters">
-        <button
-          type="button"
-          class="chip newest-chip tooltip-host"
-          aria-pressed="false"
-          aria-describedby="tooltip-newest"
-          data-newest
-          dir={dir}
-        >
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            aria-hidden="true"
-          >
-            <circle cx="12" cy="12" r="9" />
-            <path d="M12 7v5l3 2" />
-          </svg>
-          <span>{t.whatsNew}</span>
-          <span class="filter-tooltip" id="tooltip-newest" role="tooltip" lang={locale}>
-            {t.sortByCreationTime}
-          </span>
-        </button>
         <div class="chip-list" role="group" aria-label={t.filterByTag}>
           {
             TAG_IDS.map((tag) => (
@@ -67,6 +42,7 @@ const songs = sortSongs(await getCollection('songs'));
                 aria-pressed="false"
                 aria-describedby={`tooltip-tag-${tag}`}
                 data-tag={tag}
+                data-count-label={t.filterResultLabels[tag]}
                 style={`--chip:var(--${TAGS[tag].color})`}
                 lang="pt-BR"
               >
@@ -77,6 +53,45 @@ const songs = sortSongs(await getCollection('songs'));
               </button>
             ))
           }
+          <button
+            type="button"
+            class="chip tooltip-host upcoming-chip"
+            aria-disabled="true"
+            aria-describedby="tooltip-maculele"
+            style="--chip:var(--line)"
+            lang="pt-BR"
+          >
+            {t.upcomingMaculele}
+            <span class="filter-tooltip" id="tooltip-maculele" role="tooltip" lang={locale} dir={dir}>
+              {t.upcomingMaculeleHint}
+            </span>
+          </button>
+          <button
+            type="button"
+            class="chip newest-chip tooltip-host"
+            aria-pressed="false"
+            aria-describedby="tooltip-newest"
+            data-newest
+            data-count-label={t.sortResultLabel}
+            dir={dir}
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <circle cx="12" cy="12" r="9" />
+              <path d="M12 7v5l3 2" />
+            </svg>
+            <span>{t.whatsNew}</span>
+            <span class="filter-tooltip" id="tooltip-newest" role="tooltip" lang={locale}>
+              {t.sortByCreationTime}
+            </span>
+          </button>
         </div>
       </div>
     </form>
@@ -161,6 +176,12 @@ const songs = sortSongs(await getCollection('songs'));
     flex: none;
   }
 
+  .upcoming-chip {
+    color: var(--ink-soft);
+    background: var(--line);
+    cursor: help;
+  }
+
   .tooltip-host {
     position: relative;
   }
@@ -208,30 +229,46 @@ const songs = sortSongs(await getCollection('songs'));
 
   @media (max-width: 560px) {
     .filters {
-      display: grid;
-      grid-template-columns: 1fr;
-      justify-items: start;
-      gap: 12px;
-    }
-
-    .newest-chip {
-      justify-self: left;
+      display: block;
     }
 
     .filters .chip-list {
-      justify-self: stretch;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .filters .chip-list > .chip {
+      width: 100%;
+      justify-content: center;
     }
 
     .newest-chip .filter-tooltip {
+      inset-block-start: calc(100% + 8px);
+      inset-inline-start: auto;
+      inset-inline-end: auto;
+      left: 50%;
+      right: auto;
+      transform: translate(-50%, -3px);
+    }
+
+    .upcoming-chip .filter-tooltip {
       inset-block-start: 50%;
       left: calc(100% + 8px);
       right: auto;
-      transform: translateY(-50%);
+    }
+
+    .upcoming-chip.tooltip-visible {
+      z-index: 11;
     }
 
     .tooltip-host.tooltip-visible .filter-tooltip {
       opacity: 1;
       transform: translateY(-50%);
+    }
+
+    .newest-chip.tooltip-visible .filter-tooltip {
+      transform: translate(-50%, 0);
     }
   }
 

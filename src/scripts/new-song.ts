@@ -1,6 +1,6 @@
 import { alignmentIssues, parseLyrics } from '../lib/lyrics';
 import { normalizeLyrics, parseYouTube, SLUG, songMarkdown, updateSongMarkdown, type SongInput } from '../lib/song-file';
-import { slugify } from '../lib/text';
+import { fold, slugify } from '../lib/text';
 import { CONNECT_URL, isTokenProblem, tokenStore, verifyToken, type Session } from './auth';
 import { explain, type NewFile } from './github';
 import { handleLyricsPaste } from './paste-lyrics';
@@ -157,22 +157,45 @@ function setUpForm(form: HTMLFormElement, session: Session, data: PageData) {
 
   const tabs = [...document.querySelectorAll<HTMLButtonElement>('[data-admin-mode]')];
   const editPicker = document.querySelector<HTMLElement>('[data-edit-picker]')!;
+  const submitHeading = document.querySelector<HTMLElement>('[data-submit-heading]')!;
   const editSong = document.querySelector<HTMLSelectElement>('[data-edit-song]')!;
+  const editSongSearch = document.querySelector<HTMLInputElement>('[data-edit-song-search]')!;
+  const editSearchEmpty = document.querySelector<HTMLElement>('[data-edit-search-empty]')!;
+
+  editSongSearch.addEventListener('input', () => {
+    const query = fold(editSongSearch.value);
+    let matches = 0;
+    for (const option of [...editSong.options].slice(1)) {
+      const matchesQuery = fold(option.dataset.songLabel ?? '').includes(query);
+      option.hidden = !matchesQuery && !option.selected;
+      if (matchesQuery) matches++;
+    }
+    editSearchEmpty.hidden = matches > 0;
+  });
 
   function setMode(nextMode: 'add' | 'edit') {
     mode = nextMode;
     for (const tab of tabs) tab.setAttribute('aria-selected', String(tab.dataset.adminMode === mode));
-    editPicker.hidden = mode !== 'edit';
+    editPicker.dataset.mode = mode;
+    editSongSearch.disabled = mode !== 'edit';
+    editSong.disabled = mode !== 'edit';
     if (mode === 'edit') {
       el.slug.readOnly = true;
       el.slug.style.background = 'var(--sand)';
-      el.submit.textContent = 'Open edit pull request';
+      submitHeading.textContent = 'Apply changes';
+      el.submit.textContent = 'Apply changes';
       el.submit.disabled = editSong.value === '';
     } else {
       editingSlug = undefined;
+      originalSong = undefined;
+      editSong.value = '';
+      editSongSearch.value = '';
+      for (const option of [...editSong.options].slice(1)) option.hidden = false;
+      editSearchEmpty.hidden = true;
       el.slug.readOnly = false;
       el.slug.style.background = '';
-      el.submit.textContent = 'Open pull request';
+      submitHeading.textContent = 'Add the new song';
+      el.submit.textContent = 'Add the new song';
       el.submit.disabled = false;
       form.reset();
       picture = undefined;

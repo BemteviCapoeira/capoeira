@@ -48,14 +48,19 @@ const songsUrl = new URL(`${import.meta.env.BASE_URL}songs/`, Astro.site).href;
       <button type="button" role="tab" aria-selected="false" data-admin-mode="edit">Edit an existing song</button>
     </div>
 
-    <div class="card edit-picker" data-edit-picker hidden>
+    <div class="card edit-picker" data-edit-picker data-mode="add">
+      <label for="edit-song-search">Search for a song</label>
+      <input id="edit-song-search" type="search" data-edit-song-search autocomplete="off" disabled />
       <label for="edit-song">Choose a song</label>
-      <select id="edit-song" data-edit-song>
+      <select id="edit-song" data-edit-song disabled>
         <option value="">Choose…</option>
         {songs.map((song) => (
-          <option value={song.slug}>{song.titles[0]}</option>
+          <option value={song.slug} data-song-label={`${song.titles.join(' ')} ${song.slug}`}>
+            {song.titles[0]}
+          </option>
         ))}
       </select>
+      <small data-edit-search-empty hidden>No songs match this search.</small>
     </div>
 
     <form class="song-form" data-new-song novalidate hidden>
@@ -185,11 +190,11 @@ const songsUrl = new URL(`${import.meta.env.BASE_URL}songs/`, Astro.site).href;
       </section>
 
       <section class="card step" aria-labelledby="step-4">
-        <h2 id="step-4"><span class="num">4</span>Send</h2>
+        <h2 id="step-4"><span class="num">4</span><span data-submit-heading>Add the new song</span></h2>
         <div data-send>
           <ul class="problems" data-problems hidden></ul>
           <p class="status" data-submit-status role="status"></p>
-          <button type="submit" class="btn big" data-submit>Open pull request</button>
+          <button type="submit" class="btn big" data-submit>Add the new song</button>
         </div>
         <div class="done" data-done hidden>
           <p><strong>Pull request opened:</strong> <a data-pr-link target="_blank" rel="noopener"></a></p>
@@ -244,10 +249,15 @@ const songsUrl = new URL(`${import.meta.env.BASE_URL}songs/`, Astro.site).href;
     margin-bottom: 18px;
   }
 
+  .edit-picker[data-mode='add'] {
+    background: color-mix(in srgb, var(--ink) 8%, var(--paper));
+  }
+
   .edit-picker label {
     font-weight: 700;
   }
 
+  .edit-picker input,
   .edit-picker select {
     width: 100%;
     min-height: 44px;
@@ -256,6 +266,13 @@ const songsUrl = new URL(`${import.meta.env.BASE_URL}songs/`, Astro.site).href;
     background: var(--paper);
     border: var(--border);
     border-radius: var(--radius-sm);
+  }
+
+  .edit-picker input:disabled,
+  .edit-picker select:disabled {
+    color: var(--ink-soft);
+    background: var(--sand);
+    cursor: not-allowed;
   }
 
   .song-form {

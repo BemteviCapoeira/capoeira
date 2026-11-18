@@ -73,7 +73,14 @@ export function initSearch() {
       if (match) shown++;
     }
 
-    if (count) count.textContent = shown === 1 ? count.dataset.one! : count.dataset.many!.replace('{n}', String(shown));
+    if (count) {
+      const description = [
+        chips.find((chip) => chip.getAttribute('aria-pressed') === 'true')?.dataset.countLabel,
+        newest ? newestButton.dataset.countLabel : undefined,
+      ].filter(Boolean);
+      const total = shown === 1 ? count.dataset.one! : count.dataset.many!.replace('{n}', String(shown));
+      count.textContent = description.length ? `${total} - ${description.join(' - ')}` : total;
+    }
     if (empty) empty.hidden = shown > 0;
   }
 
