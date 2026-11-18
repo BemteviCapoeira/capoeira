@@ -146,4 +146,8 @@ english: |
   Play high
   Play low
   Whatever the berimbau commands
+notesHebrew: |
+  A.B.A.D.A - Associação Brasileira de Apoio e Desenvolvimento da Arte
+notesEnglish: |
+  A.B.A.D.A - Associação Brasileira de Apoio e Desenvolvimento da Arte
 ---
