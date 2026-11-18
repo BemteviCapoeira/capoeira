@@ -33,6 +33,12 @@ const he = {
     searchLabel: 'חיפוש שירים',
     searchPlaceholder: 'חיפוש',
     filterByTag: 'סינון לפי תגית',
+    whatsNew: 'מה חדש',
+    sortByCreationTime: 'מיון השירים לפי זמן הוספתם, מהחדש לישן',
+    filterTagHints: {
+      benguela: 'הצג רק שירי בנגלה',
+      'sao-bento': 'הצג רק שירי סאו בנטו',
+    },
     countOne: 'שיר אחד',
     /** `{n}` is replaced by the number of songs shown. */
     countMany: '{n} שירים',
@@ -105,6 +111,12 @@ const en: typeof he = {
     searchLabel: 'Search songs',
     searchPlaceholder: 'Search',
     filterByTag: 'Filter by tag',
+    whatsNew: "What's new",
+    sortByCreationTime: 'Sort songs by date added, newest first',
+    filterTagHints: {
+      benguela: 'Show only Benguela songs',
+      'sao-bento': 'Show only São Bento songs',
+    },
     countOne: '1 song',
     countMany: '{n} songs',
     noResults: "We couldn't find that song. Try another word, or clear the filter.",

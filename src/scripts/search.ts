@@ -1,10 +1,20 @@
 import { fold } from '../lib/text';
 
+interface SearchItem {
+  dataset: { creationTime?: string };
+}
+
+export function sortNewestFirst<T extends SearchItem>(items: T[]): T[] {
+  return [...items].sort(
+    (a, b) => Date.parse(b.dataset.creationTime ?? '') - Date.parse(a.dataset.creationTime ?? ''),
+  );
+}
+
 /**
  * Home-page song search. The full list is rendered as HTML; this only hides/reorders cards.
  * Text matches all of a song's names (best) or its lyrics/translation. One tag can be selected
  * at a time: clicking a tag selects only it, clicking it again clears it.
- * State lives in the URL (?q=…&tag=…) so searches can be shared and survive back/forward.
+ * State lives in the URL (?q=…&tag=…&sort=newest) so filters can be shared.
  */
 export function initSearch() {
   const form = document.querySelector<HTMLFormElement>('[data-search]');
@@ -14,8 +24,11 @@ export function initSearch() {
   const input = form.querySelector<HTMLInputElement>('input[type=search]')!;
   const chips = [...form.querySelectorAll<HTMLButtonElement>('[data-tag]')];
   const items = [...list.querySelectorAll<HTMLElement>(':scope > li')];
+  const newestItems = sortNewestFirst(items);
+  const newestButton = form.querySelector<HTMLButtonElement>('[data-newest]')!;
   const count = document.querySelector<HTMLElement>('[data-count]');
   const empty = document.querySelector<HTMLElement>('[data-empty]');
+  let newest = false;
 
   const selectedTags = () => chips.filter((c) => c.getAttribute('aria-pressed') === 'true').map((c) => c.dataset.tag!);
 
@@ -24,14 +37,15 @@ export function initSearch() {
     const tags = selectedTags();
     let shown = 0;
 
-    for (const item of items) {
+    for (const [index, item] of (newest ? newestItems : items).entries()) {
       const titles = item.dataset.titles ?? '';
       const text = `${titles} ${item.dataset.text ?? ''}`;
       const itemTags = (item.dataset.tags ?? '').split(' ');
       const inTitle = words.every((w) => titles.includes(w));
       const match = tags.every((t) => itemTags.includes(t)) && (inTitle || words.every((w) => text.includes(w)));
       item.hidden = !match;
-      item.style.order = words.length && !inTitle ? '1' : ''; // title matches first
+      if (newest) item.style.order = String(index + (words.length && !inTitle ? items.length : 0));
+      else item.style.order = words.length && !inTitle ? '1' : ''; // title matches first
       if (match) shown++;
     }
 
@@ -43,9 +57,11 @@ export function initSearch() {
     const url = new URL(location.href);
     url.searchParams.delete('q');
     url.searchParams.delete('tag');
+    url.searchParams.delete('sort');
     if (input.value.trim()) url.searchParams.set('q', input.value.trim());
     const [tag] = selectedTags();
     if (tag) url.searchParams.set('tag', tag);
+    if (newest) url.searchParams.set('sort', 'newest');
     history.replaceState(null, '', url);
   }
 
@@ -53,6 +69,8 @@ export function initSearch() {
     const params = new URL(location.href).searchParams;
     input.value = params.get('q') ?? '';
     const tag = params.get('tag');
+    newest = params.get('sort') === 'newest';
+    newestButton.setAttribute('aria-pressed', String(newest));
     for (const chip of chips) chip.setAttribute('aria-pressed', String(chip.dataset.tag === tag));
     apply();
   }
@@ -69,6 +87,12 @@ export function initSearch() {
       syncUrl();
     });
   }
+  newestButton.addEventListener('click', () => {
+    newest = !newest;
+    newestButton.setAttribute('aria-pressed', String(newest));
+    apply();
+    syncUrl();
+  });
   window.addEventListener('pageshow', readUrl);
   readUrl();
 }

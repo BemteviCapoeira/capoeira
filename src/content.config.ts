@@ -14,7 +14,7 @@ const songs = defineCollection({
   schema: ({ image }) =>
     z
       .object({
-        'creation-time': z.string().datetime({ offset: true }),
+        'creation-time': z.iso.datetime({ offset: true }),
         /** First = main title; the rest are other names the song is known by (all searchable). */
         titles: z.array(z.string().min(1)).min(1),
         tags: z.array(z.enum(TAG_IDS)).default([]),

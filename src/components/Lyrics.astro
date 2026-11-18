@@ -69,10 +69,6 @@ const dir = LANGUAGES[locale].dir;
       // try {
       //  localStorage.setItem(STORAGE_KEY, on ? '1' : '0');
       // } catch {}
-      const set = (on: boolean) => {
-        toggle.setAttribute('aria-checked', String(on));
-        lyrics.classList.toggle('show-all', on);
-      };
     };
     /* let initial = false;
     try {

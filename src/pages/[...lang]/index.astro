@@ -32,21 +32,52 @@ const songs = sortSongs(await getCollection('songs'));
     <form class="search" role="search" data-search onsubmit="return false">
       <label for="q" class="sr-only">{t.searchLabel}</label>
       <input id="q" name="q" type="search" placeholder={t.searchPlaceholder} autocomplete="off" />
-      <div class="chip-list" role="group" aria-label={t.filterByTag}>
-        {
-          TAG_IDS.map((tag) => (
-            <button
-              type="button"
-              class="chip"
-              aria-pressed="false"
-              data-tag={tag}
-              style={`--chip:var(--${TAGS[tag].color})`}
-              lang="pt-BR"
-            >
-              {TAGS[tag].label}
-            </button>
-          ))
-        }
+      <div class="filters">
+        <button
+          type="button"
+          class="chip newest-chip tooltip-host"
+          aria-pressed="false"
+          aria-describedby="tooltip-newest"
+          data-newest
+          dir={dir}
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <circle cx="12" cy="12" r="9" />
+            <path d="M12 7v5l3 2" />
+          </svg>
+          <span>{t.whatsNew}</span>
+          <span class="filter-tooltip" id="tooltip-newest" role="tooltip" lang={locale}>
+            {t.sortByCreationTime}
+          </span>
+        </button>
+        <div class="chip-list" role="group" aria-label={t.filterByTag}>
+          {
+            TAG_IDS.map((tag) => (
+              <button
+                type="button"
+                class="chip tooltip-host"
+                aria-pressed="false"
+                aria-describedby={`tooltip-tag-${tag}`}
+                data-tag={tag}
+                style={`--chip:var(--${TAGS[tag].color})`}
+                lang="pt-BR"
+              >
+                {TAGS[tag].label}
+                <span class="filter-tooltip" id={`tooltip-tag-${tag}`} role="tooltip" lang={locale} dir={dir}>
+                  {t.filterTagHints[tag]}
+                </span>
+              </button>
+            ))
+          }
+        </div>
       </div>
     </form>
 
@@ -59,6 +90,7 @@ const songs = sortSongs(await getCollection('songs'));
             data-titles={fold(song.data.titles.join(' '))}
             data-text={fold(`${song.data.lyrics} ${translationOf(song, locale) ?? ''}`)}
             data-tags={song.data.tags.join(' ')}
+            data-creation-time={song.data['creation-time']}
           >
             <SongCard song={song} locale={locale} />
           </li>
@@ -110,6 +142,59 @@ const songs = sortSongs(await getCollection('songs'));
     display: grid;
     gap: 14px;
     margin-bottom: 14px;
+  }
+
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .newest-chip::before {
+    display: none;
+  }
+
+  .newest-chip svg {
+    width: 1em;
+    height: 1em;
+    flex: none;
+  }
+
+  .tooltip-host {
+    position: relative;
+  }
+
+  .filter-tooltip {
+    position: absolute;
+    z-index: 10;
+    inset-block-start: calc(100% + 8px);
+    inset-inline-start: 0;
+    width: max-content;
+    max-width: min(260px, calc(100vw - 32px));
+    padding: 7px 10px;
+    color: var(--paper);
+    font-size: 0.82rem;
+    font-weight: 500;
+    line-height: 1.35;
+    text-align: start;
+    white-space: normal;
+    background: var(--ink);
+    border: var(--border);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-sm);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-3px);
+    transition:
+      opacity 0.12s ease,
+      transform 0.12s ease;
+  }
+
+  .tooltip-host:hover .filter-tooltip,
+  .tooltip-host:focus-visible .filter-tooltip {
+    opacity: 1;
+    transform: translateY(0);
   }
 
   .search input {
