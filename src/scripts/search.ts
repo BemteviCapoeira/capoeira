@@ -17,9 +17,42 @@ export function initSearch() {
   const items = [...list.querySelectorAll<HTMLElement>(':scope > li')];
   const newestItems = sortNewestFirst(items);
   const newestButton = form.querySelector<HTMLButtonElement>('[data-newest]')!;
+  const tooltipHosts = [...form.querySelectorAll<HTMLButtonElement>('.tooltip-host')];
   const count = document.querySelector<HTMLElement>('[data-count]');
   const empty = document.querySelector<HTMLElement>('[data-empty]');
   let newest = false;
+  const TOOLTIP_DURATION_MS = 2000;
+
+  for (const host of tooltipHosts) {
+    let tooltipTimer: number | undefined;
+    const isTouchView = () => window.matchMedia('(max-width: 560px), (pointer: coarse)').matches;
+
+    const showTooltipTemporarily = () => {
+      host.classList.remove('tooltip-dismissed');
+      host.classList.add('tooltip-visible');
+      if (tooltipTimer !== undefined) window.clearTimeout(tooltipTimer);
+      tooltipTimer = window.setTimeout(() => {
+        host.classList.remove('tooltip-visible');
+        host.classList.add('tooltip-dismissed');
+      }, TOOLTIP_DURATION_MS);
+    };
+
+    const resetTooltip = () => {
+      if (tooltipTimer !== undefined) window.clearTimeout(tooltipTimer);
+      host.classList.remove('tooltip-visible');
+      host.classList.remove('tooltip-dismissed');
+    };
+
+    if (isTouchView()) {
+      host.addEventListener('pointerdown', showTooltipTemporarily);
+      host.addEventListener('click', showTooltipTemporarily);
+    } else {
+      host.addEventListener('mouseenter', showTooltipTemporarily);
+      host.addEventListener('mouseleave', resetTooltip);
+      host.addEventListener('focusin', showTooltipTemporarily);
+      host.addEventListener('focusout', resetTooltip);
+    }
+  }
 
   const selectedTags = () => chips.filter((c) => c.getAttribute('aria-pressed') === 'true').map((c) => c.dataset.tag!);
 

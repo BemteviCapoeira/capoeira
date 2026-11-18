@@ -197,6 +197,15 @@ const songs = sortSongs(await getCollection('songs'));
     transform: translateY(0);
   }
 
+  .newest-chip.tooltip-visible .filter-tooltip {
+    transform: translateY(-50%);
+  }
+
+  .tooltip-host.tooltip-dismissed .filter-tooltip {
+    opacity: 0;
+    transform: translateY(-3px);
+  }
+
   @media (max-width: 560px) {
     .filters {
       display: grid;
@@ -214,14 +223,15 @@ const songs = sortSongs(await getCollection('songs'));
     }
 
     .newest-chip .filter-tooltip {
-      inset-block-start: 0;
-      inset-block-end: auto;
-      inset-inline-start: auto;
-      inset-inline-end: auto;
+      inset-block-start: 50%;
       left: calc(100% + 8px);
       right: auto;
-      max-width: min(260px, calc(100vw - 150px));
-      transform: none;
+      transform: translateY(-50%);
+    }
+
+    .tooltip-host.tooltip-visible .filter-tooltip {
+      opacity: 1;
+      transform: translateY(-50%);
     }
   }
 

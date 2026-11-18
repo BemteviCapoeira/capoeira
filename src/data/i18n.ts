@@ -33,8 +33,8 @@ const he = {
     searchLabel: 'חיפוש שירים',
     searchPlaceholder: 'חיפוש',
     filterByTag: 'סינון לפי תגית',
-    whatsNew: 'מיון לפי זמן',
-    sortByCreationTime: 'מיון השירים לפי זמן הוספתם, מהחדש לישן',
+    whatsNew: 'מה חדש',
+    sortByCreationTime: 'מיון שירים לפי זמן',
     filterTagHints: {
       benguela: 'הצג רק שירי בנגלה',
       'sao-bento': 'הצג רק שירי סאו בנטו',
@@ -111,8 +111,8 @@ const en: typeof he = {
     searchLabel: 'Search songs',
     searchPlaceholder: 'Search',
     filterByTag: 'Filter by tag',
-    whatsNew: 'Sort by time',
-    sortByCreationTime: 'Sort songs by date added, newest first',
+    whatsNew: "What's new",
+    sortByCreationTime: 'Sort songs by time',
     filterTagHints: {
       benguela: 'Show only Benguela songs',
       'sao-bento': 'Show only São Bento songs',
