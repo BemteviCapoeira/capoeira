@@ -137,7 +137,11 @@ async function writeSong(tag: string, songLines: Line[]) {
   }
 
   await mkdir(dir, { recursive: true });
-  const fm = [`titles: ${JSON.stringify([title])}`, `tags: [${tag}]`];
+  const fm = [
+    `creation-time: ${JSON.stringify(new Date().toISOString())}`,
+    `titles: ${JSON.stringify([title])}`,
+    `tags: [${tag}]`,
+  ];
   if (cover) {
     const [, ext, data] = /^data:image\/(\w+);base64,(.*)$/s.exec(cover)!;
     const file = `cover.${ext === 'jpeg' ? 'jpg' : ext}`;

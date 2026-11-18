@@ -32,8 +32,11 @@ test('songMarkdown writes valid frontmatter in the repo format', () => {
     notesHebrew: '  הערה  ',
     notesEnglish: ' A note\r\n\nSecond paragraph ',
   });
+  const creationTime = /^---\ncreation-time: "([^"]+)"\n/.exec(md)?.[1];
+  assert.ok(creationTime);
+  assert.equal(new Date(creationTime).toISOString(), creationTime);
   assert.equal(
-    md,
+    md.replace(/^---\ncreation-time: "[^"]+"\n/, '---\n'),
     [
       '---',
       'titles: ["Paranauê","Paraná \\"ê\\""]',
@@ -68,5 +71,10 @@ test('songMarkdown writes valid frontmatter in the repo format', () => {
       '',
     ].join('\n'),
   );
-  assert.equal(songMarkdown({ titles: ['X'], tags: [], lyrics: 'a' }), '---\ntitles: ["X"]\ntags: []\nlyrics: |\n  a\n---\n');
+  const simple = songMarkdown({ titles: ['X'], tags: [], lyrics: 'a' });
+  assert.match(simple, /^---\ncreation-time: "\d{4}-\d{2}-\d{2}T[^"]+Z"\ntitles:/);
+  assert.equal(
+    simple.replace(/^---\ncreation-time: "[^"]+"\n/, '---\n'),
+    '---\ntitles: ["X"]\ntags: []\nlyrics: |\n  a\n---\n',
+  );
 });

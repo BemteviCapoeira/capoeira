@@ -77,6 +77,7 @@ function block(text: string): string[] {
 export function songMarkdown(song: SongInput): string {
   const lines = [
     '---',
+    `creation-time: ${JSON.stringify(new Date().toISOString())}`,
     `titles: ${JSON.stringify(song.titles)}`,
     `tags: [${song.tags.join(', ')}]`,
   ];
