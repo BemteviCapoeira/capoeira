@@ -65,4 +65,8 @@ english: |
   always asking for greater dedication
   Pause to listen to your master
   what he says will never be in vain
+notesHebrew: |
+  Autor : Nadinho
+notesEnglish: |
+  Autor : Nadinho
 ---
