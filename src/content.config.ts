@@ -17,6 +17,8 @@ const songs = defineCollection({
         'creation-time': z.iso.datetime({ offset: true }),
         /** First = main title; the rest are other names the song is known by (all searchable). */
         titles: z.array(z.string().min(1)).min(1),
+        /** Omit this song from the home-page song list and its filters. */
+        hidden: z.boolean().default(false),
         tags: z.array(z.enum(TAG_IDS)).default([]),
         /** The song's picture, as uploaded. */
         image: image().optional(),

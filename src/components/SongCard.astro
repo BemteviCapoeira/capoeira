@@ -1,9 +1,9 @@
 ---
 import { getImage } from 'astro:assets';
-import { UI, type Locale } from '../data/i18n';
+import type { Locale } from '../data/i18n';
 import { TAGS } from '../data/tags';
 import { firstLine } from '../lib/lyrics';
-import { songUrl, translationOf, type Song } from '../lib/songs';
+import { songUrl, type Song } from '../lib/songs';
 import { fold } from '../lib/text';
 
 interface Props {
@@ -12,9 +12,7 @@ interface Props {
 }
 
 const { song, locale } = Astro.props;
-const t = UI[locale].card;
-const { titles, tags, image, imageWide, imageTall, youtube, lyrics } = song.data;
-const translation = translationOf(song, locale);
+const { titles, tags, image, imageWide, imageTall, lyrics } = song.data;
 // Wide crop for the grid, tall crop for the phone layout's thumbnail (see PHONE below).
 let wide;
 let tall;
@@ -73,8 +71,6 @@ const showOpening = opening && !titles.some((t) => fold(t) === fold(opening));
           </span>
         ))
       }
-      {youtube && <span class="badge" title={t.videoHint}>{t.video}</span>}
-      {translation && <span class="badge" title={t.translationHint}>{t.translation}</span>}
     </div>
   </div>
 </a>
@@ -160,8 +156,7 @@ const showOpening = opening && !titles.some((t) => fold(t) === fold(opening));
     padding-top: 10px;
   }
 
-  .mini-chip,
-  .badge {
+  .mini-chip {
     display: inline-flex;
     align-items: center;
     gap: 5px;

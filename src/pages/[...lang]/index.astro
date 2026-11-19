@@ -22,7 +22,7 @@ interface Props {
 const { locale } = Astro.props;
 const t = UI[locale].home;
 const dir = LANGUAGES[locale].dir;
-const songs = sortSongs(await getCollection('songs'));
+const songs = sortSongs((await getCollection('songs')).filter((song) => !song.data.hidden));
 ---
 
 <Base locale={locale} path="" section="songs">
