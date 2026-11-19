@@ -9,6 +9,7 @@ import { LANGUAGES, localeParams, localePath, UI, type Locale } from '../../../d
 import { TAGS } from '../../../data/tags';
 import { firstLine, hasTranslation, parseLyrics } from '../../../lib/lyrics';
 import { accent, songUrl, sortSongs, tagUrl, translationOf, type Song } from '../../../lib/songs';
+import { getSongImage } from '../../../lib/song-images';
 
 export async function getStaticPaths() {
   const songs = sortSongs(await getCollection('songs'));
@@ -32,7 +33,7 @@ const { locale, song, index, prev, next } = Astro.props;
 const t = UI[locale].song;
 const dir = LANGUAGES[locale].dir;
 const { titles, tags, youtube, youtubeStart, lyrics } = song.data;
-const { image } = song.data; // the original picture, shown whole
+const image = getSongImage(song.id, song.data.image);
 const imageAlt = locale === 'he' ? song.data.imageAlt : song.data.imageAltEn;
 const stanzas = parseLyrics(lyrics, translationOf(song, locale));
 const translated = hasTranslation(stanzas);
@@ -43,7 +44,7 @@ if (song.body?.trim()) {
 const notes = (locale === 'he' ? song.data.notesHebrew : song.data.notesEnglish)?.trim().split(/\n\s*\n/) ?? [];
 const hasNotes = notes.length > 0;
 // link previews crop to landscape, so they get the 4:3 crop when there is one
-const socialSource = song.data.imageWide ?? image;
+const socialSource = getSongImage(song.id, song.data.imageWide) ?? image;
 let socialImage;
 if (socialSource) {
   try {

@@ -4,6 +4,7 @@ import type { Locale } from '../data/i18n';
 import { TAGS } from '../data/tags';
 import { firstLine } from '../lib/lyrics';
 import { songUrl, type Song } from '../lib/songs';
+import { getSongImage } from '../lib/song-images';
 import { fold } from '../lib/text';
 
 interface Props {
@@ -12,14 +13,19 @@ interface Props {
 }
 
 const { song, locale } = Astro.props;
-const { titles, tags, image, imageWide, imageTall, lyrics } = song.data;
+const { titles, tags, lyrics } = song.data;
+const image = getSongImage(song.id, song.data.image);
+const imageWide = getSongImage(song.id, song.data.imageWide);
+const imageTall = getSongImage(song.id, song.data.imageTall);
 // Wide crop for the grid, tall crop for the phone layout's thumbnail (see PHONE below).
 let wide;
 let tall;
-if (image) {
+const wideSource = imageWide ?? image ?? imageTall;
+const tallSource = imageTall ?? image ?? imageWide;
+if (wideSource && tallSource) {
   try {
-    wide = await getImage({ src: imageWide ?? image, widths: [320, 560, 840], format: 'webp' });
-    tall = await getImage({ src: imageTall ?? image, widths: [104, 208, 312], format: 'webp' });
+    wide = await getImage({ src: wideSource, widths: [320, 560, 840], format: 'webp' });
+    tall = await getImage({ src: tallSource, widths: [104, 208, 312], format: 'webp' });
   } catch {
     wide = undefined;
     tall = undefined;
@@ -159,11 +165,10 @@ const showOpening = opening && !titles.some((t) => fold(t) === fold(opening));
   .mini-chip {
     display: inline-flex;
     align-items: center;
-    gap: 5px;
     padding: 1px 10px;
     font-size: 0.82rem;
     font-weight: 600;
-    background: var(--sand);
+    background: var(--chip);
     border: 2px solid var(--ink);
     border-radius: 999px;
   }
@@ -206,12 +211,4 @@ const showOpening = opening && !titles.some((t) => fold(t) === fold(opening));
     }
   }
 
-  .mini-chip::before {
-    content: '';
-    width: 0.65em;
-    height: 0.65em;
-    border-radius: 50%;
-    background: var(--chip);
-    border: 1.5px solid var(--ink);
-  }
 </style>

@@ -1,7 +1,8 @@
 ---
 creation-time: "2026-11-19T09:37:39.225Z"
 titles: ["Vento que balança a cana"]
-tags: []
+tags: [sao-bento]
+hidden: false
 image: ./cover.jpg
 imageAlt: "שדה קני הסוכר"
 imageAltEn: "sugarcane field"

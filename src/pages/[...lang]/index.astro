@@ -228,6 +228,11 @@ const songs = sortSongs((await getCollection('songs')).filter((song) => !song.da
   }
 
   @media (max-width: 560px) {
+    .song-grid {
+      grid-template-columns: minmax(0, 1fr);
+      grid-auto-rows: 1fr;
+    }
+
     .filters {
       display: block;
     }

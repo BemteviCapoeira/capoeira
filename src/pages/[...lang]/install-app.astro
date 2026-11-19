@@ -50,14 +50,17 @@ const dir = LANGUAGES[locale].dir;
     </aside>
 
     <aside class="card success">
-      <img
-        class="app-icon"
-        src={`${import.meta.env.BASE_URL}icon-192.png`}
-        alt=""
-        width="56"
-        height="56"
-        loading="lazy"
-      />
+      <div class="app-icon-wrap">
+        <img
+          class="app-icon"
+          src={`${import.meta.env.BASE_URL}icon-192.png`}
+          alt=""
+          width="56"
+          height="56"
+          loading="lazy"
+        />
+        <span class="app-icon-label" lang="he">{t.appIconLabel}</span>
+      </div>
       <p>{t.appInstalled}</p>
     </aside>
 
@@ -139,10 +142,25 @@ const dir = LANGUAGES[locale].dir;
   }
 
   .app-icon {
-    flex: none;
     width: 56px;
     height: 56px;
     border-radius: 12px;
+  }
+
+  .app-icon-wrap {
+    display: grid;
+    flex: none;
+    justify-items: center;
+    gap: 2px;
+    width: 56px;
+  }
+
+  .app-icon-label {
+    width: 100%;
+    font-size: 0.55rem;
+    line-height: 1.1;
+    text-align: center;
+    font-weight: 600;
   }
 
   .back-actions {

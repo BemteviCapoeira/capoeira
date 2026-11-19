@@ -5,6 +5,7 @@ import Base from '../../layouts/Base.astro';
 import bemtevi from '../../assets/bemtevi.jpg';
 import { TAG_IDS, TAGS } from '../../data/tags';
 import { localePath } from '../../data/i18n';
+import { getSongImage } from '../../lib/song-images';
 import '../../styles/forms.css';
 
 const collection = await getCollection('songs');
@@ -13,7 +14,7 @@ const songs = collection.map((song) => ({
   slug: song.id,
   titles: song.data.titles,
   tags: song.data.tags,
-  image: song.data.image?.src,
+  image: getSongImage(song.id, song.data.image)?.src,
   imageAlt: song.data.imageAlt,
   imageAltEn: song.data.imageAltEn,
   youtube: song.data.youtube,

@@ -11,8 +11,10 @@ const songs = defineCollection({
     base: './src/content/songs',
     generateId: ({ entry }) => entry.split('/')[0],
   }),
-  schema: ({ image }) =>
-    z
+  schema: () => {
+    const imagePath = z.string().regex(/^\.\//, 'image paths must be relative to the song folder').optional();
+
+    return z
       .object({
         'creation-time': z.iso.datetime({ offset: true }),
         /** First = main title; the rest are other names the song is known by (all searchable). */
@@ -20,11 +22,11 @@ const songs = defineCollection({
         /** Omit this song from the home-page song list and its filters. */
         hidden: z.boolean().default(false),
         tags: z.array(z.enum(TAG_IDS)).default([]),
-        /** The song's picture, as uploaded. */
-        image: image().optional(),
-        /** Crops of `image` for the two card layouts (each falls back to `image`, cropped from its centre). The song page shows `image` itself. */
-        imageWide: image().optional(), // 4:3 — cards on wider screens (and link previews)
-        imageTall: image().optional(), // 4:5 — the thumbnail beside the title on phones
+        /** The song's picture path, resolved at render time so a missing file can use the fallback. */
+        image: imagePath,
+        /** Crops of `image` for the two card layouts. The song page shows `image` itself. */
+        imageWide: imagePath, // 4:3 — cards on wider screens (and link previews)
+        imageTall: imagePath, // 4:5 — the thumbnail beside the title on phones
         /** Picture description for screen readers, in Hebrew (and in English). */
         imageAlt: z.string().default(''),
         imageAltEn: z.string().default(''),
@@ -51,7 +53,8 @@ const songs = defineCollection({
             ctx.addIssue({ code: 'custom', path: [key], message });
           }
         }
-      }),
+      });
+  },
 });
 
 export const collections = { songs };

@@ -2,7 +2,9 @@
 creation-time: "2026-11-19T11:33:26.075Z"
 titles: ["Angola que me leva"]
 tags: [benguela]
+hidden: false
 image: ./cover.jpg
+imageTall: ./tall.jpg
 imageAlt: "Angola que me leva"
 imageAltEn: "Angola que me leva"
 youtube: Y7oWivg-O3U
