@@ -2,6 +2,9 @@
 creation-time: "2026-11-18T00:00:44+02:00"
 titles: ["Paranaue","Pa ra na we"]
 tags: [sao-bento]
+hidden: false
+image: ./cover.jpg
+imageTall: ./tall.jpg
 youtube: dKAlV3fuuMs
 lyrics: |
   Paranauê, paranauê, Paraná

@@ -2,6 +2,8 @@
 creation-time: "2026-11-15T11:35:10+02:00"
 titles: ["Quem quiser saber meu nome"]
 tags: [sao-bento]
+hidden: false
+image: ./cover.jpg
 youtube: hz_9z43jes8
 lyrics: |
   > Quem quiser saber meu nome

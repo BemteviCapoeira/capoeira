@@ -1,8 +1,10 @@
 ---
 creation-time: "2026-11-18T21:14:53.460Z"
 titles: ["Leva Eu Pra Vadiar"]
+hidden: false
 tags: [sao-bento]
 image: ./cover.jpg
+imageTall: ./tall.jpg
 imageAlt: ""
 youtube: qkmOZvXq-Nc
 lyrics: |
