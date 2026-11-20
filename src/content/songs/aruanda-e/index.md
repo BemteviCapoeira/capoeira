@@ -1,6 +1,7 @@
 ---
 creation-time: "2026-11-12T16:54:45+02:00"
-titles: ["Aruanda Ê"]
+titles: ["Aruanda ê"]
+hidden: false
 tags: [sao-bento]
 image: ./cover.jpg
 imageWide: ./wide.jpg
