@@ -10,7 +10,7 @@ export const SITE = {
    * to activate the form (one click in that email); messages arrive only after that. Once activated, FormSubmit's
    * email shows a random alias: put it here instead of the address to keep the address out of the page source.
    */
-  contactFormTo: 'bemtevi.roda@gmail.com',
+  contactFormTo: '6566fb98f15f9b02ff4a43c4d17cf490',
 };
 
 /** Site-wide names and texts, per language (shown in the header, the About page, the print footer and link previews). */
