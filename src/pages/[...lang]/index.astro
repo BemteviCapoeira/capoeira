@@ -5,6 +5,7 @@ import Base from '../../layouts/Base.astro';
 import bemtevi from '../../assets/bemtevi.jpg';
 import pandeiro from '../../assets/pandeiro-no-bg.png';
 import BerimbauArt from '../../components/BerimbauArt.astro';
+import LikeButton from '../../components/LikeButton.astro';
 import SongCard from '../../components/SongCard.astro';
 import { LANGUAGES, localeParams, localePath, UI, type Locale } from '../../data/i18n';
 import { TAG_IDS, TAGS } from '../../data/tags';
@@ -27,8 +28,9 @@ const songs = sortSongs((await getCollection('songs')).filter((song) => !song.da
 
 <Base locale={locale} path="" section="songs">
   <section id="songs" class="songs" aria-labelledby="songs-title">
-    <h1 id="songs-title" class="section-title">{t.title}</h1>
+    <h1 id="songs-title" class="section-title" dir={dir}>{t.title}</h1>
 
+    <div class="finder" dir={dir}>
     <form class="search" role="search" data-search onsubmit="return false">
       <label for="q" class="sr-only">{t.searchLabel}</label>
       <input id="q" name="q" type="search" placeholder={t.searchPlaceholder} autocomplete="off" />
@@ -92,11 +94,31 @@ const songs = sortSongs((await getCollection('songs')).filter((song) => !song.da
               {t.sortByCreationTime}
             </span>
           </button>
+          <button
+            type="button"
+            class="chip liked-chip tooltip-host"
+            aria-pressed="false"
+            aria-describedby="tooltip-liked"
+            data-liked-filter
+            data-count-label={t.likedResultLabel}
+            dir={dir}
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M12 20.5s-7.5-4.6-9.3-9.4C1.5 7.8 3.6 4.5 7 4.5c2 0 3.6 1.1 5 3 1.4-1.9 3-3 5-3 3.4 0 5.5 3.3 4.3 6.6-1.8 4.8-9.3 9.4-9.3 9.4Z"
+              ></path>
+            </svg>
+            <span>{t.liked}</span>
+            <span class="filter-tooltip" id="tooltip-liked" role="tooltip" lang={locale}>
+              {t.likedHint}
+            </span>
+          </button>
         </div>
       </div>
     </form>
 
-    <p class="count" dir={dir} aria-live="polite" data-count data-one={t.countOne} data-many={t.countMany}></p>
+    <p class="count" aria-live="polite" data-count data-one={t.countOne} data-many={t.countMany} data-sort-label={t.defaultSortLabel}></p>
+    </div>
 
     <ul class="song-grid" data-songs>
       {
@@ -106,25 +128,24 @@ const songs = sortSongs((await getCollection('songs')).filter((song) => !song.da
             data-text={fold(`${song.data.lyrics} ${translationOf(song, locale) ?? ''}`)}
             data-tags={song.data.tags.join(' ')}
             data-creation-time={song.data['creation-time']}
+            data-slug={song.id}
           >
             <SongCard song={song} locale={locale} />
+            <LikeButton slug={song.id} title={song.data.titles[0]} locale={locale} class="card-like" />
           </li>
         ))
       }
     </ul>
     <div class="empty card" dir={dir} data-empty hidden>
       <div class="empty-art"><BerimbauArt broken /></div>
-      <p>{t.noResults}</p>
+      <p data-empty-search>{t.noResults}</p>
+      <p data-empty-liked hidden>{t.noLiked}</p>
     </div>
 
     <aside class="end-card" dir={dir} aria-labelledby="end-title">
       <div class="end-copy">
         <h2 id="end-title">{t.keepPlaying}</h2>
         <div class="end-actions">
-          <a class="btn" href="#songs-title">
-            <Image src={bemtevi} alt="" width={28} class="end-action-icon" loading="lazy" />
-            {t.backToTop}<span aria-hidden="true">↑</span>
-          </a>
           <a class="btn" href={localePath(locale, 'install-app/')}>
             <img
               class="end-action-icon"
@@ -141,16 +162,43 @@ const songs = sortSongs((await getCollection('songs')).filter((song) => !song.da
       <Image src={pandeiro} alt="" width={430} class="end-art" loading="lazy" />
     </aside>
   </section>
+
+  <a class="btn to-top" href="#songs-title" dir={dir} data-to-top>
+    <Image src={bemtevi} alt="" width={28} class="end-action-icon" loading="lazy" />
+    {t.backToTop}<span aria-hidden="true">↑</span>
+  </a>
 </Base>
 
 <script>
   import { initSearch } from '../../scripts/search';
   initSearch();
+
+  // Floating "back to top" button: shown once the search bar has scrolled out of view.
+  const toTop = document.querySelector<HTMLElement>('[data-to-top]');
+  const search = document.querySelector('[data-search]');
+  if (toTop && search) {
+    new IntersectionObserver(([entry]) => {
+      toTop.dataset.visible = String(!entry.isIntersecting && entry.boundingClientRect.top < 0);
+    }).observe(search);
+  }
 </script>
 
 <style>
   .songs {
     scroll-margin-top: 16px;
+  }
+
+  /* Full width so it lines up with the search box: on the right in Hebrew. */
+  .songs > .section-title {
+    display: block;
+  }
+
+  /* Search, filters and the result count, in one box. Right-to-left in Hebrew. */
+  .finder {
+    margin-bottom: 20px;
+    padding: clamp(14px, 3vw, 22px);
+    border: 1.5px solid var(--line);
+    border-radius: var(--radius);
   }
 
   .search {
@@ -166,8 +214,47 @@ const songs = sortSongs((await getCollection('songs')).filter((song) => !song.da
     gap: 10px;
   }
 
-  .newest-chip::before {
+  .newest-chip::before,
+  .liked-chip::before {
     display: none;
+  }
+
+  .liked-chip svg {
+    width: 1.05em;
+    height: 1.05em;
+    flex: none;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.4;
+    stroke-linejoin: round;
+  }
+
+  .liked-chip[aria-pressed='true'] {
+    background: color-mix(in srgb, var(--heart) 22%, var(--paper));
+  }
+
+  .liked-chip[aria-pressed='true'] svg {
+    fill: var(--heart);
+  }
+
+  /* The heart sits on the card's bottom corner and moves with it on hover. */
+  .song-grid > li {
+    position: relative;
+  }
+
+  .song-grid :global(.card-like) {
+    position: absolute;
+    inset-block-end: 12px;
+    inset-inline-end: 14px;
+    transition:
+      translate 0.15s ease,
+      rotate 0.15s ease,
+      box-shadow 0.12s ease;
+  }
+
+  .song-grid > li:has(.song-card:hover) :global(.card-like:not(:hover)) {
+    translate: -2px -3px;
+    rotate: 0.6deg;
   }
 
   .newest-chip svg {
@@ -248,6 +335,16 @@ const songs = sortSongs((await getCollection('songs')).filter((song) => !song.da
       justify-content: center;
     }
 
+    /* An odd last chip takes the whole row. */
+    .filters .chip-list > .chip:last-child:nth-child(odd) {
+      grid-column: 1 / -1;
+    }
+
+    .song-grid :global(.card-like) {
+      inset-block-end: 10px;
+      inset-inline-end: 10px;
+    }
+
     .newest-chip .filter-tooltip {
       inset-block-start: calc(100% + 8px);
       inset-inline-start: auto;
@@ -263,6 +360,11 @@ const songs = sortSongs((await getCollection('songs')).filter((song) => !song.da
       right: auto;
     }
 
+    .finder[dir='rtl'] .upcoming-chip .filter-tooltip {
+      left: auto;
+      right: calc(100% + 8px);
+    }
+
     .upcoming-chip.tooltip-visible {
       z-index: 11;
     }
@@ -274,6 +376,10 @@ const songs = sortSongs((await getCollection('songs')).filter((song) => !song.da
 
     .newest-chip.tooltip-visible .filter-tooltip {
       transform: translate(-50%, 0);
+    }
+
+    .liked-chip.tooltip-visible .filter-tooltip {
+      transform: translateY(0);
     }
   }
 
@@ -293,14 +399,18 @@ const songs = sortSongs((await getCollection('songs')).filter((song) => !song.da
     box-shadow: var(--shadow-sm);
   }
 
+  .finder[dir='rtl'] .search input {
+    background-position: right 18px center, 0 0;
+  }
+
   .search input::placeholder {
     color: var(--ink-soft);
     opacity: 0.8;
   }
 
   .count {
-    text-align: left;
-    margin: 0 0 16px;
+    text-align: start;
+    margin: 0;
     color: var(--ink-soft);
     font-size: 0.95rem;
   }
@@ -391,6 +501,48 @@ const songs = sortSongs((await getCollection('songs')).filter((song) => !song.da
     width: min(100%, 288px);
     height: auto;
     justify-self: center;
+  }
+
+  .to-top {
+    position: fixed;
+    inset-block-end: max(20px, calc(env(safe-area-inset-bottom) + 12px));
+    right: max(var(--gutter), calc(env(safe-area-inset-right) + 12px));
+    z-index: 30;
+    min-height: 48px;
+    opacity: 0;
+    visibility: hidden;
+    translate: 0 12px;
+    transition:
+      opacity 0.2s ease,
+      translate 0.2s ease,
+      box-shadow 0.12s ease,
+      visibility 0s linear 0.2s;
+  }
+
+  .to-top[data-visible='true'] {
+    opacity: 1;
+    visibility: visible;
+    translate: 0 0;
+    transition:
+      opacity 0.2s ease,
+      translate 0.2s ease,
+      box-shadow 0.12s ease;
+  }
+
+  .to-top[data-visible='true']:hover {
+    translate: -1px -1px;
+    box-shadow: 4px 4px 0 var(--ink);
+  }
+
+  .to-top[data-visible='true']:active {
+    translate: 3px 3px;
+    box-shadow: 0 0 0 var(--ink);
+  }
+
+  @media print {
+    .to-top {
+      display: none;
+    }
   }
 
   @media (max-width: 560px) {

@@ -162,17 +162,6 @@ const showOpening = opening && !titles.some((t) => fold(t) === fold(opening));
     padding-top: 10px;
   }
 
-  .mini-chip {
-    display: inline-flex;
-    align-items: center;
-    padding: 1px 10px;
-    font-size: 0.82rem;
-    font-weight: 600;
-    background: var(--chip);
-    border: 2px solid var(--ink);
-    border-radius: 999px;
-  }
-
   /* PHONE: compact rows (tall thumbnail beside the title) so the list stays scannable.
      Keep the breakpoint in sync with the <source media> above. */
   @media (max-width: 560px) {

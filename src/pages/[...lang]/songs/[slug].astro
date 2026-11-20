@@ -2,13 +2,14 @@
 import { getCollection } from 'astro:content';
 import { getImage, Picture } from 'astro:assets';
 import Base from '../../../layouts/Base.astro';
+import LikeButton from '../../../components/LikeButton.astro';
 import Lyrics from '../../../components/Lyrics.astro';
 import PrintSheet from '../../../components/PrintSheet.astro';
 import YouTube from '../../../components/YouTube.astro';
 import { LANGUAGES, localeParams, localePath, UI, type Locale } from '../../../data/i18n';
 import { TAGS } from '../../../data/tags';
 import { firstLine, hasTranslation, parseLyrics } from '../../../lib/lyrics';
-import { accent, songUrl, sortSongs, tagUrl, translationOf, type Song } from '../../../lib/songs';
+import { accent, songUrl, sortSongs, translationOf, type Song } from '../../../lib/songs';
 import { getSongImage } from '../../../lib/song-images';
 
 export async function getStaticPaths() {
@@ -74,19 +75,22 @@ if (socialSource) {
             </p>
           )
         }
-        {
-          tags.length > 0 && (
-            <ul class="chip-list" aria-label={t.tags}>
-              {tags.map((tag) => (
-                <li>
-                  <a class="chip" href={tagUrl(tag, locale)} style={`--chip:var(--${TAGS[tag].color})`} lang="pt-BR">
-                    {TAGS[tag].label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          )
-        }
+        <div class="head-row">
+          {
+            tags.length > 0 && (
+              <ul class="chip-list" aria-label={t.tags}>
+                {tags.map((tag) => (
+                  <li>
+                    <span class="mini-chip" style={`--chip:var(--${TAGS[tag].color})`} lang="pt-BR">
+                      {TAGS[tag].label}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            )
+          }
+          <LikeButton slug={song.id} title={titles[0]} locale={locale} size="large" />
+        </div>
       </div>
       <figure class="photo">
         {
@@ -214,8 +218,13 @@ if (socialSource) {
     font-style: italic;
   }
 
-  .head-text .chip-list {
-    margin-top: 16px;
+  /* The style tags, with the like heart beside them. */
+  .head-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 10px;
+    margin-top: 12px;
   }
 
   .photo {

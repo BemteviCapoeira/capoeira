@@ -155,6 +155,18 @@ p {
   box-shadow: 0 0 0 var(--ink);
 }
 
+/* A song's style (Benguela, São Bento…) as a plain label, not a button: on the song cards and the song page. */
+.mini-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px 10px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  background: var(--chip);
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+}
+
 .chip {
   padding: 4px 14px;
   background: var(--paper);

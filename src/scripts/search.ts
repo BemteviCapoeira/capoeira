@@ -1,11 +1,13 @@
 import { fold } from '../lib/text';
 import { sortNewestFirst } from '../lib/song-order';
+import { likedSongs, onLikesChange } from './likes';
 
 /**
  * Home-page song search. The full list is rendered as HTML; this only hides/reorders cards.
  * Text matches all of a song's names (best) or its lyrics/translation. One tag can be selected
- * at a time: clicking a tag selects only it, clicking it again clears it.
- * State lives in the URL (?q=…&tag=…&sort=newest) so filters can be shared.
+ * at a time: clicking a tag selects only it, clicking it again clears it. "Liked" shows only the songs
+ * liked on this device (see likes.ts) and combines with the rest.
+ * State lives in the URL (?q=…&tag=…&sort=newest&liked=1) so filters can be shared.
  */
 export function initSearch() {
   const form = document.querySelector<HTMLFormElement>('[data-search]');
@@ -17,10 +19,14 @@ export function initSearch() {
   const items = [...list.querySelectorAll<HTMLElement>(':scope > li')];
   const newestItems = sortNewestFirst(items);
   const newestButton = form.querySelector<HTMLButtonElement>('[data-newest]')!;
+  const likedButton = form.querySelector<HTMLButtonElement>('[data-liked-filter]')!;
   const tooltipHosts = [...form.querySelectorAll<HTMLButtonElement>('.tooltip-host')];
   const count = document.querySelector<HTMLElement>('[data-count]');
   const empty = document.querySelector<HTMLElement>('[data-empty]');
+  const emptySearch = document.querySelector<HTMLElement>('[data-empty-search]');
+  const emptyLiked = document.querySelector<HTMLElement>('[data-empty-liked]');
   let newest = false;
+  let likedOnly = false;
   const TOOLTIP_DURATION_MS = 2000;
 
   for (const host of tooltipHosts) {
@@ -59,6 +65,7 @@ export function initSearch() {
   function apply() {
     const words = fold(input.value).split(' ').filter(Boolean);
     const tags = selectedTags();
+    const liked = likedOnly ? likedSongs() : undefined;
     let shown = 0;
 
     for (const [index, item] of (newest ? newestItems : items).entries()) {
@@ -66,7 +73,10 @@ export function initSearch() {
       const text = `${titles} ${item.dataset.text ?? ''}`;
       const itemTags = (item.dataset.tags ?? '').split(' ');
       const inTitle = words.every((w) => titles.includes(w));
-      const match = tags.every((t) => itemTags.includes(t)) && (inTitle || words.every((w) => text.includes(w)));
+      const match =
+        tags.every((t) => itemTags.includes(t)) &&
+        (!liked || liked.has(item.dataset.slug!)) &&
+        (inTitle || words.every((w) => text.includes(w)));
       item.hidden = !match;
       if (newest) item.style.order = String(index + (words.length && !inTitle ? items.length : 0));
       else item.style.order = words.length && !inTitle ? '1' : ''; // title matches first
@@ -76,12 +86,17 @@ export function initSearch() {
     if (count) {
       const description = [
         chips.find((chip) => chip.getAttribute('aria-pressed') === 'true')?.dataset.countLabel,
-        newest ? newestButton.dataset.countLabel : undefined,
+        likedOnly ? likedButton.dataset.countLabel : undefined,
+        newest ? newestButton.dataset.countLabel : count.dataset.sortLabel,
       ].filter(Boolean);
       const total = shown === 1 ? count.dataset.one! : count.dataset.many!.replace('{n}', String(shown));
-      count.textContent = description.length ? `${total} - ${description.join(' - ')}` : total;
+      count.textContent = [total, ...description].join(' • ');
     }
     if (empty) empty.hidden = shown > 0;
+    // Nothing liked yet: explain the hearts instead of "no such song".
+    const noLikes = !!liked && liked.size === 0;
+    if (emptySearch) emptySearch.hidden = noLikes;
+    if (emptyLiked) emptyLiked.hidden = !noLikes;
   }
 
   function syncUrl() {
@@ -89,10 +104,12 @@ export function initSearch() {
     url.searchParams.delete('q');
     url.searchParams.delete('tag');
     url.searchParams.delete('sort');
+    url.searchParams.delete('liked');
     if (input.value.trim()) url.searchParams.set('q', input.value.trim());
     const [tag] = selectedTags();
     if (tag) url.searchParams.set('tag', tag);
     if (newest) url.searchParams.set('sort', 'newest');
+    if (likedOnly) url.searchParams.set('liked', '1');
     history.replaceState(null, '', url);
   }
 
@@ -102,6 +119,8 @@ export function initSearch() {
     const tag = params.get('tag');
     newest = params.get('sort') === 'newest';
     newestButton.setAttribute('aria-pressed', String(newest));
+    likedOnly = params.get('liked') === '1';
+    likedButton.setAttribute('aria-pressed', String(likedOnly));
     for (const chip of chips) chip.setAttribute('aria-pressed', String(chip.dataset.tag === tag));
     apply();
   }
@@ -124,6 +143,13 @@ export function initSearch() {
     apply();
     syncUrl();
   });
+  likedButton.addEventListener('click', () => {
+    likedOnly = !likedOnly;
+    likedButton.setAttribute('aria-pressed', String(likedOnly));
+    apply();
+    syncUrl();
+  });
+  onLikesChange(apply);
   window.addEventListener('pageshow', readUrl);
   readUrl();
 }

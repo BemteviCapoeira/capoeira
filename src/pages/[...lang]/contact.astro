@@ -1,0 +1,454 @@
+---
+import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import bemtevi from '../../assets/bemtevi.jpg';
+import { LANGUAGES, localeParams, localePath, UI, type Locale } from '../../data/i18n';
+import { SITE } from '../../data/site';
+import { TAG_IDS, TAGS } from '../../data/tags';
+import { TOPICS } from '../../lib/contact';
+import { songUrl, sortSongs } from '../../lib/songs';
+import { fold } from '../../lib/text';
+import '../../styles/forms.css';
+
+export function getStaticPaths() {
+  return localeParams().map(({ params, locale }) => ({ params, props: { locale } }));
+}
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = UI[locale].contact;
+const dir = LANGUAGES[locale].dir;
+const songs = sortSongs(await getCollection('songs')).map((song) => ({
+  slug: song.id,
+  title: song.data.titles[0],
+  /** Everything the song search matches: all its names and its slug. */
+  search: fold(`${song.data.titles.join(' ')} ${song.id}`),
+  url: new URL(songUrl(song, locale), Astro.site).href,
+}));
+const TOPIC_COLORS = { 'new-song': 'lime', 'song-comment': 'sky', general: 'pink' } as const;
+---
+
+<Base locale={locale} path="contact/" section="contact" title={t.title}>
+  <div class="form-page narrow contact" dir={dir}>
+    <h1 class="section-title">{t.title}</h1>
+    <p class="intro">{t.intro}</p>
+
+    <form
+      class="card contact-form"
+      novalidate
+      data-contact-form
+      data-endpoint={`https://formsubmit.co/ajax/${SITE.contactFormTo}`}
+      data-language={locale}
+      data-errors={JSON.stringify(t.errors)}
+      data-sending={t.sending}
+      data-fix-errors={t.fixErrors}
+      data-send-failed={t.sendFailed}
+    >
+      <fieldset class="group">
+        <legend>{t.aboutYou}</legend>
+        <div class="row">
+          <div class="field grow">
+            <label for="name">{t.name} <span class="req" aria-hidden="true">*</span></label>
+            <input id="name" name="name" autocomplete="name" required />
+            <p class="error" data-error-for="name"></p>
+          </div>
+          <div class="field grow">
+            <label for="nickname">{t.nickname} <small>({t.nicknameHint})</small></label>
+            <input id="nickname" name="nickname" autocomplete="nickname" />
+            <p class="error" data-error-for="nickname"></p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="field grow">
+            <label for="email">{t.email} <span class="req" aria-hidden="true">*</span></label>
+            <input id="email" name="email" type="email" autocomplete="email" inputmode="email" dir="ltr" required />
+            <p class="error" data-error-for="email"></p>
+          </div>
+          <div class="field grow">
+            <label for="phone">{t.phone} <small>({t.optional})</small></label>
+            <input id="phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" dir="ltr" />
+            <p class="error" data-error-for="phone"></p>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset class="group">
+        <legend>{t.topic} <span class="req" aria-hidden="true">*</span></legend>
+        <div class="topics">
+          {
+            TOPICS.map((topic) => (
+              <label class="topic" style={`--c:var(--${TOPIC_COLORS[topic]})`}>
+                <input type="radio" name="topic" value={topic} required />
+                <span>{t.topics[topic]}</span>
+              </label>
+            ))
+          }
+        </div>
+        <p class="error" data-error-for="topic"></p>
+
+        <div class="topic-fields" data-topic-fields="new-song" hidden>
+          <div class="field">
+            <label for="songName">{t.songName} <span class="req" aria-hidden="true">*</span></label>
+            <input id="songName" name="songName" lang="pt-BR" dir="auto" />
+            <p class="error" data-error-for="songName"></p>
+          </div>
+          <div class="field">
+            <label for="youtube">{t.youtube} <small>({t.optional})</small></label>
+            <input id="youtube" name="youtube" type="url" inputmode="url" dir="ltr" placeholder="https://youtu.be/…" />
+            <p class="error" data-error-for="youtube"></p>
+          </div>
+          <fieldset class="field">
+            <legend>{t.tags} <small>({t.optional})</small></legend>
+            <div class="chip-list">
+              {
+                TAG_IDS.map((tag) => (
+                  <label class="chip tag-check" style={`--chip:var(--${TAGS[tag].color})`} lang="pt-BR">
+                    <input type="checkbox" name="tags" value={tag} />
+                    {TAGS[tag].label}
+                  </label>
+                ))
+              }
+            </div>
+          </fieldset>
+        </div>
+
+        <div class="topic-fields" data-topic-fields="song-comment" hidden>
+          <div class="field">
+            <label for="song-input">{t.song} <span class="req" aria-hidden="true">*</span></label>
+            <div class="combo" data-song-combo>
+              <input
+                id="song-input"
+                type="text"
+                role="combobox"
+                aria-autocomplete="list"
+                aria-expanded="false"
+                aria-controls="song-list"
+                autocomplete="off"
+                spellcheck="false"
+                placeholder={t.songPlaceholder}
+              />
+              <button type="button" class="combo-toggle" tabindex="-1" aria-label={t.showAllSongs} data-combo-toggle>
+                <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="m6 9 6 6 6-6" />
+                </svg>
+              </button>
+              <input type="hidden" name="song" />
+              <div class="combo-popup">
+                <ul id="song-list" class="combo-list" role="listbox" aria-label={t.song} hidden>
+                  {
+                    songs.map((song) => (
+                      <li
+                        id={`song-option-${song.slug}`}
+                        role="option"
+                        aria-selected="false"
+                        data-value={song.slug}
+                        data-url={song.url}
+                        data-search={song.search}
+                        lang="pt-BR"
+                      >
+                        {song.title}
+                      </li>
+                    ))
+                  }
+                  <li class="combo-empty" role="presentation" data-combo-empty hidden>{t.songSearchEmpty}</li>
+                </ul>
+              </div>
+            </div>
+            <p class="error" data-error-for="song"></p>
+          </div>
+        </div>
+
+        <div class="field" data-message hidden>
+          <label for="message">{t.message} <span class="req" aria-hidden="true">*</span></label>
+          <textarea id="message" name="message" rows="6" dir="auto"></textarea>
+          <p class="error" data-error-for="message"></p>
+        </div>
+      </fieldset>
+
+      {/* Honeypot: hidden from people, filled in by spam bots; FormSubmit drops messages that have it. */}
+      <input class="honey" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+      <div class="actions">
+        <button class="btn big" type="submit">{t.send}</button>
+      </div>
+      <p class="status" role="status" data-status></p>
+    </form>
+
+    <section class="card sent" data-sent hidden tabindex="-1" aria-labelledby="sent-title">
+      <Image src={bemtevi} alt="" width={96} class="sent-art" loading="lazy" />
+      <div>
+        <h2 id="sent-title">{t.sentTitle}</h2>
+        <p>{t.sentText}</p>
+        <div class="actions">
+          <button class="btn" type="button" data-send-another>{t.sendAnother}</button>
+          <a class="btn" href={localePath(locale)}>{t.backToSongs}</a>
+        </div>
+      </div>
+    </section>
+  </div>
+</Base>
+
+<script>
+  import { initContactForm } from '../../scripts/contact';
+  initContactForm();
+</script>
+
+<style>
+  .contact {
+    margin-inline: auto;
+  }
+
+  /* Layout rules below (display: grid/flex) would otherwise beat the `hidden` attribute. */
+  .contact [hidden] {
+    display: none !important;
+  }
+
+  .contact .section-title {
+    display: block;
+  }
+
+  .intro {
+    margin: 0 0 20px;
+    font-size: 1.1rem;
+  }
+
+  .group {
+    min-width: 0;
+    margin: 0 0 8px;
+    padding: 0;
+    border: 0;
+  }
+
+  .group > legend {
+    margin-bottom: 14px;
+    padding: 0;
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    font-weight: 600;
+  }
+
+  .group + .group {
+    margin-top: 10px;
+  }
+
+  .row {
+    align-items: start;
+    margin-bottom: 18px;
+  }
+
+  .topics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .topic {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    font-weight: 500;
+    background: var(--paper);
+    border: var(--border);
+    border-radius: 999px;
+    box-shadow: var(--shadow-sm);
+    cursor: pointer;
+  }
+
+  .topic input {
+    width: 1.05em;
+    height: 1.05em;
+    margin: 0;
+    accent-color: var(--ink);
+  }
+
+  .topic:has(input:checked) {
+    background: var(--c);
+  }
+
+  .topic:has(input:focus-visible) {
+    outline: 3px solid var(--link);
+    outline-offset: 2px;
+  }
+
+  .topic-fields {
+    margin-top: 20px;
+  }
+
+  /* Tag toggles, as in the "Add a song" admin form. */
+  .tag-check {
+    cursor: pointer;
+  }
+
+  .tag-check input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .tag-check:has(input:checked) {
+    background: var(--chip);
+  }
+
+  .tag-check:has(input:focus-visible) {
+    outline: 3px solid var(--link);
+    outline-offset: 2px;
+  }
+
+  [data-message] {
+    margin-top: 20px;
+  }
+
+  .topic-fields:not([hidden]) + [data-message],
+  .topic-fields:not([hidden]) ~ [data-message] {
+    margin-top: 0;
+  }
+
+  /* The song picker: a text box with the matching songs listed under it. */
+  .combo {
+    position: relative;
+  }
+
+  .combo input[role='combobox'] {
+    padding-inline-end: 44px;
+  }
+
+  .combo-toggle {
+    position: absolute;
+    inset-block: 0;
+    inset-inline-end: 4px;
+    display: grid;
+    place-items: center;
+    width: 40px;
+    padding: 0;
+    color: var(--ink);
+    background: none;
+    border: 0;
+    cursor: pointer;
+  }
+
+  .combo-toggle svg {
+    width: 20px;
+    height: 20px;
+    transition: rotate 0.15s ease;
+  }
+
+  .combo:has([aria-expanded='true']) .combo-toggle svg {
+    rotate: 180deg;
+  }
+
+  .combo-popup {
+    position: absolute;
+    z-index: 20;
+    inset-inline: 0;
+    top: calc(100% + 6px);
+  }
+
+  .combo-list {
+    max-height: min(280px, 45vh);
+    margin: 0;
+    padding: 6px;
+    overflow-y: auto;
+    list-style: none;
+    background: var(--paper);
+    border: var(--border);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .combo-list [role='option'] {
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+
+  .combo-list [role='option']:hover,
+  .combo-list [role='option'].active {
+    background: color-mix(in srgb, var(--sky) 35%, var(--paper));
+  }
+
+  .combo-list [role='option'][aria-selected='true'] {
+    font-weight: 600;
+  }
+
+  .combo-empty {
+    padding: 8px 12px;
+    color: var(--ink-soft);
+  }
+
+  .error {
+    margin: 0;
+    color: #b3261e;
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+
+  .error:empty {
+    display: none;
+  }
+
+  [aria-invalid='true'] {
+    border-color: #b3261e !important;
+    box-shadow: 0 0 0 1px #b3261e;
+  }
+
+  .honey {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 8px;
+  }
+
+  .sent {
+    display: flex;
+    align-items: center;
+    gap: clamp(14px, 4vw, 28px);
+    background: color-mix(in srgb, var(--lime) 30%, var(--paper));
+  }
+
+  .sent h2 {
+    margin: 0 0 8px;
+  }
+
+  .sent p {
+    margin: 0 0 16px;
+  }
+
+  .sent-art {
+    flex: none;
+    width: clamp(64px, 14vw, 96px);
+    height: auto;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border: var(--border);
+    border-radius: 50%;
+    box-shadow: var(--shadow-sm);
+  }
+
+  @media (max-width: 560px) {
+    .topics {
+      display: grid;
+    }
+
+    .sent {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .sent .actions {
+      justify-content: center;
+    }
+  }
+</style>

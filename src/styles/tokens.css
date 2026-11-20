@@ -18,6 +18,8 @@
   --sky-soft: #87ceeb;
   --lavender: #d9c2ff;
   --green: #00995c;
+  /* A liked song's heart: darker than every song-page header colour, so it reads as filled on all of them. */
+  --heart: #d7263d;
   --blue: #2f6ee0;
 
   /* text-safe deep tones (≥ 4.5:1 on white) */

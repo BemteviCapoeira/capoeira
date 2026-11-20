@@ -5,6 +5,12 @@ export const SITE = {
   cheer: 'VIVA QUARTA-FEIRA!!!',
   /** The GitHub repository the "Add a song" form opens pull requests against. */
   repo: { owner: 'bemtevi-roda', name: 'capoeira' },
+  /**
+   * Where the Contact form is emailed, through FormSubmit (formsubmit.co). The first message sent asks this address
+   * to activate the form (one click in that email); messages arrive only after that. Once activated, FormSubmit's
+   * email shows a random alias: put it here instead of the address to keep the address out of the page source.
+   */
+  contactFormTo: 'bemtevi.roda@gmail.com',
 };
 
 /** Site-wide names and texts, per language (shown in the header, the About page, the print footer and link previews). */

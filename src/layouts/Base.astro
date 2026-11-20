@@ -20,7 +20,7 @@ interface Props {
    */
   path?: string;
   /** Which header tab to highlight. */
-  section?: 'songs' | 'about';
+  section?: 'songs' | 'about' | 'contact';
   title?: string;
   description?: string;
   /** Absolute path of a social-preview image. */
@@ -41,6 +41,7 @@ const translations = Object.fromEntries(LOCALES.map((l) => [l, localePath(l, pat
 const tabs = [
   { id: 'songs', label: t.nav.songs, href: localePath(locale), path: '' },
   { id: 'about', label: t.nav.about, href: localePath(locale, 'about/'), path: 'about/' },
+  { id: 'contact', label: t.nav.contact, href: localePath(locale, 'contact/'), path: 'contact/' },
 ] as const;
 ---
 

@@ -1,0 +1,100 @@
+---
+/** Heart toggle that marks a song as liked on this device (see src/scripts/likes.ts). */
+import { UI, type Locale } from '../data/i18n';
+
+interface Props {
+  slug: string;
+  title: string;
+  locale: Locale;
+  size?: 'small' | 'large';
+  class?: string;
+}
+
+const { slug, title, locale, size = 'small', class: className } = Astro.props;
+const t = UI[locale].like;
+---
+
+<button
+  type="button"
+  class:list={['like', size, className]}
+  aria-pressed="false"
+  aria-label={`${t.label}: ${title}`}
+  title={t.hint}
+  data-like={slug}
+>
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <path
+      d="M12 20.5s-7.5-4.6-9.3-9.4C1.5 7.8 3.6 4.5 7 4.5c2 0 3.6 1.1 5 3 1.4-1.9 3-3 5-3 3.4 0 5.5 3.3 4.3 6.6-1.8 4.8-9.3 9.4-9.3 9.4Z"
+    ></path>
+  </svg>
+</button>
+
+<script>
+  import { initLikeButtons } from '../scripts/likes';
+  initLikeButtons();
+</script>
+
+<style>
+  /* A bare heart (no circle): outlined when not liked, filled when liked. The button keeps a finger-sized area. */
+  .like {
+    display: grid;
+    place-items: center;
+    flex: none;
+    padding: 0;
+    color: var(--ink);
+    background: none;
+    border: 0;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+
+  .like.small {
+    width: 40px;
+    height: 40px;
+  }
+
+  .like.large {
+    width: 52px;
+    height: 52px;
+  }
+
+  .like svg {
+    width: 72%;
+    height: 72%;
+    margin-top: 2px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linejoin: round;
+    overflow: visible;
+    transition: scale 0.12s ease;
+  }
+
+  .like[aria-pressed='true'] svg {
+    fill: var(--heart);
+  }
+
+  .like:hover svg {
+    scale: 1.12;
+  }
+
+  .like:active svg {
+    scale: 0.92;
+  }
+
+  .like.pop svg {
+    animation: like-pop 0.35s ease;
+  }
+
+  @keyframes like-pop {
+    40% {
+      scale: 1.35;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .like.pop svg {
+      animation: none;
+    }
+  }
+</style>
