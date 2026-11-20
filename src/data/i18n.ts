@@ -1,4 +1,4 @@
- *
+/**
  * The site's languages. Hebrew lives at the site root (…/capoeira/), English under …/capoeira/en/.
  * Pages that exist in both languages are built twice from one template in src/pages/[...lang]/.
  * Site-wide names and the thanks list are in src/data/site.ts; the About letter is src/content/welcome/<locale>.md.
@@ -61,7 +61,7 @@ const he = {
   },
   like: {
     label: 'שיר אהוב',
-    hint: 'סימון השיר כאהוב (נשמר במכשיר הזה)',
+    hint: 'הוספה למועדפים',
   },
   card: {
     video: '▶ וידאו',
@@ -79,7 +79,7 @@ const he = {
     printHint: 'המילים בלבד, בעמוד A4 אחד',
     notes: 'הערות',
     moreSongs: 'שירים נוספים',
-    allSongs: 'כ�� השירים',
+    allSongs: 'כל השירים',
     times: (n: number) => `${n} פעמים`,
     playVideo: 'נגנו את הביצוע ביוטיוב',
   },
@@ -195,7 +195,7 @@ const en: typeof he = {
   },
   like: {
     label: 'Liked song',
-    hint: 'Mark as a liked song (saved on this device)',
+    hint: 'Add to favorites',
   },
   card: {
     video: '▶ Video',
