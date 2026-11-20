@@ -138,11 +138,5 @@ export function initContactForm() {
     }
   });
 
-  sent.querySelector('[data-send-another]')?.addEventListener('click', () => {
-    sent.hidden = true;
-    form.hidden = false;
-    (form.elements.namedItem('name') as HTMLInputElement).focus();
-  });
-
   showTopic();
 }

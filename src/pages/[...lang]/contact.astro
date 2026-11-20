@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import { Image } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
+import pandeiro from '../../assets/pandeiro-no-bg.png';
 import bemtevi from '../../assets/bemtevi.jpg';
 import { LANGUAGES, localeParams, localePath, UI, type Locale } from '../../data/i18n';
 import { SITE } from '../../data/site';
@@ -187,8 +188,10 @@ const TOPIC_COLORS = { 'new-song': 'lime', 'song-comment': 'sky', general: 'pink
         <h2 id="sent-title">{t.sentTitle}</h2>
         <p>{t.sentText}</p>
         <div class="actions">
-          <button class="btn" type="button" data-send-another>{t.sendAnother}</button>
-          <a class="btn" href={localePath(locale)}>{t.backToSongs}</a>
+          <a class="btn" href={localePath(locale)}>
+            <Image src={pandeiro} alt="" width={28} class="back-to-roda-icon" loading="lazy" />
+            {t.backToRoda}
+          </a>
         </div>
       </div>
     </section>
@@ -229,6 +232,11 @@ const TOPIC_COLORS = { 'new-song': 'lime', 'song-comment': 'sky', general: 'pink
     flex: none;
     width: clamp(72px, 8vw, 84px);
     height: clamp(72px, 8vw, 84px);
+  }
+
+  .back-to-roda-icon {
+    width: 28px;
+    height: auto;
   }
 
   .intro {

@@ -155,11 +155,10 @@ const he = {
       youtube: 'זה לא נראה כמו קישור ליוטיוב',
     },
     fixErrors: 'יש כמה שדות לתקן, הם מסומנים באדום.',
-    sendFailed: 'השליחה נכשלה. בדקו את החיבור לאינטרנט ונסו שוב.',
+    sendFailed: 'השליחה קיבלה איזו חסטרה. בדקו את החיבור לאינטרנט ונסו שוב.',
     sentTitle: 'תודה, ההודעה נשלחה!',
-    sentText: 'נחזור אליכם בהקדם במייל.',
-    sendAnother: 'שליחת הודעה נוספת',
-    backToSongs: 'חזרה לשירים',
+    sentText: 'נחזור אליכם בהקדם.',
+    backToRoda: 'חזרה לרודה',
   },
 };
 
@@ -293,11 +292,10 @@ const en: typeof he = {
       youtube: "That doesn't look like a YouTube link",
     },
     fixErrors: 'Some fields need fixing; they are marked in red.',
-    sendFailed: "Sending failed. Check your internet connection and try again.",
+    sendFailed: "Sending failed (for unknown reasons). Check your internet connection and try again.",
     sentTitle: 'Thank you, your message was sent!',
-    sentText: "We'll get back to you by email soon.",
-    sendAnother: 'Send another message',
-    backToSongs: 'Back to Songs',
+    sentText: "We'll get back to you soon.",
+    backToRoda: 'Back to the roda',
   },
 };
 
