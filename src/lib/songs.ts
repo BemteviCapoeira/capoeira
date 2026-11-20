@@ -1,13 +1,13 @@
 import type { CollectionEntry } from 'astro:content';
 import { localePath, type Locale } from '../data/i18n';
+import { TAGS, type TagId } from '../data/tags';
+import { chooseAccent } from './song-accent';
 
 export type Song = CollectionEntry<'songs'>;
 
 /** Song-page header colours, rotated through the alphabetical song list so neighbours differ. */
-const ACCENTS = ['coral', 'turquoise', 'yellow', 'pink', 'lime', 'orange', 'sky'] as const;
-
-export function accent(index: number): string {
-  return `var(--${ACCENTS[index % ACCENTS.length]})`;
+export function accent(index: number, tags: readonly TagId[] = []): string {
+  return chooseAccent(index, tags.map((tag) => TAGS[tag].color));
 }
 
 export function sortSongs(songs: Song[]): Song[] {

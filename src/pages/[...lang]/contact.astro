@@ -34,7 +34,10 @@ const TOPIC_COLORS = { 'new-song': 'lime', 'song-comment': 'sky', general: 'pink
 
 <Base locale={locale} path="contact/" section="contact" title={t.title}>
   <div class="form-page narrow contact" dir={dir}>
-    <h1 class="section-title">{t.title}</h1>
+    <div class="contact-heading">
+      <img class="contact-berimbau" src={`${import.meta.env.BASE_URL}logo-blue-bg.svg`} alt="" width="84" height="84" />
+      <h1 class="section-title">{t.title}</h1>
+    </div>
     <p class="intro">{t.intro}</p>
 
     <form
@@ -209,6 +212,23 @@ const TOPIC_COLORS = { 'new-song': 'lime', 'song-comment': 'sky', general: 'pink
 
   .contact .section-title {
     display: block;
+  }
+
+  .contact-heading {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 12px;
+  }
+
+  .contact-heading .section-title {
+    margin: 0;
+  }
+
+  .contact-berimbau {
+    flex: none;
+    width: clamp(72px, 8vw, 84px);
+    height: clamp(72px, 8vw, 84px);
   }
 
   .intro {

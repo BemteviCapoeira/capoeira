@@ -140,6 +140,8 @@ const songs = sortSongs((await getCollection('songs')).filter((song) => !song.da
       <div class="empty-art"><BerimbauArt broken /></div>
       <p data-empty-search>{t.noResults}</p>
       <p data-empty-liked hidden>{t.noLiked}</p>
+      <p data-empty-liked-note hidden>{t.likedLocalNote}</p>
+      <p data-empty-liked-matches hidden>{t.noLikedMatches}</p>
     </div>
 
     <aside class="end-card" dir={dir} aria-labelledby="end-title">
@@ -437,6 +439,10 @@ const songs = sortSongs((await getCollection('songs')).filter((song) => !song.da
 
   .empty p {
     margin: 0;
+  }
+
+  .empty [data-empty-liked] {
+    font-weight: 600;
   }
 
   .empty-art {

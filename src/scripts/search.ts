@@ -25,6 +25,8 @@ export function initSearch() {
   const empty = document.querySelector<HTMLElement>('[data-empty]');
   const emptySearch = document.querySelector<HTMLElement>('[data-empty-search]');
   const emptyLiked = document.querySelector<HTMLElement>('[data-empty-liked]');
+  const emptyLikedNote = document.querySelector<HTMLElement>('[data-empty-liked-note]');
+  const emptyLikedMatches = document.querySelector<HTMLElement>('[data-empty-liked-matches]');
   let newest = false;
   let likedOnly = false;
   const TOOLTIP_DURATION_MS = 2000;
@@ -95,8 +97,11 @@ export function initSearch() {
     if (empty) empty.hidden = shown > 0;
     // Nothing liked yet: explain the hearts instead of "no such song".
     const noLikes = !!liked && liked.size === 0;
-    if (emptySearch) emptySearch.hidden = noLikes;
+    const noLikedMatches = likedOnly && !noLikes && shown === 0;
+    if (emptySearch) emptySearch.hidden = noLikes || noLikedMatches;
     if (emptyLiked) emptyLiked.hidden = !noLikes;
+    if (emptyLikedNote) emptyLikedNote.hidden = !noLikes;
+    if (emptyLikedMatches) emptyLikedMatches.hidden = !noLikedMatches;
   }
 
   function syncUrl() {

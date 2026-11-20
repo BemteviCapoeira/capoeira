@@ -18,8 +18,14 @@ const t = UI[locale].like;
   type="button"
   class:list={['like', size, className]}
   aria-pressed="false"
-  aria-label={`${t.label}: ${title}`}
-  title={t.hint}
+  aria-label={`${t.add}: ${title}`}
+  title={t.add}
+  data-like-add={t.add}
+  data-like-remove={t.remove}
+  data-like-added={t.added}
+  data-like-removed={t.removed}
+  data-like-title={title}
+  data-like-locale={locale}
   data-like={slug}
 >
   <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -84,6 +90,33 @@ const t = UI[locale].like;
 
   .like.pop svg {
     animation: like-pop 0.35s ease;
+  }
+
+  :global(.like-feedback) {
+    position: fixed;
+    z-index: 1000;
+    max-width: calc(100vw - 32px);
+    padding: 8px 16px;
+    color: var(--paper);
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.4;
+    text-align: center;
+    background: var(--ink);
+    border: var(--border);
+    border-radius: 999px;
+    box-shadow: var(--shadow-sm);
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, -4px);
+    transition:
+      opacity 0.15s ease,
+      transform 0.15s ease;
+  }
+
+  :global(.like-feedback[data-visible='true']) {
+    opacity: 1;
+    transform: translate(-50%, 0);
   }
 
   @keyframes like-pop {
